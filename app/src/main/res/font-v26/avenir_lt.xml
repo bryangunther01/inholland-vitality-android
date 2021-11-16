@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="95"
+        android:font="@font/avenir_lt_pro_black" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="95"
+        android:font="@font/avenir_lt_pro_black_oblique" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="85"
+        android:font="@font/avenir_lt_pro_heavy" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="85"
+        android:font="@font/avenir_lt_pro_heavy_oblique" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="75"
+        android:font="@font/avenir_lt_pro_medium" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="75"
+        android:font="@font/avenir_lt_pro_medium_oblique" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="65"
+        android:font="@font/avenir_lt_pro_roman" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="65"
+        android:font="@font/avenir_lt_pro_oblique" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="55"
+        android:font="@font/avenir_lt_pro_book" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="55"
+        android:font="@font/avenir_lt_pro_book_oblique" />
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="45"
+        android:font="@font/avenir_lt_pro_light" />
+    <font
+        android:fontStyle="italic"
+        android:fontWeight="45"
+        android:font="@font/avenir_lt_pro_light_oblique" />
+</font-family>

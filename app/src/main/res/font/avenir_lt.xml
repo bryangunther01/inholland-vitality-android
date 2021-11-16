@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="95"
+        app:font="@font/avenir_lt_pro_black" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="95"
+        app:font="@font/avenir_lt_pro_black_oblique" />
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="85"
+        app:font="@font/avenir_lt_pro_heavy" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="85"
+        app:font="@font/avenir_lt_pro_heavy_oblique" />
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="75"
+        app:font="@font/avenir_lt_pro_medium" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="75"
+        app:font="@font/avenir_lt_pro_medium_oblique" />
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="65"
+        app:font="@font/avenir_lt_pro_roman" />
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="55"
+        app:font="@font/avenir_lt_pro_book" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="55"
+        app:font="@font/avenir_lt_pro_book_oblique" />
+    <font
+        app:fontStyle="normal"
+        app:fontWeight="45"
+        app:font="@font/avenir_lt_pro_light" />
+    <font
+        app:fontStyle="italic"
+        app:fontWeight="45"
+        app:font="@font/avenir_lt_pro_light_oblique" />
+</font-family>

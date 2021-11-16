@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MijnVitaliteit</string>
+
+    <string name="message_good_morning">Goedemorgen</string>
+    <string name="message_good_afternoon">Goedemiddag</string>
+    <string name="message_good_evening">Goedenavond</string>
+    <string name="message_good_night">Goedenacht</string>
+    <string name="message_welcome">Welkom</string>
+
+    <string name="login_subtitle">Log in om verder te gaan</string>
+    <string name="login_hint_email">E-mailadres</string>
+    <string name="login_hint_password">Wachtwoord</string>
+    <string name="login_button_text">Inloggen</string>
+    <string name="login_register_info_1">Nog geen account?</string>
+    <string name="login_register_info_2"><u>Meld je aan</u></string>
+</resources>
