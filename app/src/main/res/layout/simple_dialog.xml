@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/margin_medium_big"
+    android:paddingEnd="@dimen/margin_small_medium"
+    android:paddingStart="@dimen/margin_small_medium"
+    android:paddingTop="@dimen/margin_medium_big">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/rounded_corner_radius_enormous"
+        app:cardElevation="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialogTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_lt_pro_heavy"
+                android:gravity="center"
+                android:paddingEnd="@dimen/margin_large"
+                android:paddingStart="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_large"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                tools:text="This is a title" />
+
+            <ScrollView
+                android:id="@+id/dialogScrollableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/dialogScrollableBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_large"
+                    android:paddingEnd="@dimen/margin_large"
+                    android:paddingStart="@dimen/margin_large"
+                    android:paddingTop="@dimen/margin_small_medium"
+                    android:fontFamily="@font/avenir_lt_pro_roman"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="15sp" />
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/dialogLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.8"
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+
+                <TextView
+                    android:id="@+id/dialogBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_large"
+                    android:paddingEnd="@dimen/margin_large"
+                    android:paddingStart="@dimen/margin_large"
+                    android:paddingTop="@dimen/margin_small_medium"
+                    android:fontFamily="@font/montserrat_light"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="@dimen/text_size_dialog"
+                    tools:text="" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium_big"
+                android:layout_marginTop="@dimen/margin_small_medium"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/dialogFirstButton"
+                    style="@style/ButtonPrimary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_small_medium"
+                    android:layout_marginRight="@dimen/margin_small_medium"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/dialogSecondButton"
+                    style="@style/ButtonSecondary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium_big"
+                    android:layout_marginLeft="@dimen/margin_small_medium"
+                    android:layout_marginRight="@dimen/margin_small_medium"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

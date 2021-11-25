@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.authentication.login.LoginActivity">
+    tools:context=".ui.authentication.register.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,9 +51,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/login_title"
+                    android:id="@+id/register_1_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/register_1_title"
                     android:fontFamily="@font/avenir_lt_pro_heavy"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -63,7 +64,7 @@
                     android:layout_marginTop="-4sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/login_subtitle"
+                    android:text="@string/register_1_subtitle"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textAlignment="center"
@@ -72,7 +73,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/login_error"
+                    android:id="@+id/register_error"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
@@ -84,7 +85,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/login_edit_text_email"
+                    android:id="@+id/register_edit_text_email"
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -93,12 +94,12 @@
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:autofillHints=""
                     android:drawableStart="@drawable/ic_mail"
-                    android:hint="@string/login_hint_email"
+                    android:hint="@string/register_hint_email"
                     android:inputType="textEmailAddress"
                     android:minHeight="48dp" />
 
                 <EditText
-                    android:id="@+id/login_edit_text_password"
+                    android:id="@+id/register_edit_text_password"
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,12 +107,25 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_lock"
-                    android:hint="@string/login_hint_password"
+                    android:hint="@string/register_hint_password"
+                    android:inputType="textPassword"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/register_edit_text_password_confirmation"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium_big"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:hint="@string/register_hint_confirm_password"
                     android:inputType="textPassword"
                     android:minHeight="48dp" />
 
                 <Button
-                    android:id="@+id/login_button"
+                    android:id="@+id/register_button"
                     style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -120,13 +134,13 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:background="@drawable/button_primary"
                     android:enabled="false"
-                    android:text="@string/login_button_text"/>
+                    android:text="@string/register_button_text"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/login_register"
+            android:id="@+id/register_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_heavy"

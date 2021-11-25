@@ -1,19 +1,22 @@
 package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.AuthSettings
-import nl.inholland.myvitality.data.entities.requestbody.LoginRequest
+import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface ApiClient {
 
     /** Authentication calls **/
-    @POST("Login")
+    @POST("login")
     fun login(
-        @Body body: LoginRequest
+        @Body body: AuthRequest
     ): Call<AuthSettings>
+
+    @POST("user")
+    fun register(
+        @Body body: AuthRequest
+    ): Call<Void>
 
 }

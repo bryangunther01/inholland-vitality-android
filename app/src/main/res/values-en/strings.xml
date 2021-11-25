@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">MyVitality</string>
+
+    <!-- Global Strings -->
+    <string name="api_error">Something went wrong</string>
+    <string name="content_desc_vitality_logo">Vitality Logo</string>
+    <string name="content_desc_inholland_logo">InHolland Logo</string>
+
+    <string name="message_good_morning">Good morning</string>
+    <string name="message_good_afternoon">Good afternoon</string>
+    <string name="message_good_night">Goede nacht</string>
+    <string name="message_welcome">Welcome</string>
+
+    <!-- Login Strings -->
+    <string name="login_subtitle">Log in to continue</string>
+    <string name="login_hint_email">a.example@inholland.nl</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_register_info_1">No account?</string>
+    <string name="login_register_info_2"><u>Sign up</u></string>
+    <string name="login_error_empty_fields">Enter all fields</string>
+    <string name="login_error_invalid_email">Please enter a valid email address</string>
+    <string name="login_error_invalid_combination">Incorrect combination of email and password</string>
+
+    <!-- Register Strings -->
+    <string name="register_1_subtitle">sign up now!</string>
+    <string name="register_1_title">"Let's start, "</string>
+    <string name="register_hint_email">a.example@inholland.nl</string>
+    <string name="register_hint_password">Password</string>
+    <string name="register_hint_confirm_password">Confirm password</string>
+    <string name="register_login_info_1">Already have an account?</string>
+    <string name="register_login_info_2"><u>Log in</u></string>
+    <string name="register_button_text">Register</string>
+    <string name="register_error_invalid_email">Please enter a valid email address</string>
+    <string name="register_error_password_no_match">The passwords do not match</string>
+    <string name="register_error_email_in_use">" The email you entered is already in use"</string>
+    <string name="message_good_evening">Good evening</string>
+
+</resources>

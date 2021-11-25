@@ -1,16 +1,40 @@
 <resources>
     <string name="app_name">MijnVitaliteit</string>
 
+    <!-- Global Strings -->
+    <string name="api_error">Er is iets fout gegaan</string>
+    <string name="content_desc_vitality_logo">Vitaliteits Logo</string>
+    <string name="content_desc_inholland_logo">InHolland Logo</string>
+
     <string name="message_good_morning">Goedemorgen</string>
     <string name="message_good_afternoon">Goedemiddag</string>
     <string name="message_good_evening">Goedenavond</string>
     <string name="message_good_night">Goedenacht</string>
     <string name="message_welcome">Welkom</string>
 
+    <!-- Login Strings -->
     <string name="login_subtitle">Log in om verder te gaan</string>
-    <string name="login_hint_email">E-mailadres</string>
+    <string name="login_hint_email">a.voorbeeld@inholland.nl</string>
     <string name="login_hint_password">Wachtwoord</string>
     <string name="login_button_text">Inloggen</string>
     <string name="login_register_info_1">Nog geen account?</string>
     <string name="login_register_info_2"><u>Meld je aan</u></string>
+    <string name="login_error_empty_fields">Vul alle velden in</string>
+    <string name="login_error_invalid_email">Vul een geldig email adres in</string>
+    <string name="login_error_invalid_combination">Combinatie email en wachtwoord onjuist</string>
+
+    <!-- Register Strings -->
+    <string name="register_1_subtitle">meld je nu aan!</string>
+    <string name="register_1_title">Laten we beginnen,</string>
+    <string name="register_hint_email">a.voorbeeld@inholland.nl</string>
+    <string name="register_hint_password">Wachtwoord</string>
+    <string name="register_hint_confirm_password">Bevestig wachtwoord</string>
+    <string name="register_login_info_1">Heb je al een account?</string>
+    <string name="register_login_info_2"><u>Log in</u></string>
+    <string name="register_button_text">Registreer</string>
+    <string name="register_error_invalid_email">Vul een geldig email adres in</string>
+    <string name="register_error_password_no_match">De wachtwoorden komen niet overeen</string>
+    <string name="register_error_email_in_use">Het opgegeven email is al in gebruik</string>
+
+
 </resources>
