@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/rounded_corner_radius_enormous"
+        app:cardCornerRadius="@dimen/rounded_corner_radius_small"
         app:cardElevation="16dp">
 
         <LinearLayout
@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/dialogTitle"
+                android:id="@+id/dialog_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_lt_pro_heavy"
@@ -37,16 +37,15 @@
                 android:textSize="16sp"
                 tools:text="This is a title" />
 
-            <ScrollView
-                android:id="@+id/dialogScrollableLayout"
+            <LinearLayout
+                android:id="@+id/dialog_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.8"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:visibility="gone">
+                android:scrollbarAlwaysDrawVerticalTrack="true">
 
                 <TextView
-                    android:id="@+id/dialogScrollableBody"
+                    android:id="@+id/dialog_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/margin_large"
@@ -55,28 +54,7 @@
                     android:paddingTop="@dimen/margin_small_medium"
                     android:fontFamily="@font/avenir_lt_pro_roman"
                     android:textColor="@color/dark_grey"
-                    android:textSize="15sp" />
-            </ScrollView>
-
-            <LinearLayout
-                android:id="@+id/dialogLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.8"
-                android:scrollbarAlwaysDrawVerticalTrack="true">
-
-                <TextView
-                    android:id="@+id/dialogBody"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_large"
-                    android:paddingEnd="@dimen/margin_large"
-                    android:paddingStart="@dimen/margin_large"
-                    android:paddingTop="@dimen/margin_small_medium"
-                    android:fontFamily="@font/montserrat_light"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="@dimen/text_size_dialog"
-                    tools:text="" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
 
@@ -88,20 +66,19 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/dialogFirstButton"
+                    android:id="@+id/dialog_button"
                     style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_small_medium"
-                    android:layout_marginRight="@dimen/margin_small_medium"
-                    android:visibility="gone"/>
+                    android:layout_marginRight="@dimen/margin_small_medium" />
 
-                <Button
-                    android:id="@+id/dialogSecondButton"
-                    style="@style/ButtonSecondary"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_button_2"
+                    style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_big"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_small_medium"
                     android:layout_marginRight="@dimen/margin_small_medium"
                     android:visibility="gone"/>

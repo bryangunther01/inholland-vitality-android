@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.challenge.ChallengeActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/post_content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/post_profile_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/person_placeholder"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toTopOf="@id/guideline_top"
+                app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/profile_image_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:barrierMargin="@dimen/margin_normal"
+                app:constraint_referenced_ids="post_profile_image" />
+
+            <TextView
+                android:id="@+id/post_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_lt_pro_black"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/profile_image_barrier"
+                app:layout_constraintTop_toBottomOf="@id/guideline_top" />
+
+            <TextView
+                android:id="@+id/post_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_lt_pro_roman"
+                android:textColor="@color/dark_grey"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/profile_image_barrier"
+                app:layout_constraintTop_toBottomOf="@id/post_user_name" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/comment_user_details_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:barrierMargin="@dimen/margin_medium_big"
+                app:constraint_referenced_ids="post_profile_image, post_user_name, post_date" />
+
+            <TextView
+                android:id="@+id/post_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_lt_pro_roman"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/guideline_right"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/comment_user_details_barrier" />
+
+            <ImageView
+                android:id="@+id/post_image"
+                android:layout_width="0dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:scaleType="centerCrop"
+                android:src="@drawable/challenge_placeholder"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/post_content" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/post_content_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:barrierMargin="@dimen/margin_small_medium"
+                app:constraint_referenced_ids="post_content, post_image" />
+
+            <ImageView
+                android:id="@+id/post_like_count_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_thumbsup_fill"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/guideline_left"
+                app:layout_constraintTop_toBottomOf="@+id/post_content_barrier" />
+
+            <TextView
+                android:id="@+id/post_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_lt_pro_medium"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_tiny"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@+id/post_like_count_icon"
+                app:layout_constraintTop_toBottomOf="@+id/post_content_barrier" />
+
+            <TextView
+                android:id="@+id/post_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/margin_small"
+                android:fontFamily="@font/avenir_lt_pro_medium"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/guideline_right"
+                app:layout_constraintTop_toBottomOf="@+id/post_content_barrier" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/post_info_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:barrierMargin="@dimen/margin_small_medium"
+                app:constraint_referenced_ids="post_like_count, post_like_count_icon, post_comment_count" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#c0c0c0"
+                app:layout_constraintTop_toBottomOf="@+id/post_info_barrier" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/post_like_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/post_button_like"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/white"
+                app:icon="@drawable/ic_thumbsup"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/post_comment_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/post_info_barrier" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/post_comment_button"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/post_button_comment"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/white"
+                app:icon="@drawable/ic_message"
+                app:iconGravity="textStart"
+                app:iconTint="@color/primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/post_like_button"
+                app:layout_constraintTop_toBottomOf="@id/post_info_barrier" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/post_buttons_barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="post_like_button, post_comment_button" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#c0c0c0"
+                app:layout_constraintTop_toBottomOf="@+id/post_buttons_barrier" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/comment_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_medium_big"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/comment_guideline_right"
+                app:layout_constraintStart_toEndOf="@id/comment_guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/post_buttons_barrier" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/comment_guideline_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="30dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/comment_guideline_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="30dp" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="12.5dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="12.5dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="20dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="20dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

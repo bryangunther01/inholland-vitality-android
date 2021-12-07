@@ -26,6 +26,7 @@
     <dimen name="rounded_corner_radius">50dp</dimen>
     <dimen name="rounded_corner_radius_message">8dp</dimen>
     <dimen name="button_padding">6dp</dimen>
+    <dimen name="button_small_padding">3dp</dimen>
     <dimen name="button_elevation">4dp</dimen>
 
     <!-- Component Related -->

@@ -1,39 +1,50 @@
 package nl.gunther.bryan.newsreader.utils
 
 import android.content.Context
+import android.content.SharedPreferences
 
-class SharedPreferenceHelper constructor(private var context: Context?){
+class SharedPreferenceHelper (private val context: Context){
 
-    private val SHARED_PREF_KEY = "inholland.myvitality"
+    private val SHARED_PREF_KEY = "nl.inholland.myvitality"
     private val ACCESS_TOKEN = "accessToken"
-    private val IS_FIRST_USE = "isFirstUse"
+    private val IS_FIRST_APP_USE = "isFirstAppUse"
+    private val RECENTLY_REGISTERED = "recentlyRegistered"
+    private val USER_FULL_NAME = "userName"
+    private val USER_PROFILE_IMAGE_URL = "userProfileImageUrl"
 
-    fun isFirstUse(): Boolean? {
-        val settings = context?.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        return settings?.getBoolean(IS_FIRST_USE, true)
-    }
+    private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
-    fun setFirstUsed(){
-        val settings = context?.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        settings?.edit()?.putBoolean(IS_FIRST_USE, false)?.apply()
-    }
+    // The access token to use through the app
+    var accessToken: String?
+        get() = preferences.getString(ACCESS_TOKEN, null)
+        set(value) = preferences.edit().putString(ACCESS_TOKEN, value).apply()
+
+    // If the user is using the app for the first time for things like the tutorial
+    var isFirstAppUse: Boolean
+        get() = preferences.getBoolean(IS_FIRST_APP_USE, true)
+        set(value) = preferences.edit().putBoolean(IS_FIRST_APP_USE, value).apply()
+
+    // To check if the user recently registered
+    var recentlyRegistered: Boolean
+        get() = preferences.getBoolean(RECENTLY_REGISTERED, false)
+        set(value) = preferences.edit().putBoolean(RECENTLY_REGISTERED, value).apply()
+
+    // The users full name to use through the app
+    var userFullName: String?
+        get() = preferences.getString(USER_FULL_NAME, null)
+        set(value) = preferences.edit().putString(USER_FULL_NAME, value).apply()
+
+    // The users profile image to use through the app
+    var userProfileImageUrl: String?
+        get() = preferences.getString(USER_PROFILE_IMAGE_URL, null)
+        set(value) = preferences.edit().putString(USER_PROFILE_IMAGE_URL, value).apply()
 
     fun isLoggedIn(): Boolean {
-        return getAccessToken() != null
+        return accessToken != null
     }
 
     fun deleteAccessToken(){
-        val settings = context?.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
+        val settings = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
         settings?.edit()?.remove(ACCESS_TOKEN)?.apply()
-    }
-
-    fun setAccessToken(accessToken: String){
-        val settings = context?.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        settings?.edit()?.putString(ACCESS_TOKEN, accessToken)?.apply()
-    }
-
-    fun getAccessToken(): String?{
-        val settings = context?.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        return settings?.getString(ACCESS_TOKEN, null)
     }
 }

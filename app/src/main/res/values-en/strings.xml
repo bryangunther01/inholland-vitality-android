@@ -3,8 +3,15 @@
 
     <!-- Global Strings -->
     <string name="api_error">Something went wrong</string>
+    <string name="api_error_post">Can\'t load post</string>
+    <string name="api_error_comments">Comments could not be loaded</string>
+    <string name="api_error_image">Could not upload image</string>
     <string name="content_desc_vitality_logo">Vitality Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
+
+    <string name="challenge_type_exercise">Exercise</string>
+    <string name="challenge_type_diet">Diet</string>
+    <string name="challenge_type_mind">Mind</string>
 
     <string name="message_good_morning">Good morning</string>
     <string name="message_good_afternoon">Good afternoon</string>
@@ -22,9 +29,14 @@
     <string name="login_error_invalid_email">Please enter a valid email address</string>
     <string name="login_error_invalid_combination">Incorrect combination of email and password</string>
 
+    <!-- Email Dialog Strings -->
+    <string name="dialog_email_title">Verify your email</string>
+    <string name="dialog_email_body">We have sent you a verification email to the email address provided. After you have verified this you can log in!</string>
+    <string name="dialog_email_button_text">Understood</string>
+
     <!-- Register Strings -->
-    <string name="register_1_subtitle">sign up now!</string>
-    <string name="register_1_title">"Let's start, "</string>
+    <string name="register_subtitle">sign up now!</string>
+    <string name="register_title">"Let's start, "</string>
     <string name="register_hint_email">a.example@inholland.nl</string>
     <string name="register_hint_password">Password</string>
     <string name="register_hint_confirm_password">Confirm password</string>
@@ -35,5 +47,57 @@
     <string name="register_error_password_no_match">The passwords do not match</string>
     <string name="register_error_email_in_use">" The email you entered is already in use"</string>
     <string name="message_good_evening">Good evening</string>
+
+    <!-- Register Details Strings -->
+    <string name="register_details_title_1">The last steps,</string>
+    <string name="register_details_subtitle_1">on to vitality!</string>
+    <string name="register_details_hint_firstname">First name</string>
+    <string name="register_details_hint_lastname">Last name</string>
+    <string name="register_details_hint_department">Department</string>
+    <string name="register_details_hint_jobtitle">Job title</string>
+    <string name="register_details_hint_location">Location</string>
+    <string name="register_details_1_button_text">Continue</string>
+    <string name="register_details_error">Fill out all fields</string>
+
+    <string name="register_details_title_2">We are almost there,</string>
+    <string name="register_details_subtitle_2">tell more about yourself!</string>
+    <string name="register_details_photo_info">A photo makes your profile just that little bit more personal. (optional)</string>
+    <string name="register_details_hint_profile_description">What does vitality mean to you?</string>
+    <string name="register_details_2_button_text">Start now!</string>
+
+    <!-- Home Fragment -->
+    <string name="home_header_scoreboard_text">View scoreboard</string>
+    <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="home_title_curr_chl">Current challenges</string>
+    <string name="home_title_disc_chl">Discover challenges</string>
+    <string name="challenge_view_item_button_text">View progress</string>
+    <string name="challenge_view_item_button_text_exp">View challenge</string>
+
+    <!-- Challenge Strings -->
+    <string name="challenge_button_start_text">Start challenge</string>
+    <string name="challenge_button_complete_text">Complete challenge</string>
+    <string name="challenge_button_cancel_text">Stop challenge</string>
+    <string name="challenge_points_message_1">Earn</string>
+    <string name="challenge_points_message_2">points with this challenge</string>
+    <string name="challenge_date_text">Starts</string>
+    <string name="dialog_challenge_title">Stop the challenge</string>
+    <string name="dialog_challenge_body">You are about to quit this challenge, are you sure?</string>
+    <string name="dialog_challenge_button_confirm_text">I\'m sure</string>
+    <string name="dialog_challenge_button_cancel_text">Go back</string>
+
+    <!-- Bottom naviagtion -->
+    <string name="navigation_timeline">Timeline</string>
+    <string name="navigation_post">Post</string>
+    <string name="navigation_notifications">Notifications</string>
+    <string name="navigation_profile">Profile</string>
+
+    <!-- Timeline post -->
+    <string name="post_text_comments">comment(s)</string>
+    <string name="timeline_hint_search">Who do you want to search for?</string>
+    <string name="post_button_comment">Comment</string>
+    <string name="post_button_like">Like</string>
+    <string name="create_post_button">Post</string>
+    <string name="create_post_image_button_text">Add image</string>
+    <string name="create_post_hint">What do you want to share with your colleagues?</string>
 
 </resources>

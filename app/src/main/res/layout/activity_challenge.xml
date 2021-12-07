@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.challenge.ChallengeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.challenge.ChallengeActivity">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_arrow_back"
+            android:elevation="2dp"
+            app:layout_constraintStart_toEndOf="@id/header_guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/header_guideline_top"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/challenge_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/challenge_placeholder"
+            android:foreground="@drawable/gradient_shape"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCornersBottom" />
+
+        <TextView
+            android:id="@+id/challenge_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:textSize="23sp"
+            android:textAllCaps="true"
+            android:textColor="@color/secondary"
+            app:layout_constraintStart_toEndOf="@id/header_guideline_left"
+            app:layout_constraintBottom_toTopOf="@+id/challenge_title"/>
+
+        <TextView
+            android:id="@+id/challenge_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_roman"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="@dimen/margin_small"
+            app:layout_constraintStart_toEndOf="@id/challenge_type"
+            app:layout_constraintBottom_toTopOf="@+id/challenge_title"/>
+
+        <TextView
+            android:id="@+id/challenge_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:textSize="25sp"
+            android:paddingBottom="@dimen/margin_medium"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/header_guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/header_guideline_right"
+            app:layout_constraintBottom_toBottomOf="@+id/challenge_image"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/header_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="challenge_image, challenge_type, challenge_date, challenge_title"/>
+
+        <TextView
+            android:id="@+id/challenge_points"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_tiny"
+            app:layout_constraintTop_toBottomOf="@id/header_barrier"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
+
+        <TextView
+            android:id="@+id/challenge_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_light"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/margin_tiny"
+            app:layout_constraintTop_toBottomOf="@id/challenge_points"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
+
+        <FrameLayout
+            android:id="@+id/challenge_video_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/challenge_description" >
+            <VideoView
+                android:id="@+id/challenge_video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+
+        <Button
+            android:id="@+id/challenge_start_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/challenge_button_start_text"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/challenge_video_container"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/challenge_cancel_button"
+            style="@style/ButtonCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_small_medium"
+            android:text="@string/challenge_button_cancel_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintStart_toEndOf="@+id/header_guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/challenge_complete_button"/>
+
+
+        <Button
+            android:id="@+id/challenge_complete_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/challenge_button_complete_text"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
+            app:layout_constraintStart_toEndOf="@+id/challenge_cancel_button"
+            app:layout_constraintEnd_toStartOf="@+id/header_guideline_right"/>
+
+        <TextView
+            android:id="@+id/challenge_participants"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_medium"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/challenge_start_button"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/content_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="challenge_points, challenge_description, challenge_start_button, challenge_participants"/>
+
+        <ImageView
+            android:id="@+id/challenge_exp_chl_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_big"
+            android:contentDescription="@string/content_desc_current_chl_icon"
+            android:src="@drawable/ic_light"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/content_barrier"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"/>
+
+        <TextView
+            android:id="@+id/challenge_exp_chl_title"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginStart="@dimen/margin_small"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:text="@string/home_title_disc_chl"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/content_barrier"
+            app:layout_constraintStart_toEndOf="@+id/challenge_exp_chl_icon"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/challenge_exp_chl_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/challenge_exp_chl_icon"
+            app:layout_constraintStart_toEndOf="@+id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/header_guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/header_guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/header_guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="40dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="40dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

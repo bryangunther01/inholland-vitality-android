@@ -3,8 +3,15 @@
 
     <!-- Global Strings -->
     <string name="api_error">Er is iets fout gegaan</string>
+    <string name="api_error_post">Kan post niet laden</string>
+    <string name="api_error_comments">Reacties kunnen niet geladen worden</string>
+    <string name="api_error_image">Kan afbeelding niet uploaden</string>
     <string name="content_desc_vitality_logo">Vitaliteits Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
+
+    <string name="challenge_type_exercise">Bewegen</string>
+    <string name="challenge_type_diet">Voeding</string>
+    <string name="challenge_type_mind">Mentaal</string>
 
     <string name="message_good_morning">Goedemorgen</string>
     <string name="message_good_afternoon">Goedemiddag</string>
@@ -23,9 +30,14 @@
     <string name="login_error_invalid_email">Vul een geldig email adres in</string>
     <string name="login_error_invalid_combination">Combinatie email en wachtwoord onjuist</string>
 
+    <!-- Email Dialog Strings -->
+    <string name="dialog_email_title">Verifieer je email</string>
+    <string name="dialog_email_body">We hebben je een verificatie mail gestuurd naar het opgegeven email adres. Nadat je deze geverifieerd hebt kan je inloggen!</string>
+    <string name="dialog_email_button_text">Begrepen</string>
+
     <!-- Register Strings -->
-    <string name="register_1_subtitle">meld je nu aan!</string>
-    <string name="register_1_title">Laten we beginnen,</string>
+    <string name="register_subtitle">meld je nu aan!</string>
+    <string name="register_title">Laten we beginnen,</string>
     <string name="register_hint_email">a.voorbeeld@inholland.nl</string>
     <string name="register_hint_password">Wachtwoord</string>
     <string name="register_hint_confirm_password">Bevestig wachtwoord</string>
@@ -35,6 +47,60 @@
     <string name="register_error_invalid_email">Vul een geldig email adres in</string>
     <string name="register_error_password_no_match">De wachtwoorden komen niet overeen</string>
     <string name="register_error_email_in_use">Het opgegeven email is al in gebruik</string>
+
+
+    <!-- Register Details Strings -->
+    <string name="register_details_title_1">De laatste stapjes,</string>
+    <string name="register_details_subtitle_1">op naar vitaliteit!</string>
+    <string name="register_details_hint_firstname">Voornaam</string>
+    <string name="register_details_hint_lastname">Achternaam</string>
+    <string name="register_details_hint_department">Afdeling</string>
+    <string name="register_details_hint_jobtitle">Functietitel</string>
+    <string name="register_details_hint_location">Locatie</string>
+    <string name="register_details_1_button_text">Ga verder</string>
+    <string name="register_details_error">Vul alle velden in</string>
+
+    <string name="register_details_title_2">We zijn er bijna,</string>
+    <string name="register_details_subtitle_2">vertel meer over jezelf!</string>
+    <string name="register_details_photo_info">Een foto maakt jouw profiel net iets persoonlijker. (optioneel)</string>
+    <string name="register_details_hint_profile_description">Wat betekend vitaliteit voor jou?</string>
+    <string name="register_details_2_button_text">Start nu!</string>
+
+    <!-- Home Fragment -->
+    <string name="home_header_scoreboard_text">Bekijk scorebord</string>
+    <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="home_title_curr_chl">Huidige challenges</string>
+    <string name="home_title_disc_chl">Ontdek challenges</string>
+    <string name="challenge_view_item_button_text">Bekijk voortgang</string>
+    <string name="challenge_view_item_button_text_exp">Bekijk challenge</string>
+
+    <!-- Challenge Strings -->
+    <string name="challenge_button_start_text">Start challenge</string>
+    <string name="challenge_button_complete_text">Voltooi challenge</string>
+    <string name="challenge_button_cancel_text">Stop challenge</string>
+    <string name="challenge_points_message_1">Verdien</string>
+    <string name="challenge_points_message_2">punten met deze challenge</string>
+    <string name="challenge_date_text">Start</string>
+    <string name="dialog_challenge_title">Stop de challenge</string>
+    <string name="dialog_challenge_body">Je staat op het punt om te stoppen met deze challenge, weet je dat zeker?</string>
+    <string name="dialog_challenge_button_confirm_text">Ik weet het zeker</string>
+    <string name="dialog_challenge_button_cancel_text">Ga terug</string>
+
+    <!-- Bottom naviagtion -->
+    <string name="navigation_home" translatable="false">Home</string>
+    <string name="navigation_timeline">Tijdlijn</string>
+    <string name="navigation_post">Bericht</string>
+    <string name="navigation_notifications">Notificaties</string>
+    <string name="navigation_profile">Profiel</string>
+
+    <!-- Timeline post -->
+    <string name="post_text_comments">reactie(s)</string>
+    <string name="timeline_hint_search">Wie wil je zoeken?</string>
+    <string name="post_button_comment">Reageer</string>
+    <string name="post_button_like">Vind ik leuk</string>
+    <string name="create_post_button">Plaats</string>
+    <string name="create_post_image_button_text">Voeg afbeelding toe</string>
+    <string name="create_post_hint">Wat wil je met je collega\'s delen?</string>
 
 
 </resources>

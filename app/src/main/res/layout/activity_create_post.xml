@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.challenge.ChallengeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/post_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/create_post_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/person_placeholder"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+        <TextView
+            android:id="@+id/create_post_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:text="Jasper Koemans"
+            app:layout_constraintBottom_toBottomOf="@id/create_post_profile_image"
+            app:layout_constraintStart_toEndOf="@id/create_post_profile_image"
+            app:layout_constraintTop_toTopOf="@id/create_post_profile_image" />
+
+        <Button
+            android:id="@+id/create_post_button"
+            style="@style/ButtonPrimaryMini"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@drawable/button_primary"
+            android:text="@string/create_post_button"
+            android:enabled="false"
+            app:layout_constraintBottom_toBottomOf="@id/create_post_profile_image"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
+            app:layout_constraintTop_toTopOf="@id/create_post_profile_image" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/create_post_header_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_small_medium"
+            app:constraint_referenced_ids="create_post_profile_image, create_post_user_name, create_post_button" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#c0c0c0"
+            app:layout_constraintTop_toBottomOf="@+id/create_post_header_barrier" />
+
+        <EditText
+            android:id="@+id/create_post_message"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:hint="@string/create_post_hint"
+            android:gravity="top"
+            android:padding="@dimen/margin_normal"
+            android:textIsSelectable="true"
+            android:inputType="textCapSentences"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/create_post_header_barrier"
+            app:layout_constraintBottom_toTopOf="@id/create_post_bottom_buttons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/create_post_bottom_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="create_post_image_upload_button" />
+
+        <View
+            android:id="@+id/create_post_hr_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#c0c0c0"
+            app:layout_constraintBottom_toTopOf="@+id/create_post_bottom_buttons" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_post_image_upload_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_light"
+            android:text="@string/create_post_image_button_text"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/ic_image"
+            app:iconGravity="textStart"
+            app:iconTint="@color/primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

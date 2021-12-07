@@ -22,7 +22,11 @@ import javax.inject.Inject
 import butterknife.*
 import android.content.Intent
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.data.entities.User
+import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
+import nl.inholland.myvitality.ui.authentication.register.RegisterDetailsActivity
 
 
 class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
@@ -79,18 +83,40 @@ class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
     fun onClickRegister(){
         val myIntent = Intent(this, RegisterActivity::class.java)
         startActivity(myIntent)
+
+        finish()
     }
 
 
     override fun onResponse(call: Call<AuthSettings>, response: Response<AuthSettings>) {
         if(response.isSuccessful && response.body() != null){
-            val sharedPreferenceHelper = SharedPreferenceHelper(this)
+            val sharedPref = SharedPreferenceHelper(this)
 
             response.body()?.let {
-                sharedPreferenceHelper.setAccessToken(it.accessToken)
+                sharedPref.accessToken = it.accessToken
+
+                apiClient.getUser("Bearer ${it.accessToken}").enqueue(object : Callback<User> {
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        if(response.isSuccessful && response.body() != null){
+                            sharedPref.userFullName = response.body()?.firstName + " " + response.body()?.lastName
+                            sharedPref.userProfileImageUrl = response.body()?.profilePicture
+                        }
+                    }
+
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        // Do nothing
+                    }
+                })
             }
 
-            // TODO: Go to homescreen
+            var intent = Intent(this, MainActivity::class.java)
+
+            if(sharedPref.recentlyRegistered) {
+                intent = Intent(this, RegisterDetailsActivity::class.java)
+            }
+
+            startActivity(intent)
+            finish()
         } else {
             if(response.code() == 401){
                 FieldValidationUtil(this).setFieldState(email, false, errorField, getString(

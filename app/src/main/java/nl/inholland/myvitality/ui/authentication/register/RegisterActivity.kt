@@ -21,7 +21,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 import butterknife.*
+import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
 class RegisterActivity : AppCompatActivity(), Callback<Void> {
@@ -133,7 +135,8 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
 
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         if (response.isSuccessful) {
-            Toast.makeText(this, "Register successful", Toast.LENGTH_LONG).show()
+            Dialogs.showEmailVerificationDialog(this)
+            SharedPreferenceHelper(this).recentlyRegistered = true
         } else {
             if(response.code() == 400){
                 FieldValidationUtil(this).setFieldState(email, false, errorField, getString(R.string.register_error_email_in_use))

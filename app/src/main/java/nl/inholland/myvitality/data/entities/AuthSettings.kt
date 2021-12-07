@@ -3,8 +3,8 @@ package nl.inholland.myvitality.data.entities
 import com.squareup.moshi.Json
 
 data class AuthSettings (
-    @Json(name = "AccessToken") val accessToken: String,
-    @Json(name = "TokenType") val tokenType: String,
-    @Json(name = "ExpiresIn") val expiresIn: Long,
-    @Json(name = "UserType") val userType: String
+    @Json(name = "accessToken") val accessToken: String,
+    @Json(name = "tokenType") val tokenType: String,
+    @Json(name = "expiresIn") val expiresIn: Long,
+    @Json(name = "userType") val userType: String
 )

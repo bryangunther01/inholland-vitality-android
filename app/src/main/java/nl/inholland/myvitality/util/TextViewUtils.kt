@@ -1,6 +1,7 @@
 package nl.inholland.myvitality.util
 
 import android.content.Context
+import android.icu.text.SimpleDateFormat
 import android.util.Log
 
 import android.text.Spannable
@@ -42,6 +43,13 @@ class TextViewUtils {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             return spannable
+        }
+
+        fun formatDate(date: String): String{
+            // Set the publishData including the right format
+            val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+            val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            return formatter.format(parser.parse(date))
         }
     }
 }

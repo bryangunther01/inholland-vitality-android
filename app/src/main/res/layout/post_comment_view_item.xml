@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_medium_big"
+    android:orientation="horizontal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/comment_profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/dark_grey"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/comment_profile_image_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:barrierMargin="@dimen/margin_normal"
+        app:constraint_referenced_ids="comment_profile_image" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/comment_box"
+        android:padding="@dimen/margin_small_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/comment_profile_image_barrier"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/comment_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:text="Stef Brand"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/comment_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_roman"
+            android:text="1d"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_user_name" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/comment_user_details_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_medium"
+            app:constraint_referenced_ids="comment_user_name, comment_date" />
+
+        <TextView
+            android:id="@+id/comment_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_roman"
+            android:text="Zojuist mijn 10e activiteit voltooid! Op naar de 20!"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/comment_user_details_barrier" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
