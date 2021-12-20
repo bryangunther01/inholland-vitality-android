@@ -15,7 +15,7 @@ import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeType
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 
-class CurrentChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge, CurrentChallengeAdapter.ViewHolder>(context) {
+class CurrentChallengeAdapter(context: Context, var showButtons: Boolean? = false) : BaseRecyclerAdapter<Challenge, CurrentChallengeAdapter.ViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.challenge_explore_view_item, parent, false))
@@ -37,14 +37,18 @@ class CurrentChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge,
                 holder.challengeType.text = context.getString(R.string.challenge_type_mind)
         }
 
-        holder.challengeTitle.text = currentItem.title
-        holder.itemView.setOnClickListener { view ->
-            val intent = Intent(view.context, ChallengeActivity::class.java)
-            intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
-            view.context.startActivity(intent)
+        if(showButtons == true){
+            holder.challengeButton.visibility = View.VISIBLE
+
+            holder.challengeButton.setOnClickListener { view ->
+                val intent = Intent(view.context, ChallengeActivity::class.java)
+                intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
+                view.context.startActivity(intent)
+            }
         }
 
-        holder.challengeButton.setOnClickListener { view ->
+        holder.challengeTitle.text = currentItem.title
+        holder.itemView.setOnClickListener { view ->
             val intent = Intent(view.context, ChallengeActivity::class.java)
             intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
             view.context.startActivity(intent)
@@ -57,6 +61,6 @@ class CurrentChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge,
         internal val challengeImage: ImageView = itemView.findViewById(R.id.challenge_image)
         internal val challengeType: TextView = itemView.findViewById(R.id.challenge_type)
         internal val challengeTitle: TextView = itemView.findViewById(R.id.challenge_title)
-        internal val challengeButton: Button = itemView.findViewById(R.id.challenge_view_progress)
+        internal val challengeButton: Button = itemView.findViewById(R.id.challenge_view_challenge)
     }
 }

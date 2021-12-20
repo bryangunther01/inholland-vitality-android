@@ -2,11 +2,14 @@ package nl.gunther.bryan.newsreader.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-class SharedPreferenceHelper (private val context: Context){
+class SharedPreferenceHelper @Inject constructor(private val context: Context){
 
     private val SHARED_PREF_KEY = "nl.inholland.myvitality"
     private val ACCESS_TOKEN = "accessToken"
+    private val REFRESH_TOKEN = "refreshToken"
+    private val TOKEN_EXPIRE_TIME = "tokenExpireTime"
     private val IS_FIRST_APP_USE = "isFirstAppUse"
     private val RECENTLY_REGISTERED = "recentlyRegistered"
     private val USER_FULL_NAME = "userName"
@@ -18,6 +21,16 @@ class SharedPreferenceHelper (private val context: Context){
     var accessToken: String?
         get() = preferences.getString(ACCESS_TOKEN, null)
         set(value) = preferences.edit().putString(ACCESS_TOKEN, value).apply()
+
+    // The refresh token to use through the app
+    var refreshToken: String?
+        get() = preferences.getString(REFRESH_TOKEN, null)
+        set(value) = preferences.edit().putString(REFRESH_TOKEN, value).apply()
+
+    // The expire time of the token
+    var tokenExpireTime: Int
+        get() = preferences.getInt(TOKEN_EXPIRE_TIME, 0)
+        set(value) = preferences.edit().putInt(TOKEN_EXPIRE_TIME, 0).apply()
 
     // If the user is using the app for the first time for things like the tutorial
     var isFirstAppUse: Boolean

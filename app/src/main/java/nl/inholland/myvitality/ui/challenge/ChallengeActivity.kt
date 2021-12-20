@@ -17,6 +17,7 @@ import coil.load
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
 import nl.inholland.myvitality.data.entities.Challenge
@@ -32,58 +33,34 @@ import retrofit2.Response
 import java.util.stream.Collectors
 import javax.inject.Inject
 
-class ChallengeActivity : AppCompatActivity(), Callback<Challenge> {
-    @Inject
-    lateinit var apiClient: ApiClient
+class ChallengeActivity : BaseActivity(), Callback<Challenge> {
+    @Inject lateinit var apiClient: ApiClient
+    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
 
-    @BindView(R.id.challenge_image)
-    lateinit var image: ImageView
+    @BindView(R.id.challenge_image) lateinit var image: ImageView
+    @BindView(R.id.challenge_type) lateinit var type: TextView
+    @BindView(R.id.challenge_date) lateinit var date: TextView
+    @BindView(R.id.challenge_title) lateinit var title: TextView
+    @BindView(R.id.challenge_points) lateinit var points: TextView
+    @BindView(R.id.challenge_description) lateinit var description: TextView
+    @BindView(R.id.challenge_video_container) lateinit var videoContainer: FrameLayout
+    @BindView(R.id.challenge_video) lateinit var videoView: VideoView
+    @BindView(R.id.challenge_participants) lateinit var participantsCount: TextView
+    @BindView(R.id.challenge_exp_chl_recyclerview) lateinit var exploreActivitiesRecyclerView: RecyclerView
+    @BindView(R.id.challenge_start_button) lateinit var startChallengeButton: Button
+    @BindView(R.id.challenge_cancel_button) lateinit var cancelChallengeButton: AppCompatButton
+    @BindView(R.id.challenge_complete_button) lateinit var completeChallengeButton: Button
 
-    @BindView(R.id.challenge_type)
-    lateinit var type: TextView
-
-    @BindView(R.id.challenge_date)
-    lateinit var date: TextView
-
-    @BindView(R.id.challenge_title)
-    lateinit var title: TextView
-
-    @BindView(R.id.challenge_points)
-    lateinit var points: TextView
-
-    @BindView(R.id.challenge_description)
-    lateinit var description: TextView
-
-    @BindView(R.id.challenge_video_container)
-    lateinit var videoContainer: FrameLayout
-
-    @BindView(R.id.challenge_video)
-    lateinit var videoView: VideoView
-
-    @BindView(R.id.challenge_participants)
-    lateinit var participantsCount: TextView
-
-    @BindView(R.id.challenge_exp_chl_recyclerview)
-    lateinit var exploreActivitiesRecyclerView: RecyclerView
-
-    @BindView(R.id.challenge_start_button)
-    lateinit var startChallengeButton: Button
-
-    @BindView(R.id.challenge_cancel_button)
-    lateinit var cancelChallengeButton: AppCompatButton
-
-    @BindView(R.id.challenge_complete_button)
-    lateinit var completeChallengeButton: Button
-
-    var sharedPrefs: SharedPreferenceHelper? = null
     var layoutManager: LinearLayoutManager? = null
     var adapter: ExploreChallengeAdapter? = null
     var currentChallengeId: String = ""
 
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_challenge
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_challenge)
-        ButterKnife.bind(this)
 
         (application as VitalityApplication).appComponent.inject(this)
         sharedPrefs = SharedPreferenceHelper(this)
@@ -117,13 +94,13 @@ class ChallengeActivity : AppCompatActivity(), Callback<Challenge> {
     }
 
     private fun tryLoadChallenge() {
-        sharedPrefs?.accessToken?.let {
+        sharedPrefs.accessToken?.let {
             apiClient.getChallenge("Bearer $it", currentChallengeId).enqueue(this)
         }
     }
 
     private fun tryLoadExpChallenges(challengeType: ChallengeType) {
-        sharedPrefs?.accessToken?.let {
+        sharedPrefs.accessToken?.let {
             apiClient.getChallenges(
                 "Bearer $it",
                 10,
@@ -247,7 +224,7 @@ class ChallengeActivity : AppCompatActivity(), Callback<Challenge> {
     }
 
     private fun updateChallengeProgress(challengeProgress: ChallengeProgress){
-        sharedPrefs?.accessToken?.let {
+        sharedPrefs.accessToken?.let {
             apiClient.updateChallengeProgress("Bearer $it", currentChallengeId, challengeProgress.id)
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {

@@ -3,6 +3,7 @@ package nl.inholland.myvitality
 import android.app.Application
 import nl.inholland.myvitality.architecture.ApplicationComponent
 import nl.inholland.myvitality.architecture.DaggerApplicationComponent
+import nl.inholland.myvitality.di.modules.ApplicationModule
 
 class VitalityApplication : Application() {
 
@@ -11,6 +12,8 @@ class VitalityApplication : Application() {
     }
 
     private fun initComponent(): ApplicationComponent {
-        return DaggerApplicationComponent.create()
+        return DaggerApplicationComponent.builder()
+            .applicationModule(ApplicationModule(this))
+            .build()
     }
 }

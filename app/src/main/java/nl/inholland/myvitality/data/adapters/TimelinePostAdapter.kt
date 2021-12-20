@@ -7,11 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.data.entities.TimelinePost
+import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.timeline.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
 import nl.inholland.myvitality.util.TextViewUtils
 
@@ -51,14 +58,13 @@ class TimelinePostAdapter(context: Context) :
             holder.commentCount.append(context.getString(R.string.post_text_comments))
         }
 
-
         if (currentItem.iLikedPost) {
             holder.likedButton.setIconResource(R.drawable.ic_thumbsup_fill)
+            holder.likeCount.text = context.getString(R.string.post_like_count, (currentItem.countOfLikes - 1).toString())
         } else {
             holder.likedButton.setIconResource(R.drawable.ic_thumbsup)
             holder.likedButton.setIconTintResource(R.color.black)
         }
-
 
         holder.itemView.setOnClickListener { view ->
             val intent = Intent(view.context, TimelinePostActivity::class.java)
@@ -66,8 +72,26 @@ class TimelinePostAdapter(context: Context) :
             view.context.startActivity(intent)
         }
 
+        val userClickListener = View.OnClickListener { view ->
+            view.context.startActivity(
+                Intent(view.context, ProfileActivity::class.java)
+                    .putExtra("USER_ID", currentItem.userId))
+        }
+
+        holder.profileImage.setOnClickListener(userClickListener)
+        holder.userName.setOnClickListener(userClickListener)
+
+        val likeClickListener = View.OnClickListener { view ->
+            view.context.startActivity(
+                Intent(view.context, TimelineLikedActivity::class.java)
+                    .putExtra("POST_ID", currentItem.postId))
+        }
+
+        holder.likeIcon.setOnClickListener(likeClickListener)
+        holder.likeCount.setOnClickListener(likeClickListener)
+
         holder.likedButton.setOnClickListener { view ->
-            // TODO: Run like call
+            Toast.makeText(view.context, "WIP - Like Post",  Toast.LENGTH_LONG).show()
         }
 
         holder.commentButton.setOnClickListener { view ->

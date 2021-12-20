@@ -26,19 +26,28 @@ interface ApiClient {
 
     @GET("user")
     fun getUser(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Query("userId") userId: String? = null
     ): Call<User>
 
     @GET("users/{name}")
     fun searchUser(
         @Header("Authorization") token: String,
-        @Path("name") name: String
+        @Path("name") name: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
     ): Call<List<SimpleUser>>
 
+    @Multipart
     @PUT("user")
     fun updateUserProfile(
         @Header("Authorization") token: String,
-        @Body body: ProfileDetails
+        @Part("firstname") firstName: RequestBody? = null,
+        @Part("lastname") lastName: RequestBody? = null,
+        @Part("jobTitle") jobTitle: RequestBody? = null,
+        @Part("location") location: RequestBody? = null,
+        @Part("description") description: RequestBody? = null,
+        @Part file: MultipartBody.Part? = null
     ): Call<Void>
 
     @Multipart
@@ -106,6 +115,26 @@ interface ApiClient {
     fun createPost(
         @Header("Authorization") token: String,
         @Body body: RequestBody,
+    ): Call<Void>
+
+    @GET("timelinepost/{timelinePostId}/likers")
+    fun getTimelinePostLikes(
+        @Header("Authorization") token: String,
+        @Path("timelinePostId") timelinePostId: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<SimpleUser>>
+
+    @PUT("timelinepost/{timelinePostId}/like")
+    fun likePost(
+        @Header("Authorization") token: String,
+        @Path("timelinePostId") timelinePostId: String,
+    ): Call<Void>
+
+    @DELETE("timelinepost/{timelinePostId}/like")
+    fun unlikePost(
+        @Header("Authorization") token: String,
+        @Path("timelinePostId") timelinePostId: String,
     ): Call<Void>
 
 }

@@ -1,15 +1,18 @@
 package nl.inholland.myvitality.data.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.SimpleUser
+import nl.inholland.myvitality.ui.profile.ProfileActivity
 
 class UserListAdapter(context: Context) :
     BaseRecyclerAdapter<SimpleUser, UserListAdapter.ViewHolder>(context) {
@@ -30,15 +33,14 @@ class UserListAdapter(context: Context) :
         holder.userDetails.text = ""
         holder.userDetails.append(currentItem.jobTitle)
         currentItem.location?.let{
-            holder.userDetails.append(it)
+            holder.userDetails.append(", $it")
         }
 
 
         holder.itemView.setOnClickListener { view ->
-//            val intent = Intent(view.context, ProfileActivity::class.java)
-//            intent.putExtra("USER_ID", currentItem.userId)
-//            view.context.startActivity(intent)
-           // TODO: Open profile
+            val intent = Intent(view.context, ProfileActivity::class.java)
+            intent.putExtra("USER_ID", currentItem.userId)
+            view.context.startActivity(intent)
         }
     }
 

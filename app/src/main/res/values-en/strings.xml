@@ -29,6 +29,9 @@
     <string name="login_error_invalid_email">Please enter a valid email address</string>
     <string name="login_error_invalid_combination">Incorrect combination of email and password</string>
 
+    <!-- Loading Dialog Strings -->
+    <string name="dialog_loading_general">Please wait...</string>
+
     <!-- Email Dialog Strings -->
     <string name="dialog_email_title">Verify your email</string>
     <string name="dialog_email_body">We have sent you a verification email to the email address provided. After you have verified this you can log in!</string>
@@ -68,6 +71,7 @@
     <!-- Home Fragment -->
     <string name="home_header_scoreboard_text">View scoreboard</string>
     <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="home_points_text">%1$s points</string>
     <string name="home_title_curr_chl">Current challenges</string>
     <string name="home_title_disc_chl">Discover challenges</string>
     <string name="challenge_view_item_button_text">View progress</string>
@@ -96,8 +100,18 @@
     <string name="timeline_hint_search">Who do you want to search for?</string>
     <string name="post_button_comment">Comment</string>
     <string name="post_button_like">Like</string>
+    <string name="post_like_count">You and %1$s other</string>
     <string name="create_post_button">Post</string>
     <string name="create_post_image_button_text">Add image</string>
     <string name="create_post_hint">What do you want to share with your colleagues?</string>
+
+    <!-- Profile strings -->
+    <string name="profile_follow">Follow</string>
+    <string name="profile_unfollow">Unfollow</string>
+    <string name="profile_edit">Edit profile</string>
+    <string name="profile_points">points</string>
+    <string name="profile_curr_challenges">Current challenges</string>
+    <string name="profile_prize_cabinet">%1$s\'s Trophies</string>
+    <string name="profile_your_prize_cabinet">Your Trophies</string>
 
 </resources>

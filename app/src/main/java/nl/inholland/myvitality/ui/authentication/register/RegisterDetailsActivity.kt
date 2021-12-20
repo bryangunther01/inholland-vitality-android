@@ -18,12 +18,20 @@ import javax.inject.Inject
 import butterknife.*
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.entities.requestbody.ProfileDetails
+import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
+import nl.inholland.myvitality.util.RequestUtils
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
     @Inject
     lateinit var apiClient: ApiClient
+
+    @Inject
+    lateinit var sharedPrefs: SharedPreferenceHelper
 
     @BindView(R.id.register_details_error)
     lateinit var error: TextView
@@ -63,29 +71,35 @@ class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
         callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
     )
     fun onFieldsChanged() {
-        val isValid = firstName.text.length > 3 &&
-                lastName.text.length > 3 &&
-                department.text.length > 3 &&
-                jobTitle.text.length > 3 &&
-                location.text.length > 3
+        val isValid = firstName.text.isNotEmpty() &&
+                lastName.text.isNotEmpty() &&
+                department.text.isNotEmpty() &&
+                jobTitle.text.isNotEmpty() &&
+                location.text.isNotEmpty()
 
         button.isEnabled = isValid
     }
 
     @OnClick(R.id.register_details_1_button)
     fun onClickContinue() {
-        val isValid = firstName.text.length > 3 &&
-                lastName.text.length > 3 &&
-                department.text.length > 3 &&
-                jobTitle.text.length > 3 &&
-                location.text.length > 3
+        val isValid = firstName.text.isNotEmpty() &&
+                lastName.text.isNotEmpty() &&
+                department.text.isNotEmpty() &&
+                jobTitle.text.isNotEmpty() &&
+                location.text.isNotEmpty()
 
         if (isValid) {
-            apiClient.updateUserProfile("Bearer " + SharedPreferenceHelper(this).accessToken,
-                ProfileDetails(firstName = firstName.text.toString(),
-                lastName = lastName.text.toString(),
-                jobTitle = jobTitle.text.toString(),
-                location = location.text.toString())).enqueue(this)
+
+            sharedPrefs.accessToken?.let {
+                apiClient.updateUserProfile("Bearer $it",
+                    firstName = RequestUtils.createPartFromString(firstName.text.toString()),
+                    lastName = RequestUtils.createPartFromString(lastName.text.toString()),
+                    jobTitle = RequestUtils.createPartFromString(jobTitle.text.toString()),
+                    location = RequestUtils.createPartFromString(location.text.toString())).enqueue(this)
+
+                Dialogs.showGeneralLoadingDialog(this)
+            }
+            // TODO: Extra error handling
         } else {
             error.visibility = View.VISIBLE
             error.text = getString(R.string.register_details_error)
@@ -97,17 +111,22 @@ class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
             val sharedPref =  SharedPreferenceHelper(this)
             sharedPref.userFullName = firstName.text.toString() + " " + lastName.text.toString()
 
-            sharedPref.recentlyRegistered = false
-            val intent = Intent(this, HomeFragment::class.java)
+            val intent = Intent(this, RegisterDetails2Activity::class.java)
             startActivity(intent)
             finish()
 
         } else {
             Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
         }
+
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
     }
 
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
+
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
     }
 }

@@ -16,7 +16,7 @@ import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeType
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 
-class ExploreChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge, ExploreChallengeAdapter.ViewHolder>(context) {
+class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = false) : BaseRecyclerAdapter<Challenge, ExploreChallengeAdapter.ViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.challenge_explore_view_item, parent, false))
@@ -40,6 +40,16 @@ class ExploreChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge,
                 holder.challengeType.text = context.getString(R.string.challenge_type_mind)
         }
 
+        if(showButtons == true){
+            holder.challengeButton.visibility = View.VISIBLE
+
+            holder.challengeButton.setOnClickListener { view ->
+                val intent = Intent(view.context, ChallengeActivity::class.java)
+                intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
+                view.context.startActivity(intent)
+            }
+        }
+
         holder.challengeTitle.text = currentItem.title
         holder.itemView.setOnClickListener { view ->
             val intent = Intent(view.context, ChallengeActivity::class.java)
@@ -47,11 +57,7 @@ class ExploreChallengeAdapter(context: Context) : BaseRecyclerAdapter<Challenge,
             view.context.startActivity(intent)
         }
 
-        holder.challengeButton.setOnClickListener { view ->
-            val intent = Intent(view.context, ChallengeActivity::class.java)
-            intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
-            view.context.startActivity(intent)
-        }
+
     }
 
     override fun getItemCount(): Int = items.size

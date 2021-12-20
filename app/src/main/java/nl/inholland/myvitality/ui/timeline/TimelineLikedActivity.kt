@@ -1,9 +1,10 @@
-package nl.inholland.myvitality.ui.search
+package nl.inholland.myvitality.ui.timeline
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -26,16 +27,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
+class TimelineLikedActivity : BaseActivity(), Callback<List<SimpleUser>> {
 
     @Inject
     lateinit var apiClient: ApiClient
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
-    @BindView(R.id.search_recyclerview)
+    @BindView(R.id.user_recyclerview)
     lateinit var recyclerView: RecyclerView
-    @BindView(R.id.search_bar)
-    lateinit var searchbar: EditText
 
     var layoutManager: LinearLayoutManager? = null
     var adapter: UserListAdapter? = null
@@ -44,22 +43,34 @@ class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
     private var page = 0
     private var limit = 10
 
+    var timelinePostId: String = ""
+
     override fun layoutResourceId(): Int {
-        return R.layout.activity_search
+        return R.layout.activity_post_likers
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle(R.string.navigation_timeline)
+
         (application as VitalityApplication).appComponent.inject(this)
 
+        val postId = intent.getStringExtra("POST_ID")
+        if(postId == null){
+            finish()
+        } else {
+            timelinePostId = postId
+        }
+
         setupRecyclerViews()
+        tryLoadUsers()
     }
 
-    @OnClick(R.id.back_button)
-    override fun onBackPressed() {
-        startActivity(
-            Intent(this, MainActivity::class.java)
-                .putExtra("FRAGMENT_TO_LOAD", ChosenFragment.FRAGMENT_TIMELINE.ordinal))
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun setupRecyclerViews(){
@@ -93,26 +104,13 @@ class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
 
     fun tryLoadUsers(){
         sharedPrefs.accessToken?.let {
-            apiClient.searchUser("Bearer $it", searchbar.text.toString(), limit , page * limit).enqueue(this)
-        }
-    }
-
-    @OnTextChanged(R.id.search_bar)
-    fun onSearchChanged(){
-        if(searchbar.text.length >= 3){
-            tryLoadUsers()
-        } else {
-            adapter?.clearItems()
+            apiClient.getTimelinePostLikes("Bearer $it", timelinePostId, limit , page * limit).enqueue(this)
         }
     }
 
     override fun onResponse(call: Call<List<SimpleUser>>, response: Response<List<SimpleUser>>) {
         if(response.isSuccessful && response.body() != null){
             response.body()?.let {
-                if(page == 0){
-                    adapter?.clearItems()
-                }
-
                 if(it.isNotEmpty()){
                     adapter?.addItems(it)
 
@@ -127,6 +125,6 @@ class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
     }
 
     override fun onFailure(call: Call<List<SimpleUser>>, t: Throwable) {
-
+        Toast.makeText(this, t.message, Toast.LENGTH_LONG).show()
     }
 }

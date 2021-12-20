@@ -18,6 +18,7 @@ import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.CommentAdapter
 import nl.inholland.myvitality.data.adapters.TimelinePostAdapter
@@ -34,9 +35,9 @@ import retrofit2.Response
 import java.util.stream.Collectors
 import javax.inject.Inject
 
-class CreateTimelinePostActivity : AppCompatActivity(), Callback<Void> {
-    @Inject
-    lateinit var apiClient: ApiClient
+class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
+    @Inject lateinit var apiClient: ApiClient
+    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
 
     @BindView(R.id.create_post_profile_image)
     lateinit var profileImage: ImageView
@@ -53,16 +54,16 @@ class CreateTimelinePostActivity : AppCompatActivity(), Callback<Void> {
     @BindView(R.id.create_post_image_upload_button)
     lateinit var imageUploadButton: MaterialButton
 
-    var sharedPrefs: SharedPreferenceHelper? = null
     var postId: String? = null
+
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_create_post
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
-        ButterKnife.bind(this)
 
         (application as VitalityApplication).appComponent.inject(this)
-        sharedPrefs = SharedPreferenceHelper(this)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setTitle(R.string.navigation_post)

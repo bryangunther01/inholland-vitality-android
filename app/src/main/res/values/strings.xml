@@ -30,6 +30,9 @@
     <string name="login_error_invalid_email">Vul een geldig email adres in</string>
     <string name="login_error_invalid_combination">Combinatie email en wachtwoord onjuist</string>
 
+    <!-- Loading Dialog Strings -->
+    <string name="dialog_loading_general">Even geduld...</string>
+
     <!-- Email Dialog Strings -->
     <string name="dialog_email_title">Verifieer je email</string>
     <string name="dialog_email_body">We hebben je een verificatie mail gestuurd naar het opgegeven email adres. Nadat je deze geverifieerd hebt kan je inloggen!</string>
@@ -69,6 +72,7 @@
     <!-- Home Fragment -->
     <string name="home_header_scoreboard_text">Bekijk scorebord</string>
     <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="home_points_text">%1$s punten</string>
     <string name="home_title_curr_chl">Huidige challenges</string>
     <string name="home_title_disc_chl">Ontdek challenges</string>
     <string name="challenge_view_item_button_text">Bekijk voortgang</string>
@@ -98,9 +102,18 @@
     <string name="timeline_hint_search">Wie wil je zoeken?</string>
     <string name="post_button_comment">Reageer</string>
     <string name="post_button_like">Vind ik leuk</string>
+    <string name="post_like_count">Jij en %1$s anderen</string>
     <string name="create_post_button">Plaats</string>
     <string name="create_post_image_button_text">Voeg afbeelding toe</string>
     <string name="create_post_hint">Wat wil je met je collega\'s delen?</string>
 
+    <!-- Profile strings -->
+    <string name="profile_follow">Volgen</string>
+    <string name="profile_unfollow">Ontvolgen</string>
+    <string name="profile_edit">Wijzig profiel</string>
+    <string name="profile_points">punten</string>
+    <string name="profile_curr_challenges">Huidige challenges</string>
+    <string name="profile_prize_cabinet">%1$s\'s Prijzenkast</string>
+    <string name="profile_your_prize_cabinet">Jouw Prijzenkast</string>
 
 </resources>

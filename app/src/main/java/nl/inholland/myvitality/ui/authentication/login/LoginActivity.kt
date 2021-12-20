@@ -22,25 +22,30 @@ import javax.inject.Inject
 import butterknife.*
 import android.content.Intent
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
+import nl.inholland.myvitality.ui.authentication.register.RegisterDetails2Activity
 import nl.inholland.myvitality.ui.authentication.register.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
-class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
+class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @Inject lateinit var apiClient: ApiClient
+    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
     @BindView(R.id.login_error) lateinit var errorField: TextView
     @BindView(R.id.login_edit_text_email) lateinit var email: EditText
     @BindView(R.id.login_edit_text_password) lateinit var password: EditText
     @BindView(R.id.login_button) lateinit var loginButton: Button
 
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_login
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        ButterKnife.bind(this)
-
         (application as VitalityApplication).appComponent.inject(this)
 
         // Set greeting message
@@ -61,6 +66,7 @@ class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
 
         if(isValid){
             apiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
+            Dialogs.showGeneralLoadingDialog(this)
         }
     }
 
@@ -89,30 +95,18 @@ class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
 
 
     override fun onResponse(call: Call<AuthSettings>, response: Response<AuthSettings>) {
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
+
         if(response.isSuccessful && response.body() != null){
-            val sharedPref = SharedPreferenceHelper(this)
-
             response.body()?.let {
-                sharedPref.accessToken = it.accessToken
-
-                apiClient.getUser("Bearer ${it.accessToken}").enqueue(object : Callback<User> {
-                    override fun onResponse(call: Call<User>, response: Response<User>) {
-                        if(response.isSuccessful && response.body() != null){
-                            sharedPref.userFullName = response.body()?.firstName + " " + response.body()?.lastName
-                            sharedPref.userProfileImageUrl = response.body()?.profilePicture
-                        }
-                    }
-
-                    override fun onFailure(call: Call<User>, t: Throwable) {
-                        // Do nothing
-                    }
-                })
+                sharedPrefs.accessToken = it.accessToken
             }
 
             var intent = Intent(this, MainActivity::class.java)
 
-            if(sharedPref.recentlyRegistered) {
-                intent = Intent(this, RegisterDetailsActivity::class.java)
+            if(sharedPrefs.recentlyRegistered) {
+                intent = Intent(this, RegisterDetails2Activity::class.java)
             }
 
             startActivity(intent)
@@ -129,5 +123,8 @@ class LoginActivity : AppCompatActivity(), Callback<AuthSettings> {
 
     override fun onFailure(call: Call<AuthSettings>, t: Throwable) {
         Toast.makeText(this,getString(R.string.api_error), Toast.LENGTH_LONG).show()
+
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
     }
 }

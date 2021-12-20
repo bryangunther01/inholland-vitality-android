@@ -2,6 +2,7 @@ package nl.inholland.myvitality.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.databinding.ActivityMainBinding
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
+import nl.inholland.myvitality.ui.profile.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.TimelineFragment
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 
@@ -26,14 +28,14 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide();
         val navView: BottomNavigationView = binding.bottomNavView
-        val givenFragment = intent.getIntExtra("FRAGMENT_TO_LOAD", 0)
 
-        when(givenFragment){
+        when(intent.getIntExtra("FRAGMENT_TO_LOAD", 0)){
             ChosenFragment.FRAGMENT_HOME.ordinal -> {
                 setCurrentFragment(HomeFragment())
             }
             ChosenFragment.FRAGMENT_NOTIFICATIONS.ordinal -> {
-                // TODO: Set not frag
+                //  TODO: Go to not fragment
+                Toast.makeText(this, "WIP",  Toast.LENGTH_LONG).show()
             }
             ChosenFragment.FRAGMENT_TIMELINE.ordinal -> {
                 setCurrentFragment(TimelineFragment())
@@ -53,6 +55,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_post -> {
                     startActivity(Intent(this, CreateTimelinePostActivity::class.java))
+                    return@setOnNavigationItemSelectedListener false
+                }
+                R.id.navigation_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     return@setOnNavigationItemSelectedListener false
                 }
             }

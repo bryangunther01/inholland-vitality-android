@@ -3,22 +3,24 @@ package nl.inholland.myvitality.ui.timeline
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
-import butterknife.ButterKnife
 import butterknife.OnClick
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
+
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseFragment
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.TimelinePostAdapter
 import nl.inholland.myvitality.data.entities.TimelinePost
@@ -28,9 +30,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
+class TimelineFragment : BaseFragment(), Callback<List<TimelinePost>> {
     @Inject
     lateinit var apiClient: ApiClient
+    @Inject
+    lateinit var sharedPrefs: SharedPreferenceHelper
     @BindView(R.id.timeline_searchbar)
     lateinit var timelineSearchbar: EditText
     @BindView(R.id.timeline_refresh_layout)
@@ -38,27 +42,20 @@ class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
     @BindView(R.id.timeline_post_recyclerview)
     lateinit var timelineRecyclerView: RecyclerView
 
-    private var sharedPrefs: SharedPreferenceHelper? = null
-
-    var layoutManager: LinearLayoutManager? = null
-    var adapter: TimelinePostAdapter? = null
+    private var layoutManager: LinearLayoutManager? = null
+    private var adapter: TimelinePostAdapter? = null
+    private var skeletonScreen: RecyclerViewSkeletonScreen? = null
 
     var isLoading: Boolean = true
     private var page = 0
     private var limit = 10
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.fragment_timeline, container, false)
-        ButterKnife.bind(this, view)
-
-        sharedPrefs = SharedPreferenceHelper(requireActivity())
-
-        return view
+    override fun layoutResourceId(): Int {
+        return R.layout.fragment_timeline
     }
 
     override fun onAttach(context: Context) {
         (requireActivity().application as VitalityApplication).appComponent.inject(this)
-
         super.onAttach(context)
     }
 
@@ -66,6 +63,7 @@ class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
         super.onStart()
 
         setupRecyclerViews()
+        setupSkeleton()
         tryLoadChallenges()
     }
 
@@ -87,6 +85,7 @@ class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
         refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadChallenges(true)
+            skeletonScreen?.show()
         }
 
         timelineRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -109,10 +108,20 @@ class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
         })
     }
 
+    private fun setupSkeleton(){
+        skeletonScreen = Skeleton.bind(timelineRecyclerView)
+            .adapter(adapter)
+            .frozen(true)
+            .duration(2400)
+            .count(10)
+            .load(R.layout.timeline_post_skeleton_view_item)
+            .show()
+    }
+
     private fun tryLoadChallenges(refresh: Boolean = false){
         if(refresh) page = 0
 
-        sharedPrefs?.accessToken?.let {
+        sharedPrefs.accessToken?.let {
             apiClient.getTimelinePosts("Bearer $it", limit , page * limit).enqueue(this)
         }
     }
@@ -122,9 +131,16 @@ class TimelineFragment : Fragment(), Callback<List<TimelinePost>> {
             response.body()?.let {
                 adapter?.addItems(it)
 
+                if(page == 0){
+                    skeletonScreen?.hide()
+                }
+
+                if(it.isNotEmpty()){
+                    page += 1
+                }
+
                 isLoading = true
                 refreshLayout.isRefreshing = false
-                page += 1
             }
         } else {
             if(response.code() == 401){

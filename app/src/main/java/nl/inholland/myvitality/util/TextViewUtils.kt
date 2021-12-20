@@ -20,10 +20,10 @@ class TextViewUtils {
             val c = Calendar.getInstance()
 
             return when (c.get(Calendar.HOUR_OF_DAY)) {
-                in 0..11 -> context.getString(R.string.message_good_morning)
+                in 5..11 -> context.getString(R.string.message_good_morning)
                 in 12..15 -> context.getString(R.string.message_good_afternoon)
-                in 16..20 -> context.getString(R.string.message_good_evening)
-                in 21..23 -> context.getString(R.string.message_good_night)
+                in 16..23 -> context.getString(R.string.message_good_evening)
+                in 0..4 -> context.getString(R.string.message_good_night)
                 else -> context.getString(R.string.message_welcome)
             }
         }

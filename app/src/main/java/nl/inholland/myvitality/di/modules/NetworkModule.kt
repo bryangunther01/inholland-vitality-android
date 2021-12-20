@@ -1,17 +1,12 @@
-package nl.inholland.myvitality.modules
+package nl.inholland.myvitality.di.modules
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
-import dagger.Reusable
 import nl.inholland.myvitality.BuildConfig
-import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.ApplicationComponent
 import nl.inholland.myvitality.architecture.enumadapter.EnumJsonAdapterFactory
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.ResponseHeaderInterceptor
-import nl.inholland.myvitality.data.entities.ChallengeType
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -20,39 +15,28 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
 
+
+@Singleton
 @Module
 class NetworkModule {
     private val BASE_URL: String = "https://vitalityfunctionsapp.azurewebsites.net/api/"
 
-//    /**
-//     * Provides the Retrofit object.
-//     * @return the Retrofit object
-//     */
-//    @Provides
-//    @Singleton
-//    internal fun provideRetrofitInterface(): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .client(getHttpClient())
-//            .addConverterFactory(getMoshiConverter())
-//            .build()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideApiService(retrofit: Retrofit): ApiClient{
-//        return retrofit.create(ApiClient::class.java)
-//    }
-//
+    /**
+     * Provides the Retrofit object.
+     * @return the Retrofit object
+     */
     @Provides
-    @Singleton
-    fun provideApiService(): ApiClient{
+    internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getHttpClient())
             .addConverterFactory(getMoshiConverter())
             .build()
-            .create(ApiClient::class.java)
+    }
+
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ApiClient{
+        return retrofit.create(ApiClient::class.java)
     }
 
     @Singleton

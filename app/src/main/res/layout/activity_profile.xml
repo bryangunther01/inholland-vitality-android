@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.profile.ProfileActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/primary"
+            android:paddingTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="@dimen/margin_less_huge"
+            android:layout_marginBottom="-60dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/person_placeholder"
+            app:layout_constraintBottom_toBottomOf="@id/header_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCorners" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/profile_left_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:barrierMargin="@dimen/margin_normal"
+            app:constraint_referenced_ids="profile_image" />
+
+        <TextView
+            android:id="@+id/profile_fullname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_heavy"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/profile_details"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/profile_left_barrier" />
+
+        <TextView
+            android:id="@+id/profile_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_roman"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:layout_constraintBottom_toBottomOf="@+id/header_container"
+            app:layout_constraintStart_toEndOf="@id/profile_left_barrier"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <TextView
+            android:id="@+id/profile_description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toEndOf="@id/profile_left_barrier"
+            app:layout_constraintTop_toBottomOf="@id/header_container"
+            app:layout_constraintBottom_toBottomOf="@+id/profile_button"/>
+
+        <TextView
+            android:id="@+id/profile_points"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="@id/profile_image"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"/>
+
+        <Button
+            android:id="@+id/profile_button"
+            style="@style/ButtonPrimaryMini"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            android:background="@drawable/button_primary"
+            android:text="@string/profile_follow"
+            app:layout_constraintStart_toStartOf="@id/profile_image"
+            app:layout_constraintEnd_toEndOf="@id/profile_image"
+            app:layout_constraintTop_toBottomOf="@id/profile_points" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/profile_header_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_big"
+            app:constraint_referenced_ids="profile_image, profile_points, profile_button, profile_fullname, profile_description, profile_details" />
+
+        <TextView
+            android:id="@+id/profile_curr_chl_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:text="@string/profile_curr_challenges"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/profile_header_barrier"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_curr_chl_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/profile_curr_chl_title"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/profile_curr_chl_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_big"
+            app:constraint_referenced_ids="profile_curr_chl_title, profile_curr_chl_recyclerview" />
+
+        <TextView
+            android:id="@+id/profile_finn_chl_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:text="@string/profile_prize_cabinet"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/profile_curr_chl_barrier"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profile_finn_chl_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/profile_finn_chl_title"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="15dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="15dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

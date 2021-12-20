@@ -10,4 +10,6 @@ data class User (
     @Json(name = "location") var location : String?,
     @Json(name = "description") var description : String?,
     @Json(name = "profilePicture") var profilePicture : String?,
+    @Json(name = "points") var points : Int? = 0,
+    @Json(name = "following") var isFollowing : Boolean?,
 )

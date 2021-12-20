@@ -14,6 +14,23 @@ import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
 
 object Dialogs  {
 
+    private var currentLoadingDialog: Dialog? = null
+
+    fun hideCurrentLoadingDialog(){
+        currentLoadingDialog?.hide()
+        currentLoadingDialog = null
+    }
+
+    fun showGeneralLoadingDialog(activity: Activity){
+        val dialog = setupSimpleLoadingDialog(activity)
+        val body = dialog.findViewById<TextView>(R.id.dialog_message)
+
+        body.text = activity.getString(R.string.dialog_loading_general)
+        dialog.show()
+
+        currentLoadingDialog = dialog
+    }
+
     fun showEmailVerificationDialog(activity: Activity) {
         val dialog = setupSimpleDialog(activity)
 
@@ -43,6 +60,8 @@ object Dialogs  {
         val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
         val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
+        buttonBack.visibility = View.VISIBLE
+
         title.text = activity.getString(R.string.dialog_challenge_title)
         body.text = activity.getString(R.string.dialog_challenge_body)
         buttonContinue.text = activity.getString(R.string.dialog_challenge_button_confirm_text)
@@ -61,6 +80,16 @@ object Dialogs  {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.simple_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        return dialog
+    }
+
+    private fun setupSimpleLoadingDialog(activity: Activity): Dialog{
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.loading_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         return dialog

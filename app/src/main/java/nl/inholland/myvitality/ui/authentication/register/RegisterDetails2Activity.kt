@@ -1,5 +1,6 @@
 package nl.inholland.myvitality.ui.authentication.register
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -28,47 +29,55 @@ import android.net.Uri
 import android.provider.MediaStore.MediaColumns
 
 import android.database.Cursor
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.VectorDrawable
+import android.media.ExifInterface
 import android.os.FileUtils
+import android.util.Log
 import butterknife.OnClick
 import butterknife.OnTextChanged
+import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
+import nl.inholland.myvitality.util.RequestUtils
 import java.io.*
 
 
-class RegisterDetails2Activity : AppCompatActivity(), Callback<Void> {
+class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
     @Inject
     lateinit var apiClient: ApiClient
+    @Inject
+    lateinit var sharedPrefs: SharedPreferenceHelper
 
     @BindView(R.id.register_details_error)
     lateinit var error: TextView
-
     @BindView(R.id.register_details_pick_image_button)
     lateinit var imageButton: ImageButton
-
     @BindView(R.id.register_details_edit_text_description)
     lateinit var description: EditText
-
     @BindView(R.id.register_details_2_button)
     lateinit var button: Button
 
     val PICK_IMAGE = 1
 
-
     private var selectedImage: Uri? = null
     private var filePath: String? = null
 
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_register_details_2
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_details_2)
-        ButterKnife.bind(this)
-
         (application as VitalityApplication).appComponent.inject(this)
 
         imageButton.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, PICK_IMAGE)
+//            Toast.makeText(this, "WIP - Upload Profile Image",  Toast.LENGTH_LONG).show()
         }
     }
 
@@ -94,45 +103,75 @@ class RegisterDetails2Activity : AppCompatActivity(), Callback<Void> {
         val isValid = description.text.length > 10
 
         if(isValid){
-            uploadImage()
-        }
-    }
+            val description = RequestUtils.createPartFromString(description.text.toString())
 
-    fun uploadImage(){
-        if(imageButton.drawable !is BitmapDrawable) return
+            if(imageButton.drawable is BitmapDrawable) {
+                selectedImage?.let {
+                    val bitmap = (imageButton.drawable as BitmapDrawable).bitmap
+                    val file = convertBitmapToFile("profile_image.png", bitmap)
+                    val reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
 
-        selectedImage?.let {
-            val file = File(filePath!!)
-            val reqFile = RequestBody.create(MediaType.parse(contentResolver.getType(it)!!), file)
-            val body = MultipartBody.Part.createFormData("profile_image", file.name, reqFile)
+                    val filePart = MultipartBody.Part.createFormData("file", file.name, reqFile)
 
-            val sharedPrefs = SharedPreferenceHelper(this)
-
-            if(sharedPrefs.isLoggedIn()) {
-                apiClient.updateProfileImage("Bearer " + sharedPrefs.accessToken!!, body).enqueue(object : Callback<Void> {
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        println("failed" + t.message)
+                    sharedPrefs.accessToken?.let{
+                        apiClient.updateUserProfile("Bearer $it", description = description, file = filePart).enqueue(this)
+                        Dialogs.showGeneralLoadingDialog(this)
                     }
 
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if(response.isSuccessful){
-                            println("UPLOADED IMAGE")
-                        }
-                    }
-                })
+                    return
+                }
+            }
+
+            sharedPrefs.accessToken?.let{
+                apiClient.updateUserProfile("Bearer $it", description = description).enqueue(this)
+                Dialogs.showGeneralLoadingDialog(this)
             }
         }
     }
 
+    private fun convertBitmapToFile(fileName: String, bitmap: Bitmap): File {
+        //create a file to write bitmap data
+        val file = File(this.cacheDir, fileName)
+        file.createNewFile()
+
+        //Convert bitmap to byte array
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos)
+        val bitMapData = bos.toByteArray()
+
+        //write the bytes in file
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(file)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        try {
+            fos?.write(bitMapData)
+            fos?.flush()
+            fos?.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return file
+    }
+
+
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         if (response.isSuccessful) {
-
+            startActivity(Intent(this, MainActivity::class.java))
         } else {
             Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
         }
+
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
     }
 
     override fun onFailure(call: Call<Void>, t: Throwable) {
-        Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, t.message.toString(), Toast.LENGTH_LONG).show()
+
+        // Hide the loading dialog
+        Dialogs.hideCurrentLoadingDialog()
     }
 }

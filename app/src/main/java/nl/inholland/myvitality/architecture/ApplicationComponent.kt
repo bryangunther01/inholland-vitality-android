@@ -1,25 +1,26 @@
 package nl.inholland.myvitality.architecture
 
 import dagger.Component
-import nl.inholland.myvitality.modules.NetworkModule
-import nl.inholland.myvitality.ui.challenge.ChallengeActivity
-import nl.inholland.myvitality.ui.home.HomeFragment
+import javax.inject.Singleton
+import nl.inholland.myvitality.di.modules.ApplicationModule
+import nl.inholland.myvitality.di.modules.NetworkModule
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
 import nl.inholland.myvitality.ui.authentication.register.RegisterDetails2Activity
 import nl.inholland.myvitality.ui.authentication.register.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.challenge.ChallengeActivity
+import nl.inholland.myvitality.ui.home.HomeFragment
+import nl.inholland.myvitality.ui.profile.ProfileActivity
 import nl.inholland.myvitality.ui.search.SearchActivity
-import javax.inject.Singleton
-
-import nl.inholland.myvitality.ui.timeline.TimelineFragment
 import nl.inholland.myvitality.ui.splash.SplashScreenActivity
+import nl.inholland.myvitality.ui.timeline.TimelineFragment
+import nl.inholland.myvitality.ui.timeline.TimelineLikedActivity
+import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 
-
 @Singleton
-@Component(modules = [NetworkModule::class])
+@Component(modules = [ApplicationModule::class, NetworkModule::class])
 interface ApplicationComponent {
     fun inject(activity: SplashScreenActivity)
     fun inject(activity: LoginActivity)
@@ -33,4 +34,6 @@ interface ApplicationComponent {
     fun inject(activity: TimelinePostActivity)
     fun inject(activity: CreateTimelinePostActivity)
     fun inject(activity: SearchActivity)
+    fun inject(activity: TimelineLikedActivity)
+    fun inject(activity: ProfileActivity)
 }

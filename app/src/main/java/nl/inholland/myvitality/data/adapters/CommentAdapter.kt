@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import nl.inholland.myvitality.R
@@ -34,6 +35,7 @@ class CommentAdapter(context: Context) :
 //            val intent = Intent(view.context, ProfileActivity::class.java)
 //            intent.putExtra("USER_ID", currentItem.userId)
 //            view.context.startActivity(intent)
+            Toast.makeText(view.context, "WIP - Open Profile",  Toast.LENGTH_LONG).show()
            // TODO: Open profile
         }
     }

@@ -45,7 +45,7 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
         setContentView(R.layout.activity_register)
         ButterKnife.bind(this)
 
-        (application as VitalityApplication).appComponent.inject(this)
+        //(application as VitalityApplication).appComponent.inject(this)
 
         // Set login text
         val loginTextView = findViewById<TextView>(R.id.register_login)
