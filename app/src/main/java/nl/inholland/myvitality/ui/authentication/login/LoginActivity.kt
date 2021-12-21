@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.authentication.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
@@ -23,12 +22,9 @@ import butterknife.*
 import android.content.Intent
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
 import nl.inholland.myvitality.ui.authentication.register.RegisterDetails2Activity
-import nl.inholland.myvitality.ui.authentication.register.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
@@ -96,7 +92,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
     override fun onResponse(call: Call<AuthSettings>, response: Response<AuthSettings>) {
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
 
         if(response.isSuccessful && response.body() != null){
             response.body()?.let {
@@ -125,6 +121,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         Toast.makeText(this,getString(R.string.api_error), Toast.LENGTH_LONG).show()
 
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
     }
 }

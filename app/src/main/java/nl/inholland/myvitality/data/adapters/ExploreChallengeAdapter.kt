@@ -16,7 +16,7 @@ import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeType
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 
-class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = false) : BaseRecyclerAdapter<Challenge, ExploreChallengeAdapter.ViewHolder>(context) {
+class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true) : BaseRecyclerAdapter<Challenge, ExploreChallengeAdapter.ViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.challenge_explore_view_item, parent, false))

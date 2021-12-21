@@ -14,11 +14,11 @@ import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
 
 object Dialogs  {
 
-    private var currentLoadingDialog: Dialog? = null
+    private var currentDialog: Dialog? = null
 
-    fun hideCurrentLoadingDialog(){
-        currentLoadingDialog?.hide()
-        currentLoadingDialog = null
+    fun hideCurrentDialog(){
+        currentDialog?.hide()
+        currentDialog = null
     }
 
     fun showGeneralLoadingDialog(activity: Activity){
@@ -28,7 +28,7 @@ object Dialogs  {
         body.text = activity.getString(R.string.dialog_loading_general)
         dialog.show()
 
-        currentLoadingDialog = dialog
+        currentDialog = dialog
     }
 
     fun showEmailVerificationDialog(activity: Activity) {
@@ -73,6 +73,35 @@ object Dialogs  {
         }
 
         dialog.show()
+    }
+
+    fun showUnfollowDialog(activity: Activity, name: String?, onClickListener: View.OnClickListener) {
+        val dialog = setupSimpleDialog(activity)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
+        val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+        buttonBack.visibility = View.VISIBLE
+
+        if(name == null){
+            title.text = activity.getString(R.string.profile_dialog_title_2)
+        } else {
+            title.text = activity.getString(R.string.profile_dialog_title, name)
+        }
+
+        body.text = activity.getString(R.string.profile_dialog_body)
+        buttonContinue.text = activity.getString(R.string.profile_dialog_button_confirm_text)
+        buttonBack.text = activity.getString(R.string.profile_dialog_button_cancel_text)
+
+        buttonContinue.setOnClickListener(onClickListener)
+        buttonBack.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        currentDialog = dialog
     }
 
     private fun setupSimpleDialog(activity: Activity): Dialog{

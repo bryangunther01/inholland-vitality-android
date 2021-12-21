@@ -1,44 +1,44 @@
-package nl.inholland.myvitality.ui.timeline
+package nl.inholland.myvitality.ui.timeline.liked
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.OnTextChanged
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.adapters.CommentAdapter
 import nl.inholland.myvitality.data.adapters.UserListAdapter
+import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.data.entities.TimelinePost
-import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class TimelineLikedActivity : BaseActivity(), Callback<List<SimpleUser>> {
+class TimelineLikedActivity : BaseActivity() {
 
     @Inject
     lateinit var apiClient: ApiClient
+
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
+
     @BindView(R.id.user_recyclerview)
     lateinit var recyclerView: RecyclerView
 
+    @Inject
+    lateinit var factory: TimelineLikedViewModelFactory
+    lateinit var viewModel: TimelineLikedViewModel
+
     var layoutManager: LinearLayoutManager? = null
     var adapter: UserListAdapter? = null
-    var isLoading: Boolean = false
+    var isCalling: Boolean = false
 
     private var page = 0
     private var limit = 10
@@ -56,13 +56,13 @@ class TimelineLikedActivity : BaseActivity(), Callback<List<SimpleUser>> {
         supportActionBar?.setTitle(R.string.navigation_timeline)
 
         (application as VitalityApplication).appComponent.inject(this)
+        viewModel = ViewModelProviders.of(this, factory).get(TimelineLikedViewModel::class.java)
 
         val postId = intent.getStringExtra("POST_ID")
-        if(postId == null){
-            finish()
-        } else {
-            timelinePostId = postId
-        }
+        if (postId == null) finish() else timelinePostId = postId
+
+        initResponseHandler()
+        initUsersObserver()
 
         setupRecyclerViews()
         tryLoadUsers()
@@ -73,7 +73,7 @@ class TimelineLikedActivity : BaseActivity(), Callback<List<SimpleUser>> {
         return true
     }
 
-    private fun setupRecyclerViews(){
+    private fun setupRecyclerViews() {
         layoutManager = LinearLayoutManager(this)
         adapter = UserListAdapter(this)
 
@@ -91,40 +91,51 @@ class TimelineLikedActivity : BaseActivity(), Callback<List<SimpleUser>> {
                     val totalItemCount = layoutManager?.itemCount ?: 0
                     val pastVisibleItems = layoutManager?.findFirstVisibleItemPosition() ?: -1
 
-                    if (!isLoading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            isLoading = true
-                            tryLoadUsers()
-                        }
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        tryLoadUsers()
                     }
                 }
             }
         })
     }
 
-    fun tryLoadUsers(){
-        sharedPrefs.accessToken?.let {
-            apiClient.getTimelinePostLikes("Bearer $it", timelinePostId, limit , page * limit).enqueue(this)
-        }
+    fun tryLoadUsers() {
+        if (isCalling) return
+
+        isCalling = true
+        viewModel.search(timelinePostId, limit, page * limit)
     }
 
-    override fun onResponse(call: Call<List<SimpleUser>>, response: Response<List<SimpleUser>>) {
-        if(response.isSuccessful && response.body() != null){
-            response.body()?.let {
-                if(it.isNotEmpty()){
-                    adapter?.addItems(it)
+    private fun initUsersObserver() {
+        viewModel.results.observe(this, {
+            if (page == 0) adapter?.clearItems()
 
-                    if(it.size == limit){
-                        page += 1
-                    }
-                }
-
-                isLoading = false
+            if (it.isNotEmpty()) {
+                adapter?.addItems(it)
+                if (it.size == limit) page += 1
             }
-        }
+
+            isCalling = false
+        })
     }
 
-    override fun onFailure(call: Call<List<SimpleUser>>, t: Throwable) {
-        Toast.makeText(this, t.message, Toast.LENGTH_LONG).show()
+    private fun initResponseHandler() {
+        viewModel.apiResponse.observe(this, { response ->
+            when (response.status) {
+                ResponseStatus.UNAUTHORIZED -> startActivity(
+                    Intent(
+                        this,
+                        LoginActivity::class.java
+                    )
+                )
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    this,
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                ResponseStatus.UPDATED_VALUE -> {
+                }
+            }
+        })
     }
 }

@@ -14,9 +14,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
-
-
-@Singleton
 @Module
 class NetworkModule {
     private val BASE_URL: String = "https://vitalityfunctionsapp.azurewebsites.net/api/"
@@ -26,6 +23,7 @@ class NetworkModule {
      * @return the Retrofit object
      */
     @Provides
+    @Singleton
     internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -35,6 +33,7 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): ApiClient{
         return retrofit.create(ApiClient::class.java)
     }

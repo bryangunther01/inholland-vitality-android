@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Comment
+import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
 
 class CommentAdapter(context: Context) :
@@ -28,7 +29,7 @@ class CommentAdapter(context: Context) :
 
         holder.profileImage.load(currentItem.imageUrl)
         holder.userName.text = currentItem.fullName
-        holder.postDate.text = TextViewUtils.formatDate(currentItem.timestamp)
+        holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.timestamp)
         holder.content.text = currentItem.text
 
         holder.itemView.setOnClickListener { view ->

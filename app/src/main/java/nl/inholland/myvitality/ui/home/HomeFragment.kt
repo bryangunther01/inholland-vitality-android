@@ -5,60 +5,48 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
-import butterknife.ButterKnife
+import butterknife.OnClick
 import coil.load
-import coil.transform.RoundedCornersTransformation
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
-import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
-import nl.inholland.myvitality.data.entities.Challenge
-import nl.inholland.myvitality.data.entities.ChallengeProgress
-import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.data.entities.User
-import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.data.entities.*
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.scoreboard.ScoreboardActivity
 import nl.inholland.myvitality.util.TextViewUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
-    @Inject
-    lateinit var apiClient: ApiClient
-    @Inject
-    lateinit var sharedPrefs: SharedPreferenceHelper
-
     @BindView(R.id.home_curr_chl_recyclerview)
-    lateinit var currentActivitiesRecyclerView: RecyclerView
-    @BindView(R.id.home_exp_chl_recyclerview)
-    lateinit var exploreActivitiesRecyclerView: RecyclerView
+    lateinit var currentChallengesRecyclerView: RecyclerView
 
+    @BindView(R.id.home_exp_chl_recyclerview)
+    lateinit var exploreChallengesRecyclerView: RecyclerView
+
+    @Inject
+    lateinit var factory: HomeViewModelFactory
+    lateinit var viewModel: HomeViewModel
 
     var crtLayoutManager: LinearLayoutManager? = null
     var expLayoutManager: LinearLayoutManager? = null
     var crtChlAdapter: CurrentChallengeAdapter? = null
     var expChlAdapter: ExploreChallengeAdapter? = null
     private var skeletonScreen: RecyclerViewSkeletonScreen? = null
-
 
     override fun layoutResourceId(): Int {
         return R.layout.fragment_home
@@ -71,8 +59,7 @@ class HomeFragment : BaseFragment() {
         val greetingTextView = view.findViewById<TextView>(R.id.home_header_greeting)
         greetingTextView.append(TextViewUtils.getGreetingMessage(requireActivity()))
 
-        loadCurrentUser()
-
+        viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
         return view
     }
 
@@ -87,42 +74,20 @@ class HomeFragment : BaseFragment() {
         setupRecyclerViews()
         setupSkeleton()
 
+        initResponseHandler()
+        initUser()
         Handler(Looper.getMainLooper()).postDelayed({
-            tryLoadChallenges()
-        }, 1000)
+            initChallenges()
+        }, 100)
     }
 
-    fun loadCurrentUser(){
-        sharedPrefs.accessToken?.let {
-            apiClient.getUser("Bearer $it").enqueue(object : Callback<User> {
-                override fun onResponse(call: Call<User>, response: Response<User>) {
-                    if(response.isSuccessful && response.body() != null){
-                        response.body()?.let { user ->
-                            // Set greeting message
-                            val nameTextView = view?.findViewById<TextView>(R.id.home_header_name)
-                            nameTextView?.text = ""
-                            nameTextView?.append("${user.firstName} ${user.lastName}")
-
-                            // Set greeting message
-                            val profileImage = view?.findViewById<ImageView>(R.id.home_header_profile_image)
-                            profileImage?.load(user.profilePicture)
-
-                            // Set greeting message
-                            val points = view?.findViewById<TextView>(R.id.home_header_points)
-                            points?.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    Toast.makeText(requireActivity(), t.message, Toast.LENGTH_LONG).show()
-                }
-            })
-        }
+    @OnClick(value = [R.id.home_header_points, R.id.home_header_scoreboard])
+    fun onClickViewScoreboard(){
+        startActivity(Intent(requireContext(), ScoreboardActivity::class.java))
     }
 
-    private fun setupSkeleton(){
-        skeletonScreen = Skeleton.bind(exploreActivitiesRecyclerView)
+    private fun setupSkeleton() {
+        skeletonScreen = Skeleton.bind(exploreChallengesRecyclerView)
             .adapter(expChlAdapter)
             .frozen(true)
             .duration(2400)
@@ -131,49 +96,65 @@ class HomeFragment : BaseFragment() {
             .show()
     }
 
-    private fun setupRecyclerViews(){
-        crtLayoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+    private fun setupRecyclerViews() {
+        crtLayoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         crtChlAdapter = CurrentChallengeAdapter(requireActivity())
 
-        currentActivitiesRecyclerView.let {
+        currentChallengesRecyclerView.let {
             it.adapter = crtChlAdapter
             it.layoutManager = crtLayoutManager
         }
 
-        expLayoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        expLayoutManager =
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         expChlAdapter = ExploreChallengeAdapter(requireActivity())
 
-        exploreActivitiesRecyclerView.let {
+        exploreChallengesRecyclerView.let {
             it.adapter = expChlAdapter
             it.layoutManager = expLayoutManager
         }
     }
 
-    private fun tryLoadChallenges(){
-        sharedPrefs.accessToken?.let {
-            apiClient.getChallenges("Bearer $it", 20 , 0).enqueue(object : Callback<List<Challenge>> {
-                override fun onResponse(call: Call<List<Challenge>>, response: Response<List<Challenge>>) {
-                    if(response.isSuccessful && response.body() != null){
-                        response.body()?.let { result ->
-                            val currentChallenges = result.stream().filter { o -> o.challengeProgress == ChallengeProgress.IN_PROGRESS}.collect(Collectors.toList())
-                            val exploreChallenges = result.stream().filter { o -> o.challengeProgress == ChallengeProgress.NOT_SUBSCRIBED}.collect(Collectors.toList())
+    private fun initUser(){
+        viewModel.getLoggedInUser()
 
-                            crtChlAdapter?.addItems(currentChallenges)
-                            expChlAdapter?.addItems(exploreChallenges)
-                        }
-                    } else {
-                        if(response.code() == 401){
-                            startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                        }
-                    }
+        viewModel.currentUser.observe(viewLifecycleOwner, Observer { user ->
+            val nameTextView = view?.findViewById<TextView>(R.id.home_header_name)
+            nameTextView?.text = ""
+            nameTextView?.append("${user.firstName} ${user.lastName}")
 
-                    skeletonScreen?.hide()
-                }
+            // Set greeting message
+            val profileImage = view?.findViewById<ImageView>(R.id.home_header_profile_image)
+            profileImage?.load(user.profilePicture)
 
-                override fun onFailure(call: Call<List<Challenge>>, t: Throwable) {
-                    Toast.makeText(requireContext(), getString(R.string.api_error), Toast.LENGTH_LONG).show()
-                }
-            })
-        }
+            // Set greeting message
+            val points = view?.findViewById<TextView>(R.id.home_header_points)
+            points?.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
+        })
+    }
+
+
+    private fun initChallenges(){
+        viewModel.getChallenges()
+
+        viewModel.currentChallenges.observe(viewLifecycleOwner, { challenges ->
+            crtChlAdapter?.addItems(challenges)
+        })
+
+        viewModel.explorableChallenges.observe(viewLifecycleOwner, { challenges ->
+            expChlAdapter?.addItems(challenges)
+            skeletonScreen?.hide()
+        })
+    }
+
+    private fun initResponseHandler(){
+        viewModel.apiResponse.observe(viewLifecycleOwner, { response ->
+            when(response.status){
+                ResponseStatus.UNAUTHORIZED -> startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                ResponseStatus.API_ERROR -> Toast.makeText(requireContext(), getString(R.string.api_error), Toast.LENGTH_LONG).show()
+                ResponseStatus.UPDATED_VALUE -> {}
+            }
+        })
     }
 }

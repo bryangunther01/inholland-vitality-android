@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import nl.inholland.myvitality.R
@@ -28,11 +27,11 @@ class UserListAdapter(context: Context) :
         val currentItem = items[position]
 
         holder.profileImage.load(currentItem.profileImage)
-        holder.userName.text = "${currentItem.firstName} ${currentItem.lastName}"
+        holder.userName.text = currentItem.fullName
 
         holder.userDetails.text = ""
         holder.userDetails.append(currentItem.jobTitle)
-        currentItem.location?.let{
+        currentItem.location.let{
             holder.userDetails.append(", $it")
         }
 

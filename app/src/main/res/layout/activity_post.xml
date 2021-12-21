@@ -14,7 +14,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/post_profile_image"
+                android:id="@+id/timeline_profile_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/person_placeholder"
@@ -24,12 +24,12 @@
                 app:shapeAppearanceOverlay="@style/CircleImageView" />
 
             <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/profile_image_barrier"
+                android:id="@+id/notification_image_barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
                 app:barrierMargin="@dimen/margin_normal"
-                app:constraint_referenced_ids="post_profile_image" />
+                app:constraint_referenced_ids="timeline_profile_image" />
 
             <TextView
                 android:id="@+id/post_user_name"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_lt_pro_black"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/profile_image_barrier"
+                app:layout_constraintStart_toEndOf="@+id/notification_image_barrier"
                 app:layout_constraintTop_toBottomOf="@id/guideline_top" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:fontFamily="@font/avenir_lt_pro_roman"
                 android:textColor="@color/dark_grey"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/profile_image_barrier"
+                app:layout_constraintStart_toEndOf="@+id/notification_image_barrier"
                 app:layout_constraintTop_toBottomOf="@id/post_user_name" />
 
             <androidx.constraintlayout.widget.Barrier
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:barrierMargin="@dimen/margin_medium_big"
-                app:constraint_referenced_ids="post_profile_image, post_user_name, post_date" />
+                app:constraint_referenced_ids="timeline_profile_image, post_user_name, post_date" />
 
             <TextView
                 android:id="@+id/post_content"

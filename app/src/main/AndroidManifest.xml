@@ -17,6 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
+            android:name=".ui.splash.SplashScreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:theme="@style/AppTheme.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.scoreboard.ScoreboardActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/AppTheme"
             android:exported="true" />
@@ -35,24 +56,13 @@
             android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.timeline.TimelineLikedActivity"
+            android:name=".ui.timeline.liked.TimelineLikedActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.timelinepost.create.CreateTimelinePostActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.splash.SplashScreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:theme="@style/AppTheme.Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ui.authentication.login.LoginActivity"
             android:exported="true"

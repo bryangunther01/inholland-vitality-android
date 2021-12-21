@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.databinding.ActivityMainBinding
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
+import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.ProfileActivity
-import nl.inholland.myvitality.ui.timeline.TimelineFragment
+import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 
 
@@ -33,12 +33,8 @@ class MainActivity : AppCompatActivity() {
             ChosenFragment.FRAGMENT_HOME.ordinal -> {
                 setCurrentFragment(HomeFragment())
             }
-            ChosenFragment.FRAGMENT_NOTIFICATIONS.ordinal -> {
-                //  TODO: Go to not fragment
-                Toast.makeText(this, "WIP",  Toast.LENGTH_LONG).show()
-            }
             ChosenFragment.FRAGMENT_TIMELINE.ordinal -> {
-                setCurrentFragment(TimelineFragment())
+                setCurrentFragment(TimelineOverviewFragment())
             }
             else -> {
                 setCurrentFragment(HomeFragment())
@@ -51,10 +47,14 @@ class MainActivity : AppCompatActivity() {
                     setCurrentFragment(HomeFragment())
                 }
                 R.id.navigation_timeline -> {
-                    setCurrentFragment(TimelineFragment())
+                    setCurrentFragment(TimelineOverviewFragment())
                 }
                 R.id.navigation_post -> {
                     startActivity(Intent(this, CreateTimelinePostActivity::class.java))
+                    return@setOnNavigationItemSelectedListener false
+                }
+                R.id.navigation_notification -> {
+                    startActivity(Intent(this, NotificationActivity::class.java))
                     return@setOnNavigationItemSelectedListener false
                 }
                 R.id.navigation_profile -> {

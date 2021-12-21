@@ -50,22 +50,29 @@ interface ApiClient {
         @Part file: MultipartBody.Part? = null
     ): Call<Void>
 
-    @Multipart
-    @PUT("user/profilepicture")
-    fun updateProfileImage(
+    @POST("user/follow")
+    fun toggleUserFollow(
         @Header("Authorization") token: String,
-        @Part image: MultipartBody.Part
+        @Query("userId") userId: String,
+        @Query("following") following: Boolean,
     ): Call<Void>
+
+    @GET("user/scoreboard")
+    fun getScoreboard(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<ScoreboardUser>>
 
     /** Challenge calls **/
     @GET("challenge")
     fun getChallenges(
         @Header("Authorization") token: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
         @Query("challengeType") challengeType: Int? = null,
         @Query("progress") progress: Int? = null,
-        @Query("userId") userId: Int? = null
+        @Query("userId") userId: String? = null
     ): Call<List<Challenge>>
 
     @GET("challenge/{challengeId}")
@@ -89,7 +96,6 @@ interface ApiClient {
         @Query("offset") offset: Int,
     ): Call<List<TimelinePost>>
 
-    /** Timeline calls **/
     @GET("timelinepost/{timelinePostId}")
     fun getTimelinePost(
         @Header("Authorization") token: String,
@@ -137,4 +143,11 @@ interface ApiClient {
         @Path("timelinePostId") timelinePostId: String,
     ): Call<Void>
 
+    /** Notification calls **/
+    @GET("notification")
+    fun getNotifications(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<Notification>>
 }

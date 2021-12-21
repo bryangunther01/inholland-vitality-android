@@ -17,13 +17,8 @@ import retrofit2.Response
 import javax.inject.Inject
 import butterknife.*
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
-import nl.inholland.myvitality.data.entities.requestbody.ProfileDetails
-import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.RequestUtils
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 
 class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
@@ -120,13 +115,13 @@ class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
         }
 
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
     }
 
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
 
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
     }
 }

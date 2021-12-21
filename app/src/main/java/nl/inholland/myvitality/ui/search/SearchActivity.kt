@@ -1,45 +1,40 @@
 package nl.inholland.myvitality.ui.search
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
-import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.OnTextChanged
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.adapters.CommentAdapter
 import nl.inholland.myvitality.data.adapters.UserListAdapter
-import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.data.entities.TimelinePost
+import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.MainActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import javax.inject.Inject
 
-class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
+class SearchActivity : BaseActivity() {
 
-    @Inject
-    lateinit var apiClient: ApiClient
-    @Inject
-    lateinit var sharedPrefs: SharedPreferenceHelper
     @BindView(R.id.search_recyclerview)
     lateinit var recyclerView: RecyclerView
+
     @BindView(R.id.search_bar)
     lateinit var searchbar: EditText
 
+    @Inject
+    lateinit var factory: SearchViewModelFactory
+    lateinit var viewModel: SearchViewModel
+
     var layoutManager: LinearLayoutManager? = null
     var adapter: UserListAdapter? = null
-    var isLoading: Boolean = false
+    var isCalling: Boolean = false
 
     private var page = 0
     private var limit = 10
@@ -52,17 +47,24 @@ class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
 
+        viewModel = ViewModelProviders.of(this, factory).get(SearchViewModel::class.java)
+
         setupRecyclerViews()
+        initResponseHandler()
+        initUsersObserver()
+
+        searchbar.requestFocus()
     }
 
     @OnClick(R.id.back_button)
     override fun onBackPressed() {
         startActivity(
             Intent(this, MainActivity::class.java)
-                .putExtra("FRAGMENT_TO_LOAD", ChosenFragment.FRAGMENT_TIMELINE.ordinal))
+                .putExtra("FRAGMENT_TO_LOAD", ChosenFragment.FRAGMENT_TIMELINE.ordinal)
+        )
     }
 
-    private fun setupRecyclerViews(){
+    private fun setupRecyclerViews() {
         layoutManager = LinearLayoutManager(this)
         adapter = UserListAdapter(this)
 
@@ -80,53 +82,65 @@ class SearchActivity : BaseActivity(), Callback<List<SimpleUser>> {
                     val totalItemCount = layoutManager?.itemCount ?: 0
                     val pastVisibleItems = layoutManager?.findFirstVisibleItemPosition() ?: -1
 
-                    if (!isLoading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            isLoading = true
-                            tryLoadUsers()
-                        }
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        tryLoadUsers()
                     }
                 }
             }
         })
     }
 
-    fun tryLoadUsers(){
-        sharedPrefs.accessToken?.let {
-            apiClient.searchUser("Bearer $it", searchbar.text.toString(), limit , page * limit).enqueue(this)
-        }
+    fun tryLoadUsers() {
+        if (isCalling) return
+
+        isCalling = true
+        viewModel.search(searchbar.text.toString(), limit, page * limit)
+    }
+
+    private fun initUsersObserver() {
+        viewModel.results.observe(this, {
+            if (page == 0) {
+                adapter?.clearItems()
+            }
+
+            if (it.isNotEmpty()) {
+                adapter?.addItems(it)
+
+                if (it.size == limit) {
+                    page += 1
+                }
+            }
+
+            isCalling = false
+        })
     }
 
     @OnTextChanged(R.id.search_bar)
-    fun onSearchChanged(){
-        if(searchbar.text.length >= 3){
+    fun onSearchChanged() {
+        if (searchbar.text.length >= 3) {
             tryLoadUsers()
         } else {
             adapter?.clearItems()
         }
     }
 
-    override fun onResponse(call: Call<List<SimpleUser>>, response: Response<List<SimpleUser>>) {
-        if(response.isSuccessful && response.body() != null){
-            response.body()?.let {
-                if(page == 0){
-                    adapter?.clearItems()
+    private fun initResponseHandler() {
+        viewModel.apiResponse.observe(this, { response ->
+            when (response.status) {
+                ResponseStatus.UNAUTHORIZED -> startActivity(
+                    Intent(
+                        this,
+                        LoginActivity::class.java
+                    )
+                )
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    this,
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                ResponseStatus.UPDATED_VALUE -> {
                 }
-
-                if(it.isNotEmpty()){
-                    adapter?.addItems(it)
-
-                    if(it.size == limit){
-                        page += 1
-                    }
-                }
-
-                isLoading = false
             }
-        }
-    }
-
-    override fun onFailure(call: Call<List<SimpleUser>>, t: Throwable) {
-
+        })
     }
 }

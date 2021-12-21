@@ -17,19 +17,16 @@ import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.CommentAdapter
-import nl.inholland.myvitality.data.entities.Challenge
-import nl.inholland.myvitality.data.entities.ChallengeProgress
 import nl.inholland.myvitality.data.entities.Comment
 import nl.inholland.myvitality.data.entities.TimelinePost
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.timeline.TimelineLikedActivity
+import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
+import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
@@ -39,7 +36,7 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
 
-    @BindView(R.id.post_profile_image)
+    @BindView(R.id.timeline_profile_image)
     lateinit var profileImage: ImageView
 
     @BindView(R.id.post_user_name)
@@ -285,7 +282,7 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
 
         profileImage.load(timelinePost.profilePicture)
         userName.text = timelinePost.fullName
-        date.append(TextViewUtils.formatDate(timelinePost.publishDate))
+        date.append(DateUtils.formatDateToTimeAgo(this, timelinePost.publishDate))
         content.text = timelinePost.text
 
         timelinePost.imageUrl?.let {

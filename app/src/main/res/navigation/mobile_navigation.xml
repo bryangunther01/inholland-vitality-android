@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_timeline"
-        android:name="nl.inholland.myvitality.ui.timeline.TimelineFragment"
+        android:name="nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment"
         android:label="@string/navigation_timeline"
         tools:layout="@layout/fragment_timeline" />
 

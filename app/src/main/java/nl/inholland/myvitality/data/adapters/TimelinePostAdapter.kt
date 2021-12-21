@@ -8,18 +8,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
 import nl.inholland.myvitality.R
-import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.data.entities.TimelinePost
-import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.profile.ProfileActivity
-import nl.inholland.myvitality.ui.timeline.TimelineLikedActivity
+import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
+import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
 
 class TimelinePostAdapter(context: Context) :
@@ -37,7 +34,7 @@ class TimelinePostAdapter(context: Context) :
 
         holder.profileImage.load(currentItem.profilePicture)
         holder.userName.text = currentItem.fullName
-        holder.postDate.text = TextViewUtils.formatDate(currentItem.publishDate)
+        holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.publishDate)
         holder.content.text = currentItem.text
 
         currentItem.imageUrl?.let {
@@ -106,7 +103,7 @@ class TimelinePostAdapter(context: Context) :
 
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        internal val profileImage: ImageView = itemView.findViewById(R.id.post_profile_image)
+        internal val profileImage: ImageView = itemView.findViewById(R.id.timeline_profile_image)
         internal val userName: TextView = itemView.findViewById(R.id.post_user_name)
         internal val postDate: TextView = itemView.findViewById(R.id.post_date)
         internal val content: TextView = itemView.findViewById(R.id.post_content)

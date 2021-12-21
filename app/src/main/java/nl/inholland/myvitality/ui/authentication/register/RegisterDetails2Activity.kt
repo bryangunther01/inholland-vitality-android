@@ -1,11 +1,8 @@
 package nl.inholland.myvitality.ui.authentication.register
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import butterknife.BindView
-import butterknife.ButterKnife
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.ApiClient
@@ -26,16 +23,7 @@ import android.graphics.Bitmap
 
 import android.net.Uri
 
-import android.provider.MediaStore.MediaColumns
-
-import android.database.Cursor
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.VectorDrawable
-import android.media.ExifInterface
-import android.os.FileUtils
-import android.util.Log
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -165,13 +153,13 @@ class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
         }
 
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
     }
 
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Toast.makeText(this, t.message.toString(), Toast.LENGTH_LONG).show()
 
         // Hide the loading dialog
-        Dialogs.hideCurrentLoadingDialog()
+        Dialogs.hideCurrentDialog()
     }
 }

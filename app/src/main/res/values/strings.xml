@@ -19,6 +19,14 @@
     <string name="message_good_night">Goedenacht</string>
     <string name="message_welcome">Welkom</string>
 
+    <string name="time_future">in de toekomst</string>
+    <string name="time_minute_ago">een minuut geleden</string>
+    <string name="time_minutes_ago">%01d minuten geleden</string>
+    <string name="time_hours_ago">%01d uur geleden</string>
+    <string name="time_yesterday">gisteren</string>
+    <string name="time_yesterday_with_time">gisteren om %1$s</string>
+    <string name="time_date_at">%1$s om %2$s</string>
+
     <!-- Login Strings -->
     <string name="login_subtitle">Log in om verder te gaan</string>
     <string name="login_hint_email">a.voorbeeld@inholland.nl</string>
@@ -96,6 +104,8 @@
     <string name="navigation_post">Bericht</string>
     <string name="navigation_notifications">Notificaties</string>
     <string name="navigation_profile">Profiel</string>
+    <string name="navigation_scoreboard">Scorebord</string>
+    <string name="navigation_notification_settings">Notificatie Instellingen</string>
 
     <!-- Timeline post -->
     <string name="post_text_comments">reactie(s)</string>
@@ -115,5 +125,20 @@
     <string name="profile_curr_challenges">Huidige challenges</string>
     <string name="profile_prize_cabinet">%1$s\'s Prijzenkast</string>
     <string name="profile_your_prize_cabinet">Jouw Prijzenkast</string>
+    <string name="profile_dialog_title">%1$s ontvolgen?</string>
+    <string name="profile_dialog_title_2">Gebruiker ontvolgen?</string>
+    <string name="profile_dialog_body">Je kan nog steeds zijn of haar berichten zien en zijn of haar profiel bekijken.</string>
+    <string name="profile_dialog_button_confirm_text">Ontvolgen</string>
+    <string name="profile_dialog_button_cancel_text">Annuleren</string>
+
+    <!-- Notification strings -->
+    <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>
+    <string name="notification_comment">&lt;b>%1$s&lt;/b> heeft gereageerd op je bericht</string>
+    <string name="notification_follow">&lt;b>%1$s&lt;/b> volgt je nu!</string>
+    <string name="notification_new_activity_title">Er is een nieuwe activiteit beschikbaar</string>
+    <string name="notification_new_activity_subtitle">Klik om te bekijken</string>
+
+    <!-- Scoreboard strings -->
+    <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>
 
 </resources>
