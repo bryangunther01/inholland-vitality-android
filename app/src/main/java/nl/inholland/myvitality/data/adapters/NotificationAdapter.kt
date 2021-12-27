@@ -13,7 +13,6 @@ import coil.load
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Notification
 import nl.inholland.myvitality.data.entities.NotificationType
-import nl.inholland.myvitality.data.entities.SimpleUser
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 import nl.inholland.myvitality.ui.profile.ProfileActivity
 import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
@@ -74,7 +73,7 @@ class NotificationAdapter(context: Context) :
                     )
                 }
             }
-            NotificationType.OTHER -> {
+            NotificationType.GLOBAL -> {
                 holder.image.setImageResource(R.drawable.challenge_placeholder)
                 holder.title.text = context.getString(R.string.notification_new_activity_title)
                 holder.subtitle.text = context.getString(R.string.notification_new_activity_subtitle)
@@ -91,7 +90,7 @@ class NotificationAdapter(context: Context) :
 
         holder.itemView.setOnClickListener(clickListener)
         holder.image.setOnClickListener { view ->
-            if (currentItem.type == NotificationType.OTHER) {
+            if (currentItem.type == NotificationType.GLOBAL) {
                 view.context.startActivity(
                     Intent(view.context, ChallengeActivity::class.java)
                         .putExtra("CHALLENGE_ID", currentItem.challengeId)

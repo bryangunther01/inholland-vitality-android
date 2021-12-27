@@ -6,5 +6,5 @@ enum class NotificationType(val id: Int) {
     @Json(name = "1") LIKE(1),
     @Json(name = "2") COMMENT(2),
     @Json(name = "3") FOLLOW(3),
-    @Json(name = "4") OTHER(4)
+    @Json(name = "4") GLOBAL (4)
 }
