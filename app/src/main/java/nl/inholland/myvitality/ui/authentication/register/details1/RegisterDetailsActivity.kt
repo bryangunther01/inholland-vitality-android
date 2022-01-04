@@ -1,7 +1,6 @@
-package nl.inholland.myvitality.ui.authentication.register
+package nl.inholland.myvitality.ui.authentication.register.details1
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -17,11 +16,13 @@ import retrofit2.Response
 import javax.inject.Inject
 import butterknife.*
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.RequestUtils
 
 
-class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
+class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     @Inject
     lateinit var apiClient: ApiClient
 
@@ -49,11 +50,12 @@ class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
     @BindView(R.id.register_details_1_button)
     lateinit var button: Button
 
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_register_details_1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register_details_1)
-        ButterKnife.bind(this)
-
         (application as VitalityApplication).appComponent.inject(this)
     }
 
@@ -106,7 +108,7 @@ class RegisterDetailsActivity : AppCompatActivity(), Callback<Void> {
             val sharedPref =  SharedPreferenceHelper(this)
             sharedPref.userFullName = firstName.text.toString() + " " + lastName.text.toString()
 
-            val intent = Intent(this, RegisterDetails2Activity::class.java)
+            val intent = Intent(this, RegisterAdditionalDetailsActivity::class.java)
             startActivity(intent)
             finish()
 

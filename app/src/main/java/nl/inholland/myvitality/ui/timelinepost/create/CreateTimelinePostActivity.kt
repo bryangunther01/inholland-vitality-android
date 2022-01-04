@@ -35,6 +35,7 @@ import retrofit2.Response
 import java.util.stream.Collectors
 import javax.inject.Inject
 
+// TODO: Image/Video upload
 class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper

@@ -34,6 +34,7 @@
         android:gravity="center_vertical"
         android:hint="@string/timeline_hint_search"
         android:minHeight="48dp"
+        android:inputType="textCapSentences"
         app:layout_constraintBottom_toBottomOf="@+id/search_actionbar"
         app:layout_constraintEnd_toStartOf="@id/header_guideline_right"
         app:layout_constraintStart_toEndOf="@id/back_button"

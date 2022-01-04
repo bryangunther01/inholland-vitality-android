@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.authentication.register
+package nl.inholland.myvitality.ui.authentication.register.details2
 
 import android.os.Bundle
 import android.widget.*
@@ -33,7 +33,7 @@ import nl.inholland.myvitality.util.RequestUtils
 import java.io.*
 
 
-class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
+class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
     @Inject
     lateinit var apiClient: ApiClient
     @Inject
@@ -48,7 +48,8 @@ class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
     @BindView(R.id.register_details_2_button)
     lateinit var button: Button
 
-    val PICK_IMAGE = 1
+    val PICK_IMAGE = 1000
+    val DESCRIPTION_LENGTH = 10
 
     private var selectedImage: Uri? = null
     private var filePath: String? = null
@@ -67,6 +68,8 @@ class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
             startActivityForResult(photoPickerIntent, PICK_IMAGE)
 //            Toast.makeText(this, "WIP - Upload Profile Image",  Toast.LENGTH_LONG).show()
         }
+
+        description.hint = getString(R.string.register_details_hint_profile_description, DESCRIPTION_LENGTH)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -148,6 +151,7 @@ class RegisterDetails2Activity : BaseActivity(), Callback<Void> {
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         if (response.isSuccessful) {
             startActivity(Intent(this, MainActivity::class.java))
+            sharedPrefs.recentlyRegistered = false
         } else {
             Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
         }

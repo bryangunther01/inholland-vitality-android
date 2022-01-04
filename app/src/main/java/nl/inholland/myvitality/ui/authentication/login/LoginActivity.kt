@@ -23,8 +23,9 @@ import android.content.Intent
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
-import nl.inholland.myvitality.ui.authentication.register.RegisterDetails2Activity
+import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
+import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
@@ -97,12 +98,13 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         if(response.isSuccessful && response.body() != null){
             response.body()?.let {
                 sharedPrefs.accessToken = it.accessToken
+                sharedPrefs.refreshToken = it.refreshToken
             }
 
             var intent = Intent(this, MainActivity::class.java)
 
             if(sharedPrefs.recentlyRegistered) {
-                intent = Intent(this, RegisterDetails2Activity::class.java)
+                intent = Intent(this, RegisterDetailsActivity::class.java)
             }
 
             startActivity(intent)

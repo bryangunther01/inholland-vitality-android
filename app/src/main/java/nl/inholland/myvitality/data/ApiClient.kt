@@ -17,6 +17,11 @@ interface ApiClient {
         @Body body: AuthRequest
     ): Call<AuthSettings>
 
+    @POST("login/refresh")
+    fun refreshToken(
+        @Query("refreshToken") token: String
+    ): Call<AuthSettings>
+
     @POST("user")
     fun register(
         @Body body: AuthRequest

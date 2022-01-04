@@ -35,7 +35,7 @@ class NotificationAdapter(context: Context) :
         when(currentItem.type){
             NotificationType.LIKE -> {
                 holder.image.load(currentItem.profileImage)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
+                holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
 
                 clickListener = View.OnClickListener { view ->
@@ -47,7 +47,8 @@ class NotificationAdapter(context: Context) :
             }
             NotificationType.COMMENT -> {
                 holder.image.load(currentItem.profileImage)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
+                // TODO: Fix text not going to next line
+                holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
 
                 clickListener = View.OnClickListener { view ->

@@ -126,7 +126,6 @@ class HomeFragment : BaseFragment() {
 
             // Set greeting message
             val profileImage = view?.findViewById<ImageView>(R.id.home_header_profile_image)
-            profileImage?.load(user.profilePicture)
 
             // Set greeting message
             val points = view?.findViewById<TextView>(R.id.home_header_points)
@@ -151,7 +150,7 @@ class HomeFragment : BaseFragment() {
     private fun initResponseHandler(){
         viewModel.apiResponse.observe(viewLifecycleOwner, { response ->
             when(response.status){
-                ResponseStatus.UNAUTHORIZED -> startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                ResponseStatus.UNAUTHORIZED -> {}
                 ResponseStatus.API_ERROR -> Toast.makeText(requireContext(), getString(R.string.api_error), Toast.LENGTH_LONG).show()
                 ResponseStatus.UPDATED_VALUE -> {}
             }

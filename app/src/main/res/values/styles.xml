@@ -23,7 +23,8 @@
     </style>
 
     <style name="ButtonSecondary" parent="ButtonDefault">
-        <item name="android:background">@drawable/button_primary</item>
+        <item name="android:background">@drawable/button_secondary</item>
+        <item name="android:textColor">@color/primary</item>
     </style>
 
     <style name="ButtonCancel" parent="ButtonDefault">

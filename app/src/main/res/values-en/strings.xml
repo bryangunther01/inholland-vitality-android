@@ -15,7 +15,8 @@
 
     <string name="message_good_morning">Good morning</string>
     <string name="message_good_afternoon">Good afternoon</string>
-    <string name="message_good_night">Goede nacht</string>
+    <string name="message_good_evening">Good evening</string>
+    <string name="message_good_night">Goodnight</string>
     <string name="message_welcome">Welcome</string>
 
     <string name="time_future">in the future</string>
@@ -25,6 +26,29 @@
     <string name="time_yesterday">yesterday</string>
     <string name="time_yesterday_with_time">yesterday at %1$s</string>
     <string name="time_date_at">%1$s at %2$s</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_skip">Skip</string>
+    <string name="tutorial_continue">Continue</string>
+    <string name="tutorial_first_title">Welkom bij het vitaliteitsprogramma, voor docenten van Inholland!</string>
+    <string name="tutorial_first_description">Samen vechten we voor vitaliteit, doe jij met ons mee? Alleen zo wordt jij de beste versie van jezelf!</string>
+
+    <string name="tutorial_description_mind">Have you found a way to clear your mind? Rest brings many benefits!</string>
+    <string name="tutorial_description_diet">Become aware of your nutrition through nutrition-oriented activities.</string>
+    <string name="tutorial_description_exercise">Nothing is more important than every now and then stretching the legs during long working days, are you doing this enough already?</string>
+
+    <string name="tutorial_last_title">Are you as excited as we are?</string>
+    <string name="tutorial_last_subtitle">Sign up now and get access to the benefits below!</string>
+    <string name="tutorial_advantage_1">Get access to challenges</string>
+    <string name="tutorial_advantage_2">Track the progress of your activities</string>
+    <string name="tutorial_advantage_3">Share your progress on your profile</string>
+    <string name="tutorial_advantage_4">Get in touch with your colleagues</string>
+    <string name="tutorial_advantage_5">See which activities your colleagues are doing</string>
+
+    <string name="tutorial_button_signup">Sign up now</string>
+    <string name="tutorial_login_info_1">Already have an account?</string>
+    <string name="tutorial_login_info_2"><u>Log in</u></string>
+
 
     <!-- Login Strings -->
     <string name="login_subtitle">Log in to continue</string>
@@ -56,8 +80,8 @@
     <string name="register_button_text">Register</string>
     <string name="register_error_invalid_email">Please enter a valid email address</string>
     <string name="register_error_password_no_match">The passwords do not match</string>
+    <string name="register_error_password_length">The password must contain at least %01d characters</string>
     <string name="register_error_email_in_use">" The email you entered is already in use"</string>
-    <string name="message_good_evening">Good evening</string>
 
     <!-- Register Details Strings -->
     <string name="register_details_title_1">The last steps,</string>
@@ -73,7 +97,7 @@
     <string name="register_details_title_2">We are almost there,</string>
     <string name="register_details_subtitle_2">tell more about yourself!</string>
     <string name="register_details_photo_info">A photo makes your profile just that little bit more personal. (optional)</string>
-    <string name="register_details_hint_profile_description">What does vitality mean to you?</string>
+    <string name="register_details_hint_profile_description">What does vitality mean to you? (Minimum %01d characters)</string>
     <string name="register_details_2_button_text">Start now!</string>
 
     <!-- Home Fragment -->
@@ -111,6 +135,7 @@
     <string name="post_button_comment">Comment</string>
     <string name="post_button_like">Like</string>
     <string name="post_like_count">You and %1$s other</string>
+    <string name="post_like_count_you">You</string>
     <string name="create_post_button">Post</string>
     <string name="create_post_image_button_text">Add image</string>
     <string name="create_post_hint">What do you want to share with your colleagues?</string>

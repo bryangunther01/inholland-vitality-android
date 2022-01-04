@@ -11,7 +11,7 @@
 
     <string name="challenge_type_exercise">Bewegen</string>
     <string name="challenge_type_diet">Voeding</string>
-    <string name="challenge_type_mind">Mentaal</string>
+    <string name="challenge_type_mind">Ontspanning</string>
 
     <string name="message_good_morning">Goedemorgen</string>
     <string name="message_good_afternoon">Goedemiddag</string>
@@ -26,6 +26,27 @@
     <string name="time_yesterday">gisteren</string>
     <string name="time_yesterday_with_time">gisteren om %1$s</string>
     <string name="time_date_at">%1$s om %2$s</string>
+
+    <!-- Tutorial Strings -->
+    <string name="tutorial_skip">Overslaan</string>
+    <string name="tutorial_continue">Ga verder</string>
+    <string name="tutorial_first_title">Welkom bij het vitaliteitsprogramma, voor docenten van Inholland!</string>
+    <string name="tutorial_first_description">Samen vechten we voor vitaliteit, doe jij met ons mee? Alleen zo wordt jij de beste versie van jezelf!</string>
+
+    <string name="tutorial_description_mind">Heb jij al een manier gevonden om je hoofd leeg te maken? Rust brengt namelijk een hoop voordelen met zich mee!</string>
+    <string name="tutorial_description_diet">Wordt bewuster van je voeding doormiddel van voedingsgerichte activiteiten.</string>
+    <string name="tutorial_description_exercise">Niets is belangrijker dan af en toe de benen strekken tijdens lange werkdagen, doe jij dit al genoeg?</string>
+
+    <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
+    <string name="tutorial_last_subtitle">Meld je nu aan en krijg toegang tot de onderstaande voordelen!</string>
+    <string name="tutorial_advantage_1">Krijg toegang tot leuke challenges</string>
+    <string name="tutorial_advantage_2">Houd de voortgang van jouw activiteiten bij</string>
+    <string name="tutorial_advantage_3">Deel jouw voortgang op jouw profiel</string>
+    <string name="tutorial_advantage_4">Kom in contact met jouw collega\'s</string>
+    <string name="tutorial_advantage_5">Zie welke activiteiten jouw collega’s doen</string>
+
+    <string name="tutorial_button_signup">Meld je nu aan</string>
+    <string name="tutorial_login">Heb je al een account? <u>Log in</u></string>
 
     <!-- Login Strings -->
     <string name="login_subtitle">Log in om verder te gaan</string>
@@ -57,6 +78,7 @@
     <string name="register_button_text">Registreer</string>
     <string name="register_error_invalid_email">Vul een geldig email adres in</string>
     <string name="register_error_password_no_match">De wachtwoorden komen niet overeen</string>
+    <string name="register_error_password_length">Het wachtwoord moet minimaal %01d karakters bevatten</string>
     <string name="register_error_email_in_use">Het opgegeven email is al in gebruik</string>
 
 
@@ -74,7 +96,7 @@
     <string name="register_details_title_2">We zijn er bijna,</string>
     <string name="register_details_subtitle_2">vertel meer over jezelf!</string>
     <string name="register_details_photo_info">Een foto maakt jouw profiel net iets persoonlijker. (optioneel)</string>
-    <string name="register_details_hint_profile_description">Wat betekend vitaliteit voor jou?</string>
+    <string name="register_details_hint_profile_description">Wat betekend vitaliteit voor jou? (Minimaal %01d karakters)</string>
     <string name="register_details_2_button_text">Start nu!</string>
 
     <!-- Home Fragment -->
@@ -113,6 +135,7 @@
     <string name="post_button_comment">Reageer</string>
     <string name="post_button_like">Vind ik leuk</string>
     <string name="post_like_count">Jij en %1$s anderen</string>
+    <string name="post_like_count_you">Jij</string>
     <string name="create_post_button">Plaats</string>
     <string name="create_post_image_button_text">Voeg afbeelding toe</string>
     <string name="create_post_hint">Wat wil je met je collega\'s delen?</string>
@@ -140,5 +163,4 @@
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>
-
 </resources>

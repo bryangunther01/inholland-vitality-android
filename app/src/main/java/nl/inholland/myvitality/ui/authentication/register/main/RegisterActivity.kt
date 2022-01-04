@@ -1,7 +1,6 @@
-package nl.inholland.myvitality.ui.authentication.register
+package nl.inholland.myvitality.ui.authentication.register.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
@@ -13,7 +12,6 @@ import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.AuthSettings
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
@@ -22,11 +20,12 @@ import retrofit2.Response
 import javax.inject.Inject
 import butterknife.*
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
-class RegisterActivity : AppCompatActivity(), Callback<Void> {
+class RegisterActivity : BaseActivity(), Callback<Void> {
     @Inject
     lateinit var apiClient: ApiClient
     @BindView(R.id.register_error)
@@ -40,12 +39,15 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
     @BindView(R.id.register_button)
     lateinit var registerButton: Button
 
+    private val PASSWORD_LENGTH = 8
+
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_register
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-        ButterKnife.bind(this)
-
-        //(application as VitalityApplication).appComponent.inject(this)
+        (application as VitalityApplication).appComponent.inject(this)
 
         // Set login text
         val loginTextView = findViewById<TextView>(R.id.register_login)
@@ -67,19 +69,17 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
     fun onClickRegister() {
         val isValid = email.text.length > 3 &&
                 Patterns.EMAIL_ADDRESS.matcher(email.text).matches() &&
-                password.text.length > 3 &&
+                password.text.length > PASSWORD_LENGTH &&
                 passwordMatch()
 
         if (isValid) {
             apiClient.register(AuthRequest(email.text.toString(), password.text.toString()))
                 .enqueue(this)
+            registerButton.isEnabled = false
         }
     }
 
-    @OnTextChanged(
-        R.id.register_edit_text_email,
-        callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
-    )
+    @OnTextChanged(R.id.register_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onEmailInputFieldChanged() {
         if (email.text.length > 3) {
             // TODO: Validate if is inholland email
@@ -89,7 +89,7 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
                 )
             )
 
-            if (isValid && password.text.length > 3 && passwordMatch()) {
+            if (isValid && password.text.length > PASSWORD_LENGTH && passwordMatch()) {
                 registerButton.isEnabled = true
             }
         }
@@ -97,20 +97,26 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
 
     @OnTextChanged(value = [R.id.register_edit_text_password, R.id.register_edit_text_password_confirmation], callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onPasswordFieldsChanged() {
-        if (password.text.length > 3 && passwordConfirmation.text.length > 3) {
-            val fieldValidationUtil = FieldValidationUtil(this)
+        val fieldValidationUtil = FieldValidationUtil(this)
 
+        if (password.text.length > PASSWORD_LENGTH && passwordConfirmation.text.length > PASSWORD_LENGTH) {
             fieldValidationUtil.setFieldState(
                 password, passwordMatch(), errorField, getString(
                     R.string.register_error_password_no_match
                 )
             )
+
             fieldValidationUtil.setFieldState(
                 passwordConfirmation, passwordMatch(), errorField, getString(
                     R.string.register_error_password_no_match
                 )
             )
+
+            return
         }
+
+        fieldValidationUtil.setFieldState(password, password.text.length > PASSWORD_LENGTH, errorField, getString(R.string.register_error_password_length, PASSWORD_LENGTH))
+        fieldValidationUtil.setFieldState(passwordConfirmation, password.text.length > PASSWORD_LENGTH, errorField, getString(R.string.register_error_password_length, PASSWORD_LENGTH))
     }
 
     @OnTextChanged(value = [R.id.register_edit_text_email, R.id.register_edit_text_password, R.id.register_edit_text_password_confirmation], callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
@@ -148,5 +154,6 @@ class RegisterActivity : AppCompatActivity(), Callback<Void> {
 
     override fun onFailure(call: Call<Void>, t: Throwable) {
         Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
+        registerButton.isEnabled = true
     }
 }

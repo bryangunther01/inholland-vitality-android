@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.splash
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,14 +9,10 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.authentication.register.RegisterDetails2Activity
-import nl.inholland.myvitality.ui.authentication.register.RegisterDetailsActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.tutorial.TutorialActivity
 import javax.inject.Inject
 
 /**
@@ -36,23 +31,19 @@ class SplashScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
 
+        sharedPrefs.accessToken = "asdf"
         Handler(Looper.getMainLooper()).postDelayed({
             // Start your app main activity
             var intent = Intent(this, LoginActivity::class.java)
 
-            // TODO: Remove this if tutorial is there
-            sharedPrefs.isFirstAppUse = false
-            sharedPrefs.recentlyRegistered = false
             if(sharedPrefs.isFirstAppUse) {
-                // TODO: Set tutorial intent
-//                intent = Intent(this, TutorialActivity::class.java)
+                intent = Intent(this, TutorialActivity::class.java)
             } else {
                 if(sharedPrefs.isLoggedIn()){
                     if(sharedPrefs.recentlyRegistered){
                         intent = Intent(this, RegisterDetailsActivity::class.java)
                     } else {
                         intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("fragmentToLoad", 0)
                     }
                 }
             }

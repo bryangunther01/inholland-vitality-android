@@ -28,9 +28,9 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
         set(value) = preferences.edit().putString(REFRESH_TOKEN, value).apply()
 
     // The expire time of the token
-    var tokenExpireTime: Int
-        get() = preferences.getInt(TOKEN_EXPIRE_TIME, 0)
-        set(value) = preferences.edit().putInt(TOKEN_EXPIRE_TIME, 0).apply()
+    var tokenExpireTime: Long
+        get() = preferences.getLong(TOKEN_EXPIRE_TIME, 0L)
+        set(value) = preferences.edit().putLong(TOKEN_EXPIRE_TIME, 0L).apply()
 
     // If the user is using the app for the first time for things like the tutorial
     var isFirstAppUse: Boolean

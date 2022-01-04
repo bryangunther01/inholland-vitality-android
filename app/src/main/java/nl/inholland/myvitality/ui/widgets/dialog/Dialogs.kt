@@ -10,7 +10,6 @@ import android.view.Window
 import android.widget.TextView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.authentication.register.RegisterActivity
 
 object Dialogs  {
 

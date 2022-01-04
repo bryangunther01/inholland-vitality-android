@@ -155,7 +155,7 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if(response.isSuccessful){
                             likeCount--
-                            toggleLike(false, isUpdated = true)
+                            toggleLike(false)
                         }
                     }
 
@@ -168,7 +168,7 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if(response.isSuccessful){
                             likeCount++
-                            toggleLike(true, isUpdated = true)
+                            toggleLike(true)
                         }
                     }
 
@@ -182,7 +182,7 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
 
     }
 
-    fun toggleLike(isLiked: Boolean, isUpdated: Boolean? = false){
+    fun toggleLike(isLiked: Boolean){
         if(isLiked){
             val otherCount = likeCount-1
             val visibility = View.VISIBLE
@@ -193,7 +193,11 @@ class TimelinePostActivity : BaseActivity(), Callback<List<Comment>> {
             likeButton.setIconResource(R.drawable.ic_thumbsup_fill)
             likeButton.setIconTintResource(R.color.primary)
 
-            likedCount.text = getString(R.string.post_like_count, otherCount.toString())
+            if(otherCount == 0) {
+                likedCount.text = getString(R.string.post_like_count_you)
+            } else {
+                likedCount.text = getString(R.string.post_like_count, otherCount.toString())
+            }
             currentPost?.iLikedPost = true
         } else {
             val visibility = if(likeCount > 0) View.VISIBLE else View.INVISIBLE

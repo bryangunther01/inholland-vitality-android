@@ -229,7 +229,7 @@ class ProfileActivity : BaseActivity() {
     private fun initResponseHandler(){
         viewModel.apiResponse.observe(this, { response ->
             when(response.status){
-                ResponseStatus.UNAUTHORIZED -> startActivity(Intent(this, LoginActivity::class.java))
+                ResponseStatus.UNAUTHORIZED -> {}
                 ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
                 ResponseStatus.UPDATED_VALUE -> {}
             }

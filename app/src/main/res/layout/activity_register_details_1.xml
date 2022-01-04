@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.authentication.register.RegisterActivity">
+    tools:context=".ui.authentication.register.main.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -92,11 +92,10 @@
                     android:layout_marginLeft="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
-                    android:autofillHints=""
                     android:drawableStart="@drawable/ic_person"
                     android:hint="@string/register_details_hint_firstname"
                     android:minHeight="48dp"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName|textCapSentences" />
 
                 <EditText
                     android:id="@+id/register_details_edit_text_last_name"
@@ -108,7 +107,7 @@
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_person"
                     android:hint="@string/register_details_hint_lastname"
-                    android:inputType="textPersonName"
+                    android:inputType="textPersonName|textCapSentences"
                     android:minHeight="48dp" />
 
                 <EditText
@@ -121,7 +120,7 @@
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_department"
                     android:hint="@string/register_details_hint_department"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:minHeight="48dp" />
 
                 <EditText
@@ -134,7 +133,7 @@
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_suitcase"
                     android:hint="@string/register_details_hint_jobtitle"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:minHeight="48dp" />
 
                 <EditText
@@ -145,9 +144,9 @@
                     android:layout_marginLeft="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
-                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_location"
                     android:hint="@string/register_details_hint_location"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:minHeight="48dp" />
 
                 <Button

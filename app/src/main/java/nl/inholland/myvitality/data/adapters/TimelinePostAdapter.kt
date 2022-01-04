@@ -57,7 +57,12 @@ class TimelinePostAdapter(context: Context) :
 
         if (currentItem.iLikedPost) {
             holder.likedButton.setIconResource(R.drawable.ic_thumbsup_fill)
-            holder.likeCount.text = context.getString(R.string.post_like_count, (currentItem.countOfLikes - 1).toString())
+
+            if(currentItem.countOfLikes - 1 <= 0){
+                holder.likeCount.text = context.getString(R.string.post_like_count_you)
+            } else {
+                holder.likeCount.text = context.getString(R.string.post_like_count, (currentItem.countOfLikes - 1).toString())
+            }
         } else {
             holder.likedButton.setIconResource(R.drawable.ic_thumbsup)
             holder.likedButton.setIconTintResource(R.color.black)
