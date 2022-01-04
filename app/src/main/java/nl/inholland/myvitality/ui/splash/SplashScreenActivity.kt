@@ -31,7 +31,6 @@ class SplashScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
 
-        sharedPrefs.accessToken = "asdf"
         Handler(Looper.getMainLooper()).postDelayed({
             // Start your app main activity
             var intent = Intent(this, LoginActivity::class.java)

@@ -24,7 +24,7 @@
                 app:shapeAppearanceOverlay="@style/CircleImageView" />
 
             <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/notification_image_barrier"
+                android:id="@+id/post_image_barrier"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
@@ -37,8 +37,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_lt_pro_black"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@+id/notification_image_barrier"
-                app:layout_constraintTop_toBottomOf="@id/guideline_top" />
+                app:layout_constraintTop_toTopOf="@+id/timeline_profile_image"
+                app:layout_constraintBottom_toTopOf="@id/post_date"
+                app:layout_constraintStart_toEndOf="@+id/post_image_barrier" />
 
             <TextView
                 android:id="@+id/post_date"
@@ -47,8 +48,9 @@
                 android:fontFamily="@font/avenir_lt_pro_roman"
                 android:textColor="@color/dark_grey"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/notification_image_barrier"
-                app:layout_constraintTop_toBottomOf="@id/post_user_name" />
+                app:layout_constraintTop_toBottomOf="@id/post_user_name"
+                app:layout_constraintBottom_toBottomOf="@id/timeline_profile_image"
+                app:layout_constraintStart_toEndOf="@+id/post_image_barrier" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/comment_user_details_barrier"

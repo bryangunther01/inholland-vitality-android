@@ -38,6 +38,7 @@ class HomeViewModel constructor(private val apiClient: ApiClient, private val sh
                     if(response.isSuccessful && response.body() != null){
                         response.body()?.let { user ->
                             _currentUser.value = user
+                            sharedPrefs.currentUserId = user.userId
                         }
                     } else if(response.code() == 401){
                         _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
@@ -62,7 +63,7 @@ class HomeViewModel constructor(private val apiClient: ApiClient, private val sh
                                 .filter { o -> o.challengeProgress == ChallengeProgress.IN_PROGRESS }
                                 .collect(Collectors.toList())
                             val exploreChallenges = challenges.stream()
-                                .filter { o -> o.challengeProgress == ChallengeProgress.NOT_SUBSCRIBED }
+                                .filter { o -> o.challengeProgress == ChallengeProgress.NOT_SUBSCRIBED || o.challengeProgress == ChallengeProgress.CANCELLED }
                                 .collect(Collectors.toList())
 
                             _currentChallenges.value = currentChallenges

@@ -35,7 +35,6 @@ class UserListAdapter(context: Context) :
             holder.userDetails.append(", $it")
         }
 
-
         holder.itemView.setOnClickListener { view ->
             val intent = Intent(view.context, ProfileActivity::class.java)
             intent.putExtra("USER_ID", currentItem.userId)

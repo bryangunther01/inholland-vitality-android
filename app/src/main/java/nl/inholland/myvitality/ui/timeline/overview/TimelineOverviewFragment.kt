@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,7 +94,10 @@ class TimelineOverviewFragment : BaseFragment() {
 
     private fun setupRecyclerViews() {
         layoutManager = LinearLayoutManager(requireActivity())
-        adapter = TimelinePostAdapter(requireActivity())
+        adapter = TimelinePostAdapter(requireActivity()) { timelinePost, viewHolder ->
+            viewModel.updateLike(timelinePost.postId, !timelinePost.iLikedPost)
+            toggleLike(viewHolder, !timelinePost.iLikedPost, timelinePost.countOfLikes)
+        }
 
         timelineRecyclerView.let {
             it.adapter = adapter
@@ -124,6 +128,43 @@ class TimelineOverviewFragment : BaseFragment() {
         })
     }
 
+    fun toggleLike(viewHolder: TimelinePostAdapter.ViewHolder, isLiked: Boolean, countOfLikes: Int) {
+        if (isLiked) {
+            updateLikeCount(viewHolder, true, countOfLikes+1)
+
+            viewHolder.likedButton.setIconResource(R.drawable.ic_thumbsup_fill)
+            viewHolder.likedButton.setIconTintResource(R.color.primary)
+        } else {
+            updateLikeCount(viewHolder, false, countOfLikes)
+
+            viewHolder.likedButton.setIconResource(R.drawable.ic_thumbsup)
+            viewHolder.likedButton.setIconTintResource(R.color.black)
+        }
+    }
+
+    fun updateLikeCount(viewHolder: TimelinePostAdapter.ViewHolder, isLiked: Boolean, likeCount: Int){
+        if(isLiked){
+            val otherCount = likeCount-1
+            val visibility = View.VISIBLE
+
+            viewHolder.likeIcon.visibility = visibility
+            viewHolder.likeCount.visibility = visibility
+
+            if (otherCount == 0) {
+                viewHolder.likeCount.text = getString(R.string.post_like_count_you)
+            } else {
+                viewHolder.likeCount.text = getString(R.string.post_like_count, otherCount.toString())
+            }
+        } else {
+            val visibility = if (likeCount > 0) View.VISIBLE else View.GONE
+
+            viewHolder.likeIcon.visibility = visibility
+            viewHolder.likeCount.visibility = visibility
+
+            viewHolder.likeCount.text = likeCount.toString()
+        }
+    }
+
     private fun setupSkeleton() {
         skeletonScreen = Skeleton.bind(timelineRecyclerView)
             .adapter(adapter)
@@ -150,7 +191,7 @@ class TimelineOverviewFragment : BaseFragment() {
             adapter?.addItems(it)
 
             if (page == 0) skeletonScreen?.hide()
-            if (it.isNotEmpty()) page += 1
+            if (it.isNotEmpty()) page++
 
             refreshLayout.isRefreshing = false
             isCalling = false

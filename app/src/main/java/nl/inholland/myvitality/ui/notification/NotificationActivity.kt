@@ -55,29 +55,9 @@ class NotificationActivity : BaseActivity() {
         initNotifications()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.notifications_nav_menu, menu)
-//        return true
-//    }
-//
-//    //and this to handle actions
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if(item.itemId == R.id.navigation_notification_settings){
-//            Toast.makeText(this, "WIP - Show notification settings", Toast.LENGTH_LONG).show()
-//            return true
-//        }
-//
-//        return super.onOptionsItemSelected(item)
-//    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
-    }
-
-    override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun setupRecyclerViews() {

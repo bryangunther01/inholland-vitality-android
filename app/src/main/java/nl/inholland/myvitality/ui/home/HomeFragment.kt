@@ -126,6 +126,7 @@ class HomeFragment : BaseFragment() {
 
             // Set greeting message
             val profileImage = view?.findViewById<ImageView>(R.id.home_header_profile_image)
+            profileImage?.load(user.profilePicture)
 
             // Set greeting message
             val points = view?.findViewById<TextView>(R.id.home_header_points)

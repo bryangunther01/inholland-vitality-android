@@ -9,14 +9,12 @@ import nl.inholland.myvitality.BuildConfig
 import nl.inholland.myvitality.architecture.enumadapter.EnumJsonAdapterFactory
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.AuthorizationInterceptor
-import nl.inholland.myvitality.data.TokenAuthenticator
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 @Module
 class NetworkModule(val context: Context) {
@@ -31,7 +29,7 @@ class NetworkModule(val context: Context) {
     internal fun provideRetrofitInterface(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getHttpClient(TokenAuthenticator(context, provideTokenApi())))
+            .client(getHttpClient())
             .addConverterFactory(getMoshiConverter())
             .build()
     }
@@ -42,26 +40,16 @@ class NetworkModule(val context: Context) {
         return retrofit.create(ApiClient::class.java)
     }
 
-    fun provideTokenApi(): ApiClient {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(getHttpClient())
-            .addConverterFactory(getMoshiConverter())
-            .build()
-            .create(ApiClient::class.java)
-    }
-
     @Singleton
-    private fun getHttpClient(authenticator: TokenAuthenticator? = null): OkHttpClient {
+    private fun getHttpClient(): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
 
         clientBuilder.readTimeout(300, TimeUnit.SECONDS)
         clientBuilder.writeTimeout(300, TimeUnit.SECONDS)
         clientBuilder.connectTimeout(300, TimeUnit.SECONDS)
 
-        authenticator?.let {
-            clientBuilder.authenticator(authenticator)
-        }
+        // JEROEN: Hier voeg ik mijn interceptor toe
+        clientBuilder.addInterceptor(AuthorizationInterceptor(context))
 
         if(BuildConfig.DEBUG){
             val logging = HttpLoggingInterceptor()

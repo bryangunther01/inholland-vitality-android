@@ -2,12 +2,12 @@ package nl.inholland.myvitality.data.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
@@ -15,11 +15,10 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.TimelinePost
 import nl.inholland.myvitality.ui.profile.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
-import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
-import nl.inholland.myvitality.util.TextViewUtils
 
-class TimelinePostAdapter(context: Context) :
+class TimelinePostAdapter(context: Context, private val onClickedLike: (TimelinePost, ViewHolder) -> Unit) :
     BaseRecyclerAdapter<TimelinePost, TimelinePostAdapter.ViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,6 +56,7 @@ class TimelinePostAdapter(context: Context) :
 
         if (currentItem.iLikedPost) {
             holder.likedButton.setIconResource(R.drawable.ic_thumbsup_fill)
+            holder.likedButton.setIconTintResource(R.color.primary)
 
             if(currentItem.countOfLikes - 1 <= 0){
                 holder.likeCount.text = context.getString(R.string.post_like_count_you)
@@ -92,9 +92,12 @@ class TimelinePostAdapter(context: Context) :
         holder.likeIcon.setOnClickListener(likeClickListener)
         holder.likeCount.setOnClickListener(likeClickListener)
 
-        holder.likedButton.setOnClickListener { view ->
-            Toast.makeText(view.context, "WIP - Like Post",  Toast.LENGTH_LONG).show()
-        }
+        holder.likedButton.setOnClickListener {
+            onClickedLike(currentItem, holder)
+
+            currentItem.iLikedPost = !currentItem.iLikedPost
+            currentItem.countOfLikes = if(currentItem.iLikedPost) currentItem.countOfLikes-- else currentItem.countOfLikes++
+         }
 
         holder.commentButton.setOnClickListener { view ->
             val intent = Intent(view.context, TimelinePostActivity::class.java)

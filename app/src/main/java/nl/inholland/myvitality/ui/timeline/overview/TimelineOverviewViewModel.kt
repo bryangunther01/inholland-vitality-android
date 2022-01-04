@@ -68,4 +68,41 @@ class TimelineOverviewViewModel constructor(private val apiClient: ApiClient, pr
             })
         }
     }
+
+    fun updateLike(timelinePostId: String, liked: Boolean) {
+        sharedPrefs.accessToken?.let {
+
+            if (liked) {
+                apiClient.likePost("Bearer $it", timelinePostId).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                        } else if (response.code() == 401) {
+                            _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                        Log.e("TimelineOverviewFragment", "onFailure: ", t)
+                    }
+                })
+            } else {
+                apiClient.unlikePost("Bearer $it", timelinePostId).enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                        } else if (response.code() == 401) {
+                            _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                        Log.e("TimelineOverviewFragment", "onFailure: ", t)
+                    }
+                })
+            }
+        }
+    }
 }

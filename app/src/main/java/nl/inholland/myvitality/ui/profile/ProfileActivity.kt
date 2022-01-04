@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -38,6 +39,8 @@ import javax.inject.Inject
 
 class ProfileActivity : BaseActivity() {
 
+    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
+
     @BindView(R.id.profile_image) lateinit var profileImage: ImageView
     @BindView(R.id.profile_fullname) lateinit var fullname: TextView
     @BindView(R.id.profile_details) lateinit var details: TextView
@@ -48,7 +51,6 @@ class ProfileActivity : BaseActivity() {
     @BindView(R.id.profile_finn_chl_recyclerview) lateinit var finishedChallengesRecyclerView: RecyclerView
     @BindView(R.id.profile_curr_chl_title) lateinit var currChlTitle: TextView
     @BindView(R.id.profile_finn_chl_title) lateinit var finnChlTitle: TextView
-
 
     @Inject
     lateinit var factory: ProfileViewModelFactory
@@ -78,7 +80,13 @@ class ProfileActivity : BaseActivity() {
         supportActionBar?.setTitle(R.string.navigation_profile)
         supportActionBar?.elevation = 0F
 
-        userId = intent.getStringExtra("USER_ID")
+        sharedPrefs.currentUserId?.let{
+            val foundUserId = intent.getStringExtra("USER_ID")
+
+            if(it != foundUserId){
+                userId = foundUserId
+            }
+        }
 
         setupRecyclerViews()
         setupSkeletons()

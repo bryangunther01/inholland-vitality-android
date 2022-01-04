@@ -12,8 +12,7 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
     private val TOKEN_EXPIRE_TIME = "tokenExpireTime"
     private val IS_FIRST_APP_USE = "isFirstAppUse"
     private val RECENTLY_REGISTERED = "recentlyRegistered"
-    private val USER_FULL_NAME = "userName"
-    private val USER_PROFILE_IMAGE_URL = "userProfileImageUrl"
+    private val CURRENT_USER_ID = "currentUserId"
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
@@ -42,15 +41,10 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
         get() = preferences.getBoolean(RECENTLY_REGISTERED, false)
         set(value) = preferences.edit().putBoolean(RECENTLY_REGISTERED, value).apply()
 
-    // The users full name to use through the app
-    var userFullName: String?
-        get() = preferences.getString(USER_FULL_NAME, null)
-        set(value) = preferences.edit().putString(USER_FULL_NAME, value).apply()
-
-    // The users profile image to use through the app
-    var userProfileImageUrl: String?
-        get() = preferences.getString(USER_PROFILE_IMAGE_URL, null)
-        set(value) = preferences.edit().putString(USER_PROFILE_IMAGE_URL, value).apply()
+    // The current userId
+    var currentUserId: String?
+        get() = preferences.getString(CURRENT_USER_ID, null)
+        set(value) = preferences.edit().putString(CURRENT_USER_ID, value).apply()
 
     fun isLoggedIn(): Boolean {
         return accessToken != null

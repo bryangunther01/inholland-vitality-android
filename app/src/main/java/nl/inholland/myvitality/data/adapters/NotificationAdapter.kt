@@ -15,7 +15,7 @@ import nl.inholland.myvitality.data.entities.Notification
 import nl.inholland.myvitality.data.entities.NotificationType
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 import nl.inholland.myvitality.ui.profile.ProfileActivity
-import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
 
 class NotificationAdapter(context: Context) :
@@ -35,7 +35,7 @@ class NotificationAdapter(context: Context) :
         when(currentItem.type){
             NotificationType.LIKE -> {
                 holder.image.load(currentItem.profileImage)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL)
+                holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
 
                 clickListener = View.OnClickListener { view ->
@@ -48,7 +48,7 @@ class NotificationAdapter(context: Context) :
             NotificationType.COMMENT -> {
                 holder.image.load(currentItem.profileImage)
                 // TODO: Fix text not going to next line
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL)
+                holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
 
                 clickListener = View.OnClickListener { view ->

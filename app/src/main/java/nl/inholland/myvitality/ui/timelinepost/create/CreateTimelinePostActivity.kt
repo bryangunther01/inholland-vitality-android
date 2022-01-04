@@ -1,15 +1,10 @@
 package nl.inholland.myvitality.ui.timelinepost.create
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
-import butterknife.ButterKnife
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import coil.load
@@ -20,19 +15,15 @@ import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.adapters.CommentAdapter
-import nl.inholland.myvitality.data.adapters.TimelinePostAdapter
 import nl.inholland.myvitality.data.entities.*
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
-import nl.inholland.myvitality.util.TextViewUtils
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 // TODO: Image/Video upload

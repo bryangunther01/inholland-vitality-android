@@ -105,9 +105,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
 
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         if (response.isSuccessful) {
-            val sharedPref =  SharedPreferenceHelper(this)
-            sharedPref.userFullName = firstName.text.toString() + " " + lastName.text.toString()
-
             val intent = Intent(this, RegisterAdditionalDetailsActivity::class.java)
             startActivity(intent)
             finish()

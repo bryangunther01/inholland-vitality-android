@@ -19,7 +19,7 @@ import nl.inholland.myvitality.ui.search.SearchActivity
 import nl.inholland.myvitality.ui.splash.SplashScreenActivity
 import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
-import nl.inholland.myvitality.ui.timelinepost.TimelinePostActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 import nl.inholland.myvitality.ui.tutorial.TutorialActivity
 

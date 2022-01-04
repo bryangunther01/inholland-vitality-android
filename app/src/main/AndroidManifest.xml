@@ -56,7 +56,7 @@
             android:name=".ui.challenge.ChallengeActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.timelinepost.TimelinePostActivity"
+            android:name=".ui.timelinepost.view.TimelinePostActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
