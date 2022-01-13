@@ -24,10 +24,9 @@ class NetworkModule(val context: Context) {
     @Provides
     @Singleton
     fun provideApiService(): ApiClient{
-        // TODO: Re-enable the interceptor
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(getHttpClient(false))
+            .client(getHttpClient())
             .addConverterFactory(getMoshiConverter())
             .build()
             .create(ApiClient::class.java)

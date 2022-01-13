@@ -15,7 +15,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import javax.inject.Inject
 
-// JEROEN: Hoe moet ik hier mijn ApiClient injecten?
 class TokenInterceptor constructor(val context: Context, private val tokenApiClient: TokenApiClient) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

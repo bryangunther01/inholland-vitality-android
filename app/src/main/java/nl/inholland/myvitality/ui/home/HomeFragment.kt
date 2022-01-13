@@ -77,9 +77,6 @@ class HomeFragment : BaseFragment() {
 
         initResponseHandler()
         initUser()
-        Handler(Looper.getMainLooper()).postDelayed({
-            initChallenges()
-        }, 1000)
     }
 
     @OnClick(value = [R.id.home_header_points, R.id.home_header_scoreboard])
@@ -122,6 +119,8 @@ class HomeFragment : BaseFragment() {
 
         viewModel.getLoggedInUser()
         viewModel.currentUser.observe(viewLifecycleOwner, { user ->
+            initChallenges()
+
             val nameTextView = view?.findViewById<TextView>(R.id.home_header_name)
             nameTextView?.text = ""
             nameTextView?.append("${user.firstName} ${user.lastName}")
