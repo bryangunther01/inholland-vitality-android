@@ -43,7 +43,7 @@ class SplashScreenActivity : BaseActivity() {
                         intent = Intent(this, RegisterDetailsActivity::class.java)
                     } else {
                         intent = Intent(this, MainActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     }
                 }
             }

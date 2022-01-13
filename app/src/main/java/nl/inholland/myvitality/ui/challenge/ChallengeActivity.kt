@@ -83,9 +83,6 @@ class ChallengeActivity : BaseActivity() {
                 ChallengeProgress.NOT_SUBSCRIBED, ChallengeProgress.CANCELLED -> {
                     startChallengeButton.visibility = View.VISIBLE
                     participantsCount.visibility = View.VISIBLE
-                    exploreActivitiesRecyclerView.visibility = View.VISIBLE
-                    findViewById<ImageView>(R.id.challenge_exp_chl_icon).visibility = View.VISIBLE
-                    findViewById<TextView>(R.id.challenge_exp_chl_title).visibility = View.VISIBLE
 
                     // Load explorable challenges
                     initExplorableChallenges(challenge.challengeType)
@@ -168,6 +165,11 @@ class ChallengeActivity : BaseActivity() {
     private fun initExplorableChallenges(challengeType: ChallengeType) {
         viewModel.getChallenges(challengeType, currentChallengeId)
         viewModel.explorableChallenges.observe(this, Observer {
+            val visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+            exploreActivitiesRecyclerView.visibility = visibility
+            findViewById<ImageView>(R.id.challenge_exp_chl_icon).visibility = visibility
+            findViewById<TextView>(R.id.challenge_exp_chl_title).visibility = visibility
+
             adapter?.addItems(it)
         })
     }
@@ -196,6 +198,7 @@ class ChallengeActivity : BaseActivity() {
     private fun initResponseHandler(){
         viewModel.apiResponse.observe(this, { response ->
             when(response.status){
+                ResponseStatus.NOT_FOUND -> finish()
                 ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
                 ResponseStatus.UPDATED_VALUE -> {
                     startActivity(Intent(this@ChallengeActivity, MainActivity::class.java))

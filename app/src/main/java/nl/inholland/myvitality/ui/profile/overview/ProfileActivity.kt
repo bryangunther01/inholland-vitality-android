@@ -110,6 +110,7 @@ class ProfileActivity : BaseActivity() {
         val id = item.itemId
         return if(id == R.id.profile_logout){
             sharedPrefs.logoutUser()
+            finishAffinity()
             startActivity(Intent(this, LoginActivity::class.java))
             true
         } else {

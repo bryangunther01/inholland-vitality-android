@@ -12,6 +12,7 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
     private val TOKEN_EXPIRE_TIME = "tokenExpireTime"
     private val IS_FIRST_APP_USE = "isFirstAppUse"
     private val RECENTLY_REGISTERED = "recentlyRegistered"
+    private val RECENTLY_REGISTERED_USER_ID = "recentlyRegisteredUserId"
     private val CURRENT_USER_ID = "currentUserId"
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
@@ -51,9 +52,13 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
     }
 
     fun logoutUser(){
-        accessToken = null
-        refreshToken = null
-        tokenExpireTime = 0L
-        currentUserId = null
+        val editor = preferences.edit()
+
+        editor.remove(ACCESS_TOKEN)
+        editor.remove(REFRESH_TOKEN)
+        editor.remove(TOKEN_EXPIRE_TIME)
+        editor.remove(CURRENT_USER_ID)
+
+        editor.apply()
     }
 }

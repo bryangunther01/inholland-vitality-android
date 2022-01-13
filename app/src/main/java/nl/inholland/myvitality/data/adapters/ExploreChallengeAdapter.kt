@@ -53,13 +53,19 @@ class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true
         }
 
         holder.challengeTitle.text = currentItem.title
-        holder.itemView.setOnClickListener { view ->
+        val onClickAction = View.OnClickListener { view ->
             val intent = Intent(view.context, ChallengeActivity::class.java)
             intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             view.context.startActivity(intent)
         }
 
+        if (showButtons == true) {
+            holder.challengeButton.visibility = View.VISIBLE
+            holder.challengeButton.setOnClickListener(onClickAction)
+        }
 
+        holder.itemView.setOnClickListener(onClickAction)
     }
 
     override fun getItemCount(): Int = items.size

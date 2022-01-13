@@ -102,6 +102,7 @@ class NotificationAdapter(context: Context) :
                 view.context.startActivity(
                     Intent(view.context, ChallengeActivity::class.java)
                         .putExtra("CHALLENGE_ID", currentItem.challengeId)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
             } else {
                 view.context.startActivity(

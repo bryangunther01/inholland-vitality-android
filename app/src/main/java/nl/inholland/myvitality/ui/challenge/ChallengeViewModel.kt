@@ -34,6 +34,8 @@ class ChallengeViewModel constructor(
         sharedPrefs.accessToken?.let {
             apiClient.getChallenge("Bearer $it", challengeId).enqueue(object : Callback<Challenge> {
                 override fun onResponse(call: Call<Challenge>, response: Response<Challenge>) {
+                    if(response.body() == null) _response.value = ApiResponse(ResponseStatus.NOT_FOUND)
+
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { challenge ->
                             _currentChallenge.value = challenge
@@ -56,7 +58,6 @@ class ChallengeViewModel constructor(
             apiClient.getChallenges(
                 "Bearer $it",
                 challengeType = challengeType.id,
-                progress = ChallengeProgress.NOT_SUBSCRIBED.id
             ).enqueue(object : Callback<List<Challenge>> {
                 override fun onResponse(
                     call: Call<List<Challenge>>,
@@ -65,6 +66,7 @@ class ChallengeViewModel constructor(
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { challenges ->
                             val filtered = challenges.stream()
+                                .filter { o -> o.challengeProgress == ChallengeProgress.NOT_SUBSCRIBED || o.challengeProgress == ChallengeProgress.CANCELLED }
                                 .filter { o -> o.challengeId != currentChallengeId }.collect(
                                 Collectors.toList()
                             )

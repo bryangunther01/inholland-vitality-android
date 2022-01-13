@@ -134,6 +134,7 @@ class RegisterActivity : BaseActivity(), Callback<Void> {
     fun onClickLogin() {
         val myIntent = Intent(this, LoginActivity::class.java)
         startActivity(myIntent)
+        finish()
     }
 
     private fun passwordMatch(): Boolean {

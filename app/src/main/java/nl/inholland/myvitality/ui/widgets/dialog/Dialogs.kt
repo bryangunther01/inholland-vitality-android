@@ -44,6 +44,7 @@ object Dialogs  {
         button.setOnClickListener {
             val myIntent = Intent(activity, LoginActivity::class.java)
             activity.startActivity(myIntent)
+            activity.finish()
 
             dialog.dismiss()
         }
