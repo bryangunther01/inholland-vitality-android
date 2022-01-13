@@ -1,10 +1,11 @@
-package nl.inholland.myvitality.ui.profile
+package nl.inholland.myvitality.ui.profile.overview
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -15,27 +16,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.home.HomeViewModel
-import nl.inholland.myvitality.ui.home.HomeViewModelFactory
+import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.TextViewUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
+
 
 class ProfileActivity : BaseActivity() {
 
@@ -103,6 +101,22 @@ class ProfileActivity : BaseActivity() {
         return true
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if(userId == null) menuInflater.inflate(R.menu.profile_nav_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        return if(id == R.id.profile_logout){
+            sharedPrefs.logoutUser()
+            startActivity(Intent(this, LoginActivity::class.java))
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     @OnClick(R.id.profile_button)
     fun onProfileButtonClicked(){
         if(userId != null){
@@ -116,7 +130,8 @@ class ProfileActivity : BaseActivity() {
                 }
             }
         } else {
-            Toast.makeText(this, "WIP - Go to profile edit", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, ProfileEditActivity::class.java))
+            finish()
         }
     }
 
@@ -163,7 +178,12 @@ class ProfileActivity : BaseActivity() {
 
         viewModel.currentUser.observe(this, { user ->
             currentUser = user
-            profileImage.load(user.profilePicture)
+
+            Glide.with(this)
+                .load(user.profilePicture)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(profileImage)
 
             fullname.text = null
             fullname.append("${user.firstName} ${user.lastName}")
@@ -237,9 +257,8 @@ class ProfileActivity : BaseActivity() {
     private fun initResponseHandler(){
         viewModel.apiResponse.observe(this, { response ->
             when(response.status){
-                ResponseStatus.UNAUTHORIZED -> {}
                 ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
-                ResponseStatus.UPDATED_VALUE -> {}
+                else -> {}
             }
         })
     }

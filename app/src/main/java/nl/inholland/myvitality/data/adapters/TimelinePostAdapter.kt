@@ -2,18 +2,18 @@ package nl.inholland.myvitality.data.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.ColorSpace
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.button.MaterialButton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.TimelinePost
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
@@ -31,14 +31,22 @@ class TimelinePostAdapter(context: Context, private val onClickedLike: (Timeline
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[position]
 
-        holder.profileImage.load(currentItem.profilePicture)
+        holder.image.visibility = View.GONE
+
+        Glide.with(context)
+            .load(currentItem.profilePicture)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .into(holder.profileImage)
         holder.userName.text = currentItem.fullName
         holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.publishDate)
         holder.content.text = currentItem.text
 
         currentItem.imageUrl?.let {
             holder.image.visibility = View.VISIBLE
-            holder.image.load(it)
+            Glide.with(context)
+                .load(it)
+                .into(holder.image)
         }
 
         if(currentItem.countOfLikes > 0){
@@ -111,7 +119,7 @@ class TimelinePostAdapter(context: Context, private val onClickedLike: (Timeline
 
     inner class ViewHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        internal val profileImage: ImageView = itemView.findViewById(R.id.timeline_profile_image)
+        internal val profileImage: ImageView = itemView.findViewById(R.id.post_profile_image)
         internal val userName: TextView = itemView.findViewById(R.id.post_user_name)
         internal val postDate: TextView = itemView.findViewById(R.id.post_date)
         internal val content: TextView = itemView.findViewById(R.id.post_content)

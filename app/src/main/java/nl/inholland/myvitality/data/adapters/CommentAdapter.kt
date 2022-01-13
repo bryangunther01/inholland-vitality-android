@@ -1,18 +1,18 @@
 package nl.inholland.myvitality.data.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Comment
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.util.DateUtils
-import nl.inholland.myvitality.util.TextViewUtils
 
 class CommentAdapter(context: Context) :
     BaseRecyclerAdapter<Comment, CommentAdapter.ViewHolder>(context) {
@@ -27,17 +27,17 @@ class CommentAdapter(context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[position]
 
-        holder.profileImage.load(currentItem.imageUrl)
+        Glide.with(context)
+            .load(currentItem.imageUrl)
+            .into(holder.profileImage)
         holder.userName.text = currentItem.fullName
         holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.timestamp)
         holder.content.text = currentItem.text
 
         holder.itemView.setOnClickListener { view ->
-//            val intent = Intent(view.context, ProfileActivity::class.java)
-//            intent.putExtra("USER_ID", currentItem.userId)
-//            view.context.startActivity(intent)
-            Toast.makeText(view.context, "WIP - Open Profile",  Toast.LENGTH_LONG).show()
-           // TODO: Open profile
+            val intent = Intent(view.context, ProfileActivity::class.java)
+            intent.putExtra("USER_ID", currentItem.userId)
+            view.context.startActivity(intent)
         }
     }
 

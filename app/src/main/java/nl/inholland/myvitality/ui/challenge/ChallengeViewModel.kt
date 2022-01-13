@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.challenge
 
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.*
-import nl.inholland.myvitality.ui.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

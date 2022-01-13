@@ -39,16 +39,14 @@
 
     <string name="tutorial_last_title">Are you as excited as we are?</string>
     <string name="tutorial_last_subtitle">Sign up now and get access to the benefits below!</string>
-    <string name="tutorial_advantage_1">Get access to challenges</string>
+    <string name="tutorial_advantage_1">Get access to activities</string>
     <string name="tutorial_advantage_2">Track the progress of your activities</string>
     <string name="tutorial_advantage_3">Share your progress on your profile</string>
     <string name="tutorial_advantage_4">Get in touch with your colleagues</string>
     <string name="tutorial_advantage_5">See which activities your colleagues are doing</string>
 
     <string name="tutorial_button_signup">Sign up now</string>
-    <string name="tutorial_login_info_1">Already have an account?</string>
-    <string name="tutorial_login_info_2"><u>Log in</u></string>
-
+    <string name="tutorial_login">Already have an account? <u>Log in</u></string>
 
     <!-- Login Strings -->
     <string name="login_subtitle">Log in to continue</string>
@@ -86,38 +84,38 @@
     <!-- Register Details Strings -->
     <string name="register_details_title_1">The last steps,</string>
     <string name="register_details_subtitle_1">on to vitality!</string>
-    <string name="register_details_hint_firstname">First name</string>
-    <string name="register_details_hint_lastname">Last name</string>
-    <string name="register_details_hint_department">Department</string>
-    <string name="register_details_hint_jobtitle">Job title</string>
-    <string name="register_details_hint_location">Location</string>
+    <string name="hint_firstname">First name</string>
+    <string name="hint_lastname">Last name</string>
+    <string name="hint_department">Department</string>
+    <string name="hint_jobtitle">Job title</string>
+    <string name="hint_location">Location</string>
     <string name="register_details_1_button_text">Continue</string>
     <string name="register_details_error">Fill out all fields</string>
 
     <string name="register_details_title_2">We are almost there,</string>
     <string name="register_details_subtitle_2">tell more about yourself!</string>
     <string name="register_details_photo_info">A photo makes your profile just that little bit more personal. (optional)</string>
-    <string name="register_details_hint_profile_description">What does vitality mean to you? (Minimum %01d characters)</string>
+    <string name="hint_profile_description">What does vitality mean to you? (Minimum %01d characters)</string>
     <string name="register_details_2_button_text">Start now!</string>
 
     <!-- Home Fragment -->
     <string name="home_header_scoreboard_text">View scoreboard</string>
-    <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="content_desc_current_chl_icon">Current activities Icon</string>
     <string name="home_points_text">%1$s points</string>
-    <string name="home_title_curr_chl">Current challenges</string>
-    <string name="home_title_disc_chl">Discover challenges</string>
+    <string name="home_title_curr_chl">Current activities</string>
+    <string name="home_title_disc_chl">Discover activities</string>
     <string name="challenge_view_item_button_text">View progress</string>
-    <string name="challenge_view_item_button_text_exp">View challenge</string>
+    <string name="challenge_view_item_button_text_exp">View activity</string>
 
     <!-- Challenge Strings -->
-    <string name="challenge_button_start_text">Start challenge</string>
-    <string name="challenge_button_complete_text">Complete challenge</string>
-    <string name="challenge_button_cancel_text">Stop challenge</string>
+    <string name="challenge_button_start_text">Start activity</string>
+    <string name="challenge_button_complete_text">Complete activity</string>
+    <string name="challenge_button_cancel_text">Stop activity</string>
     <string name="challenge_points_message_1">Earn</string>
-    <string name="challenge_points_message_2">points with this challenge</string>
+    <string name="challenge_points_message_2">points with this activity</string>
     <string name="challenge_date_text">Starts</string>
-    <string name="dialog_challenge_title">Stop the challenge</string>
-    <string name="dialog_challenge_body">You are about to quit this challenge, are you sure?</string>
+    <string name="dialog_challenge_title">Stop the activity</string>
+    <string name="dialog_challenge_body">You are about to quit this activity, are you sure?</string>
     <string name="dialog_challenge_button_confirm_text">I\'m sure</string>
     <string name="dialog_challenge_button_cancel_text">Go back</string>
 
@@ -127,11 +125,14 @@
     <string name="navigation_notifications">Notifications</string>
     <string name="navigation_profile">Profile</string>
     <string name="navigation_scoreboard">Scoreboard</string>
-    <string name="navigation_notification_settings">Notification Settings</string>
+    <string name="navigation_logout">Logout</string>
+    <string name="navigation_settings">Settings</string>
+
 
     <!-- Timeline post -->
     <string name="post_text_comments">comment(s)</string>
     <string name="timeline_hint_search">Who do you want to search for?</string>
+    <string name="timeline_empty">No posts</string>
     <string name="post_button_comment">Comment</string>
     <string name="post_button_like">Like</string>
     <string name="post_like_count">You and %1$s other</string>
@@ -139,13 +140,14 @@
     <string name="create_post_button">Post</string>
     <string name="create_post_image_button_text">Add image</string>
     <string name="create_post_hint">What do you want to share with your colleagues?</string>
+    <string name="comments_empty">No comments</string>
 
     <!-- Profile strings -->
     <string name="profile_follow">Follow</string>
     <string name="profile_unfollow">Unfollow</string>
     <string name="profile_edit">Edit profile</string>
     <string name="profile_points">points</string>
-    <string name="profile_curr_challenges">Current challenges</string>
+    <string name="profile_curr_challenges">Current activities</string>
     <string name="profile_prize_cabinet">%1$s\'s Trophies</string>
     <string name="profile_your_prize_cabinet">Your Trophies</string>
     <string name="profile_dialog_title">unfollow %1$s?</string>
@@ -154,14 +156,22 @@
     <string name="profile_dialog_button_confirm_text">Unfollow</string>
     <string name="profile_dialog_button_cancel_text">Cancel</string>
 
+    <!-- Profile edit strings -->
+    <string name="profile_edit_profile_image_title">Profile image</string>
+    <string name="profile_edit_personal_details_title">Personal details</string>
+    <string name="profile_edit_description_title">Biography</string>
+    <string name="profile_edit_modify">Modify</string>
+    <string name="profile_edit_save">Save</string>
+
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> liked your post</string>
     <string name="notification_comment">&lt;b>%1$s&lt;/b> replied to your post</string>
     <string name="notification_follow">&lt;b>%1$s&lt;/b> is now following you!</string>
     <string name="notification_new_activity_title">A new activity is available</string>
     <string name="notification_new_activity_subtitle">Click to view</string>
+    <string name="notifications_empty">No notifications</string>
 
     <!-- Scoreboard strings -->
-    <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next challenger?</string>
+    <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>
 
 </resources>

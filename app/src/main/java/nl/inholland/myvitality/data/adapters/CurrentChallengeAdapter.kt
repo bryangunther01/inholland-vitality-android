@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeType
@@ -25,7 +25,9 @@ class CurrentChallengeAdapter(context: Context, var showButtons: Boolean? = true
         val currentItem = items[position]
 
         // Load the challenge image with a fallback image
-        holder.challengeImage.load(currentItem.imageLink)
+        Glide.with(context)
+            .load(currentItem.imageLink)
+            .into(holder.challengeImage)
 
         // Set the challenge type
         when (currentItem.challengeType) {

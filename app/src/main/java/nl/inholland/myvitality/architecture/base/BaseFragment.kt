@@ -1,15 +1,14 @@
 package nl.inholland.myvitality.architecture.base
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
-import android.view.View
 import android.os.Bundle
-import android.view.ViewGroup
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
+import butterknife.ButterKnife
 import butterknife.Unbinder
 
 abstract class BaseFragment : Fragment() {

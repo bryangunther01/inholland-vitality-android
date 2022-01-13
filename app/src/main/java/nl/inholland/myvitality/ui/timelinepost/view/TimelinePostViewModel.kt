@@ -1,18 +1,18 @@
 package nl.inholland.myvitality.ui.timelinepost.view
 
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.*
-import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.data.entities.ApiResponse
+import nl.inholland.myvitality.data.entities.Comment
+import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.data.entities.TimelinePost
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 
 class TimelinePostViewModel constructor(
     private val apiClient: ApiClient,
@@ -48,6 +48,8 @@ class TimelinePostViewModel constructor(
                         call: Call<TimelinePost>,
                         response: Response<TimelinePost>
                     ) {
+                        if(response.body() == null) _response.value = ApiResponse(ResponseStatus.NOT_FOUND)
+
                         if (response.isSuccessful && response.body() != null) {
                             response.body()?.let { post ->
                                 _post.value = post
@@ -133,6 +135,25 @@ class TimelinePostViewModel constructor(
                     }
                 })
             }
+        }
+    }
+
+    fun deletePost(timelinePostId: String){
+        sharedPrefs.accessToken?.let {
+            apiClient.deletePost("Bearer $it", timelinePostId).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        _response.value = ApiResponse(ResponseStatus.DELETED)
+                    } else if (response.code() == 401) {
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    Log.e("CreateTimelinePostActivity", "onFailure: ", t)
+                }
+            })
         }
     }
 }

@@ -7,19 +7,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import butterknife.BindView
+import butterknife.OnClick
+import butterknife.OnTextChanged
+import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
+import nl.inholland.myvitality.util.RequestUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import butterknife.*
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
-import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
-import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
-import nl.inholland.myvitality.util.RequestUtils
 
 
 class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
@@ -37,9 +39,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
 
     @BindView(R.id.register_details_edit_text_last_name)
     lateinit var lastName: EditText
-
-    @BindView(R.id.register_details_edit_text_department)
-    lateinit var department: EditText
 
     @BindView(R.id.register_details_edit_text_jobtitle)
     lateinit var jobTitle: EditText
@@ -62,7 +61,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     @OnTextChanged(
         value = [R.id.register_details_edit_text_first_name,
             R.id.register_details_edit_text_last_name,
-            R.id.register_details_edit_text_department,
             R.id.register_details_edit_text_jobtitle,
             R.id.register_details_edit_text_location],
         callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED
@@ -70,7 +68,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     fun onFieldsChanged() {
         val isValid = firstName.text.isNotEmpty() &&
                 lastName.text.isNotEmpty() &&
-                department.text.isNotEmpty() &&
                 jobTitle.text.isNotEmpty() &&
                 location.text.isNotEmpty()
 
@@ -81,7 +78,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     fun onClickContinue() {
         val isValid = firstName.text.isNotEmpty() &&
                 lastName.text.isNotEmpty() &&
-                department.text.isNotEmpty() &&
                 jobTitle.text.isNotEmpty() &&
                 location.text.isNotEmpty()
 
@@ -96,7 +92,6 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
 
                 Dialogs.showGeneralLoadingDialog(this)
             }
-            // TODO: Extra error handling
         } else {
             error.visibility = View.VISIBLE
             error.text = getString(R.string.register_details_error)

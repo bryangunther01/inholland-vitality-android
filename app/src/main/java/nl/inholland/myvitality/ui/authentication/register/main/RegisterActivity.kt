@@ -8,21 +8,23 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import butterknife.BindView
+import butterknife.OnClick
+import butterknife.OnTextChanged
 import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
+import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import butterknife.*
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
-import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
 class RegisterActivity : BaseActivity(), Callback<Void> {
@@ -67,9 +69,9 @@ class RegisterActivity : BaseActivity(), Callback<Void> {
 
     @OnClick(R.id.register_button)
     fun onClickRegister() {
-        val isValid = email.text.length > 3 &&
+        val isValid = email.text.length >= 3 &&
                 Patterns.EMAIL_ADDRESS.matcher(email.text).matches() &&
-                password.text.length > PASSWORD_LENGTH &&
+                password.text.length >= PASSWORD_LENGTH &&
                 passwordMatch()
 
         if (isValid) {
@@ -81,8 +83,7 @@ class RegisterActivity : BaseActivity(), Callback<Void> {
 
     @OnTextChanged(R.id.register_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onEmailInputFieldChanged() {
-        if (email.text.length > 3) {
-            // TODO: Validate if is inholland email
+        if (email.text.length >= 3) {
             val isValid = FieldValidationUtil(this).setFieldState(
                 email, Patterns.EMAIL_ADDRESS.matcher(email.text).matches(), errorField, getString(
                     R.string.register_error_invalid_email
@@ -122,8 +123,8 @@ class RegisterActivity : BaseActivity(), Callback<Void> {
     @OnTextChanged(value = [R.id.register_edit_text_email, R.id.register_edit_text_password, R.id.register_edit_text_password_confirmation], callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onInputFieldsChanged() {
         val isValid = Patterns.EMAIL_ADDRESS.matcher(email.text).matches() &&
-            password.text.length > 3 &&
-            passwordConfirmation.text.length > 3 &&
+            password.text.length >= 3 &&
+            passwordConfirmation.text.length >= 3 &&
             passwordMatch()
 
         registerButton.isEnabled = isValid

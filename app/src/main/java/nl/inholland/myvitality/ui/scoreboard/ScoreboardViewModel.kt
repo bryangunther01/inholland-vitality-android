@@ -1,18 +1,17 @@
 package nl.inholland.myvitality.ui.notification
 
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.*
-import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.data.entities.ApiResponse
+import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.data.entities.ScoreboardUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 
 class ScoreboardViewModel constructor(
     private val apiClient: ApiClient,

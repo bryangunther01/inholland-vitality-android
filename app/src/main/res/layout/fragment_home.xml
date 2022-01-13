@@ -12,105 +12,110 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <View
             android:id="@+id/header_container"
             android:layout_width="match_parent"
             android:layout_height="165dp"
             android:background="@color/primary"
-            android:paddingTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/home_header_greeting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_lt_pro_heavy"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@id/header_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/header_guideline_top" />
+        <TextView
+            android:id="@+id/home_header_greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_heavy"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toTopOf="@id/home_header_profile_image"
+            app:layout_constraintBottom_toTopOf="@id/home_header_name"/>
 
-            <TextView
-                android:id="@+id/home_header_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_lt_pro_medium"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintStart_toEndOf="@id/header_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/home_header_greeting" />
+        <TextView
+            android:id="@+id/home_header_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_medium"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/home_header_profile_image"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/home_header_greeting" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toStartOf="@id/header_guideline_right"
-                app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/header_content_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="home_header_profile_image, home_header_scoreboard"/>
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/home_header_profile_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/person_placeholder"
-                    app:shapeAppearanceOverlay="@style/RoundedCorners"
-                    android:scaleType="centerCrop" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/home_header_profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/person_placeholder"
+            app:shapeAppearanceOverlay="@style/RoundedCorners"
+            app:layout_constraintStart_toStartOf="@id/header_content_barrier"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/home_header_scoreboard"/>
 
-                <TextView
-                    android:id="@+id/home_header_points"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_lt_pro_roman"
-                    android:text="184 punten"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+        <TextView
+            android:id="@+id/home_header_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_roman"
+            android:text="184 punten"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/home_header_profile_image"
+            app:layout_constraintBottom_toTopOf="@id/home_header_scoreboard"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toStartOf="@id/header_content_barrier"/>
 
-                <TextView
-                    android:id="@+id/home_header_scoreboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_lt_pro_black"
-                    android:text="@string/home_header_scoreboard_text"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    tools:ignore="DuplicateIds" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/home_header_scoreboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_black"
+            android:text="@string/home_header_scoreboard_text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/home_header_profile_image"
+            app:layout_constraintBottom_toBottomOf="@id/header_container"
+            app:layout_constraintStart_toStartOf="@id/header_content_barrier"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/header_guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="20dp" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/header_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_small_medium"
+            app:constraint_referenced_ids="home_header_profile_image, home_header_points, home_header_scoreboard"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/header_guideline_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="15dp" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/header_barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_small_medium"
+            app:constraint_referenced_ids="home_header_profile_image, home_header_points, home_header_scoreboard, home_curr_chl_content"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/header_guideline_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="15dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/home_curr_chl_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-25dp"
             android:background="@color/white"
             app:cardCornerRadius="5dp"
             app:contentPadding="15dp"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/header_container">
+            app:layout_constraintTop_toBottomOf="@id/header_barrier">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,13 +160,12 @@
             android:id="@+id/home_exp_chl_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_big"
             android:background="@color/white"
             app:cardCornerRadius="5dp"
             app:contentPadding="15dp"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/home_curr_chl_content">
+            app:layout_constraintTop_toBottomOf="@id/header_barrier2">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -201,6 +205,15 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_bottom"
             android:layout_width="wrap_content"
@@ -222,6 +235,200 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="12.5dp" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content">-->
+
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:id="@+id/header_container"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="165dp"-->
+    <!--            android:background="@color/primary"-->
+    <!--            android:paddingTop="20dp"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/home_header_greeting"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:fontFamily="@font/avenir_lt_pro_heavy"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="20sp"-->
+    <!--                app:layout_constraintStart_toEndOf="@id/header_guideline_left"-->
+    <!--                app:layout_constraintTop_toBottomOf="@id/header_guideline_top" />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/home_header_name"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:fontFamily="@font/avenir_lt_pro_medium"-->
+    <!--                android:textColor="@color/white"-->
+    <!--                android:textSize="20sp"-->
+    <!--                app:layout_constraintStart_toEndOf="@id/header_guideline_left"-->
+    <!--                app:layout_constraintTop_toBottomOf="@id/home_header_greeting" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:gravity="center"-->
+    <!--                android:orientation="vertical"-->
+    <!--                app:layout_constraintEnd_toStartOf="@id/header_guideline_right"-->
+    <!--                app:layout_constraintTop_toTopOf="parent">-->
+
+    <!--                <com.google.android.material.imageview.ShapeableImageView-->
+    <!--                    android:id="@+id/home_header_profile_image"-->
+    <!--                    android:layout_width="80dp"-->
+    <!--                    android:layout_height="80dp"-->
+    <!--                    android:src="@drawable/person_placeholder"-->
+    <!--                    app:shapeAppearanceOverlay="@style/RoundedCorners"-->
+    <!--                    android:scaleType="centerCrop" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/home_header_points"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:fontFamily="@font/avenir_lt_pro_roman"-->
+    <!--                    android:text="184 punten"-->
+    <!--                    android:textColor="@color/white"-->
+    <!--                    android:textSize="14sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/home_header_scoreboard"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:fontFamily="@font/avenir_lt_pro_black"-->
+    <!--                    android:text="@string/home_header_scoreboard_text"-->
+    <!--                    android:textColor="@color/white"-->
+    <!--                    android:textSize="14sp"-->
+    <!--                    tools:ignore="DuplicateIds" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <androidx.constraintlayout.widget.Guideline-->
+    <!--                android:id="@+id/header_guideline_top"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                app:layout_constraintGuide_begin="20dp" />-->
+
+    <!--            <androidx.constraintlayout.widget.Guideline-->
+    <!--                android:id="@+id/header_guideline_left"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical"-->
+    <!--                app:layout_constraintGuide_begin="15dp" />-->
+
+    <!--            <androidx.constraintlayout.widget.Guideline-->
+    <!--                android:id="@+id/header_guideline_right"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical"-->
+    <!--                app:layout_constraintGuide_end="15dp" />-->
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/home_curr_chl_content"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="-25dp"-->
+    <!--            android:background="@color/white"-->
+    <!--            app:cardCornerRadius="5dp"-->
+    <!--            app:contentPadding="15dp"-->
+    <!--            app:layout_constraintEnd_toStartOf="@id/guideline_right"-->
+    <!--            app:layout_constraintStart_toEndOf="@id/guideline_left"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/header_container">-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:gravity="center_vertical"-->
+    <!--                    android:orientation="horizontal">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/home_curr_chl_icon"-->
+    <!--                        android:layout_width="28dp"-->
+    <!--                        android:layout_height="28dp"-->
+    <!--                        android:layout_marginEnd="@dimen/margin_small"-->
+    <!--                        android:contentDescription="@string/content_desc_current_chl_icon"-->
+    <!--                        android:src="@drawable/ic_run" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/home_curr_chl_title"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:fontFamily="@font/avenir_lt_pro_book"-->
+    <!--                        android:text="@string/home_title_curr_chl"-->
+    <!--                        android:textColor="@color/black"-->
+    <!--                        android:textSize="18sp" />-->
+    <!--                </LinearLayout>-->
+
+
+    <!--                <androidx.recyclerview.widget.RecyclerView-->
+    <!--                    android:id="@+id/home_curr_chl_recyclerview"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="@dimen/margin_small"-->
+    <!--                    android:orientation="horizontal" />-->
+    <!--            </LinearLayout>-->
+    <!--        </androidx.cardview.widget.CardView>-->
+
+    <!--        <androidx.cardview.widget.CardView-->
+    <!--            android:id="@+id/home_exp_chl_content"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="@dimen/margin_big"-->
+    <!--            android:background="@color/white"-->
+    <!--            app:cardCornerRadius="5dp"-->
+    <!--            app:contentPadding="15dp"-->
+    <!--            app:layout_constraintEnd_toStartOf="@id/guideline_right"-->
+    <!--            app:layout_constraintStart_toEndOf="@id/guideline_left"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/home_curr_chl_content">-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:gravity="center_vertical"-->
+    <!--                    android:orientation="horizontal">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/home_exp_chl_icon"-->
+    <!--                        android:layout_width="28dp"-->
+    <!--                        android:layout_height="28dp"-->
+    <!--                        android:layout_marginEnd="@dimen/margin_small"-->
+    <!--                        android:contentDescription="@string/content_desc_current_chl_icon"-->
+    <!--                        android:src="@drawable/ic_light" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/home_exp_chlivities_title"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:fontFamily="@font/avenir_lt_pro_book"-->
+    <!--                        android:text="@string/home_title_disc_chl"-->
+    <!--                        android:textColor="@color/black"-->
+    <!--                        android:textSize="18sp" />-->
+    <!--                </LinearLayout>-->
+
+    <!--                <androidx.recyclerview.widget.RecyclerView-->
+    <!--                    android:id="@+id/home_exp_chl_recyclerview"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginTop="@dimen/margin_small"-->
+    <!--                    android:orientation="horizontal" />-->
+    <!--            </LinearLayout>-->
+    <!--        </androidx.cardview.widget.CardView>-->
+
 </androidx.core.widget.NestedScrollView>

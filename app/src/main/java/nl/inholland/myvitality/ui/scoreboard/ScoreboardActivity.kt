@@ -11,11 +11,9 @@ import butterknife.BindView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.adapters.NotificationAdapter
 import nl.inholland.myvitality.data.adapters.ScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModelFactory
 import javax.inject.Inject
@@ -127,18 +125,12 @@ class ScoreboardActivity : BaseActivity() {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.UNAUTHORIZED -> startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                )
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(nl.inholland.myvitality.R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                ResponseStatus.UPDATED_VALUE -> { }
+                else -> {}
             }
 
             isCalling = false

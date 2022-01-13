@@ -39,7 +39,7 @@
 
     <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
     <string name="tutorial_last_subtitle">Meld je nu aan en krijg toegang tot de onderstaande voordelen!</string>
-    <string name="tutorial_advantage_1">Krijg toegang tot leuke challenges</string>
+    <string name="tutorial_advantage_1">Krijg toegang tot leuke activiteiten</string>
     <string name="tutorial_advantage_2">Houd de voortgang van jouw activiteiten bij</string>
     <string name="tutorial_advantage_3">Deel jouw voortgang op jouw profiel</string>
     <string name="tutorial_advantage_4">Kom in contact met jouw collega\'s</string>
@@ -85,38 +85,38 @@
     <!-- Register Details Strings -->
     <string name="register_details_title_1">De laatste stapjes,</string>
     <string name="register_details_subtitle_1">op naar vitaliteit!</string>
-    <string name="register_details_hint_firstname">Voornaam</string>
-    <string name="register_details_hint_lastname">Achternaam</string>
-    <string name="register_details_hint_department">Afdeling</string>
-    <string name="register_details_hint_jobtitle">Functietitel</string>
-    <string name="register_details_hint_location">Locatie</string>
+    <string name="hint_firstname">Voornaam</string>
+    <string name="hint_lastname">Achternaam</string>
+    <string name="hint_department">Afdeling</string>
+    <string name="hint_jobtitle">Functietitel</string>
+    <string name="hint_location">Locatie</string>
     <string name="register_details_1_button_text">Ga verder</string>
     <string name="register_details_error">Vul alle velden in</string>
 
     <string name="register_details_title_2">We zijn er bijna,</string>
     <string name="register_details_subtitle_2">vertel meer over jezelf!</string>
     <string name="register_details_photo_info">Een foto maakt jouw profiel net iets persoonlijker. (optioneel)</string>
-    <string name="register_details_hint_profile_description">Wat betekend vitaliteit voor jou? (Minimaal %01d karakters)</string>
+    <string name="hint_profile_description">Wat betekend vitaliteit voor jou? (Minimaal %01d karakters)</string>
     <string name="register_details_2_button_text">Start nu!</string>
 
     <!-- Home Fragment -->
     <string name="home_header_scoreboard_text">Bekijk scorebord</string>
-    <string name="content_desc_current_chl_icon">Current Challenges Icon</string>
+    <string name="content_desc_current_chl_icon">Current Activities Icon</string>
     <string name="home_points_text">%1$s punten</string>
-    <string name="home_title_curr_chl">Huidige challenges</string>
-    <string name="home_title_disc_chl">Ontdek challenges</string>
+    <string name="home_title_curr_chl">Huidige activiteiten</string>
+    <string name="home_title_disc_chl">Ontdek activiteiten</string>
     <string name="challenge_view_item_button_text">Bekijk voortgang</string>
-    <string name="challenge_view_item_button_text_exp">Bekijk challenge</string>
+    <string name="challenge_view_item_button_text_exp">Bekijk activiteit</string>
 
     <!-- Challenge Strings -->
-    <string name="challenge_button_start_text">Start challenge</string>
-    <string name="challenge_button_complete_text">Voltooi challenge</string>
-    <string name="challenge_button_cancel_text">Stop challenge</string>
+    <string name="challenge_button_start_text">Start activiteit</string>
+    <string name="challenge_button_complete_text">Voltooi activiteit</string>
+    <string name="challenge_button_cancel_text">Stop activiteit</string>
     <string name="challenge_points_message_1">Verdien</string>
-    <string name="challenge_points_message_2">punten met deze challenge</string>
+    <string name="challenge_points_message_2">punten met deze activiteit</string>
     <string name="challenge_date_text">Start</string>
-    <string name="dialog_challenge_title">Stop de challenge</string>
-    <string name="dialog_challenge_body">Je staat op het punt om te stoppen met deze challenge, weet je dat zeker?</string>
+    <string name="dialog_challenge_title">Stop de activiteit</string>
+    <string name="dialog_challenge_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
     <string name="dialog_challenge_button_confirm_text">Ik weet het zeker</string>
     <string name="dialog_challenge_button_cancel_text">Ga terug</string>
 
@@ -127,11 +127,13 @@
     <string name="navigation_notifications">Notificaties</string>
     <string name="navigation_profile">Profiel</string>
     <string name="navigation_scoreboard">Scorebord</string>
-    <string name="navigation_notification_settings">Notificatie Instellingen</string>
+    <string name="navigation_logout">Uitloggen</string>
+    <string name="navigation_settings">Instellingen</string>
 
     <!-- Timeline post -->
     <string name="post_text_comments">reactie(s)</string>
     <string name="timeline_hint_search">Wie wil je zoeken?</string>
+    <string name="timeline_empty">Geen berichten</string>
     <string name="post_button_comment">Reageer</string>
     <string name="post_button_like">Vind ik leuk</string>
     <string name="post_like_count">Jij en %1$s anderen</string>
@@ -139,13 +141,14 @@
     <string name="create_post_button">Plaats</string>
     <string name="create_post_image_button_text">Voeg afbeelding toe</string>
     <string name="create_post_hint">Wat wil je met je collega\'s delen?</string>
+    <string name="comments_empty">Nog geen reacties</string>
 
     <!-- Profile strings -->
     <string name="profile_follow">Volgen</string>
     <string name="profile_unfollow">Ontvolgen</string>
     <string name="profile_edit">Wijzig profiel</string>
     <string name="profile_points">punten</string>
-    <string name="profile_curr_challenges">Huidige challenges</string>
+    <string name="profile_curr_challenges">Huidige activiteiten</string>
     <string name="profile_prize_cabinet">%1$s\'s Prijzenkast</string>
     <string name="profile_your_prize_cabinet">Jouw Prijzenkast</string>
     <string name="profile_dialog_title">%1$s ontvolgen?</string>
@@ -154,12 +157,20 @@
     <string name="profile_dialog_button_confirm_text">Ontvolgen</string>
     <string name="profile_dialog_button_cancel_text">Annuleren</string>
 
+    <!-- Profile edit strings -->
+    <string name="profile_edit_profile_image_title">Profielfoto</string>
+    <string name="profile_edit_personal_details_title">Persoonlijke informatie</string>
+    <string name="profile_edit_description_title">Biografie</string>
+    <string name="profile_edit_modify">Aanpassen</string>
+    <string name="profile_edit_save">Opslaan</string>
+
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>
     <string name="notification_comment">&lt;b>%1$s&lt;/b> heeft gereageerd op je bericht</string>
     <string name="notification_follow">&lt;b>%1$s&lt;/b> volgt je nu!</string>
     <string name="notification_new_activity_title">Er is een nieuwe activiteit beschikbaar</string>
     <string name="notification_new_activity_subtitle">Klik om te bekijken</string>
+    <string name="notifications_empty">Geen notificaties</string>
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>

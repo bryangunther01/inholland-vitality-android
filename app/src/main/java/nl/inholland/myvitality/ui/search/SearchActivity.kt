@@ -17,7 +17,6 @@ import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import javax.inject.Inject
 
 class SearchActivity : BaseActivity() {
@@ -127,19 +126,12 @@ class SearchActivity : BaseActivity() {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.UNAUTHORIZED -> startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                )
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                ResponseStatus.UPDATED_VALUE -> {
-                }
+                else -> {}
             }
         })
     }

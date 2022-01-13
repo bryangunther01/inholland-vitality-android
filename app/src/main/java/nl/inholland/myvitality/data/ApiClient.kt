@@ -2,7 +2,6 @@ package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.*
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
-import nl.inholland.myvitality.data.entities.requestbody.ProfileDetails
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -12,16 +11,6 @@ import retrofit2.http.*
 interface ApiClient {
 
     /** Authentication calls **/
-    @POST("login")
-    fun login(
-        @Body body: AuthRequest
-    ): Call<AuthSettings>
-
-    @POST("login/refresh")
-    fun refreshToken(
-        @Query("refreshToken") token: String
-    ): Call<AuthSettings>
-
     @POST("user")
     fun register(
         @Body body: AuthRequest
@@ -122,10 +111,18 @@ interface ApiClient {
         @Body body: TimelinePostRequest,
     ): Call<Void>
 
+    @Multipart
     @POST("timelinepost")
     fun createPost(
         @Header("Authorization") token: String,
-        @Body body: RequestBody,
+        @Part("Text") message: RequestBody,
+        @Part file: MultipartBody.Part? = null
+    ): Call<Void>
+
+    @DELETE("timelinepost/{timelinePostId}")
+    fun deletePost(
+        @Header("Authorization") token: String,
+        @Path("timelinePostId") timelinePostId: String,
     ): Call<Void>
 
     @GET("timelinepost/{timelinePostId}/likers")

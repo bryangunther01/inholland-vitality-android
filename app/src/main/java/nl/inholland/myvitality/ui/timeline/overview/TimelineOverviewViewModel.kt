@@ -6,11 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.ApiResponse
+import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.data.entities.TimelinePost
+import nl.inholland.myvitality.data.entities.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 
 class TimelineOverviewViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
@@ -53,8 +55,8 @@ class TimelineOverviewViewModel constructor(private val apiClient: ApiClient, pr
             apiClient.getTimelinePosts("Bearer $it", limit , offset).enqueue(object : Callback<List<TimelinePost>> {
                 override fun onResponse(call: Call<List<TimelinePost>>, response: Response<List<TimelinePost>>) {
                     if (response.isSuccessful && response.body() != null) {
-                        response.body()?.let { users ->
-                            _posts.value = users
+                        response.body()?.let { posts ->
+                            _posts.value = posts
                         }
                     } else if (response.code() == 401) {
                         _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)

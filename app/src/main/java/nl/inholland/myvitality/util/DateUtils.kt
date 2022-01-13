@@ -3,7 +3,6 @@ package nl.inholland.myvitality.util
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import nl.inholland.myvitality.R
-import java.time.LocalDate
 import java.util.*
 
 class DateUtils {

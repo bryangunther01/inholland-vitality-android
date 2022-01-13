@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.profile
+package nl.inholland.myvitality.ui.profile.overview
 
 import android.util.Log
 import androidx.lifecycle.LiveData

@@ -23,7 +23,7 @@
             app:layout_constraintTop_toBottomOf="@id/header_container">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/timeline_profile_image"
+                android:id="@+id/post_profile_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@drawable/person_placeholder"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="end"
                 app:barrierMargin="@dimen/margin_normal"
-                app:constraint_referenced_ids="timeline_profile_image" />
+                app:constraint_referenced_ids="post_profile_image" />
 
             <TextView
                 android:id="@+id/post_user_name"
@@ -59,7 +59,7 @@
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/notification_image_barrier"
                 app:layout_constraintTop_toBottomOf="@id/post_user_name"
-                app:layout_constraintBottom_toBottomOf="@id/timeline_profile_image"/>
+                app:layout_constraintBottom_toBottomOf="@id/post_profile_image"/>
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/comment_user_details_barrier"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:barrierMargin="@dimen/margin_medium_big"
-                app:constraint_referenced_ids="timeline_profile_image, post_user_name, post_date" />
+                app:constraint_referenced_ids="post_profile_image, post_user_name, post_date" />
 
             <TextView
                 android:id="@+id/post_content"
@@ -83,7 +83,7 @@
             <ImageView
                 android:id="@+id/post_image"
                 android:layout_width="0dp"
-                android:layout_height="175dp"
+                android:layout_height="300dp"
                 android:src="@drawable/challenge_placeholder"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"

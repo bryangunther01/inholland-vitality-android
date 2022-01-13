@@ -1,5 +1,6 @@
 package nl.inholland.myvitality.ui.authentication.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
@@ -7,30 +8,31 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import butterknife.BindView
+import butterknife.OnClick
+import butterknife.OnTextChanged
 import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
+import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.AuthSettings
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
+import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import butterknife.*
-import android.content.Intent
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
-import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
-import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
-import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
-import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 
 
 class LoginActivity : BaseActivity(), Callback<AuthSettings> {
-    @Inject lateinit var apiClient: ApiClient
+    @Inject lateinit var apiClient: TokenApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
     @BindView(R.id.login_error) lateinit var errorField: TextView
     @BindView(R.id.login_edit_text_email) lateinit var email: EditText
@@ -62,8 +64,8 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
                 password.text.length > 3
 
         if(isValid){
-            apiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
             Dialogs.showGeneralLoadingDialog(this)
+            apiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
         }
     }
 
@@ -99,6 +101,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             response.body()?.let {
                 sharedPrefs.accessToken = it.accessToken
                 sharedPrefs.refreshToken = it.refreshToken
+                sharedPrefs.tokenExpireTime = it.expiresIn
             }
 
             var intent = Intent(this, MainActivity::class.java)

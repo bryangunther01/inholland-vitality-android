@@ -1,7 +1,9 @@
 package nl.inholland.myvitality.ui.notification
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,17 +15,22 @@ import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.NotificationAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import javax.inject.Inject
 
 
 class NotificationActivity : BaseActivity() {
 
-    @BindView(nl.inholland.myvitality.R.id.notifications_recyclerview)
+    @BindView(R.id.notification_empty_icon)
+    lateinit var notificationEmptyIcon: ImageView
+
+    @BindView(R.id.notification_empty_text)
+    lateinit var notificationEmptyText: TextView
+
+    @BindView(R.id.notifications_recyclerview)
     lateinit var recyclerView: RecyclerView
 
-    @BindView(nl.inholland.myvitality.R.id.notifications_refresh_layout)
+    @BindView(R.id.notifications_refresh_layout)
     lateinit var refreshLayout: SwipeRefreshLayout
 
     @Inject
@@ -73,8 +80,7 @@ class NotificationActivity : BaseActivity() {
         refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadNotifications(true)
-            // TODO:
-//            skeletonScreen?.show()
+            Dialogs.showGeneralLoadingDialog(this)
         }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -98,10 +104,19 @@ class NotificationActivity : BaseActivity() {
         tryLoadNotifications()
 
         viewModel.notifications.observe(this, {
+            if(page == 0 && it.isEmpty()){
+                notificationEmptyIcon.visibility = View.VISIBLE
+                notificationEmptyText.visibility = View.VISIBLE
+                recyclerView.visibility = View.INVISIBLE
+            } else {
+                notificationEmptyIcon.visibility = View.INVISIBLE
+                notificationEmptyText.visibility = View.INVISIBLE
+                recyclerView.visibility = View.VISIBLE
+            }
+
             adapter?.addItems(it)
 
-            // TODO
-//            if (page == 0) skeletonScreen?.hide()
+            Dialogs.hideCurrentDialog()
             if (it.isNotEmpty()) page += 1
 
             refreshLayout.isRefreshing = false
@@ -120,18 +135,12 @@ class NotificationActivity : BaseActivity() {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.UNAUTHORIZED -> startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                )
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
-                    getString(nl.inholland.myvitality.R.string.api_error),
+                    getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                ResponseStatus.UPDATED_VALUE -> { }
+                else -> {}
             }
         })
     }

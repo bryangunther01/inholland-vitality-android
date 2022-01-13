@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 
 class UserListAdapter(context: Context) :
     BaseRecyclerAdapter<SimpleUser, UserListAdapter.ViewHolder>(context) {
@@ -26,13 +26,16 @@ class UserListAdapter(context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[position]
 
-        holder.profileImage.load(currentItem.profileImage)
+        Glide.with(context)
+            .load(currentItem.profileImage)
+            .into(holder.profileImage)
+
         holder.userName.text = currentItem.fullName
 
         holder.userDetails.text = ""
-        holder.userDetails.append(currentItem.jobTitle)
-        currentItem.location.let{
-            holder.userDetails.append(", $it")
+
+        if(currentItem.jobTitle != null && currentItem.location != null){
+            holder.userDetails.append("${currentItem.jobTitle}, ${currentItem.location}")
         }
 
         holder.itemView.setOnClickListener { view ->

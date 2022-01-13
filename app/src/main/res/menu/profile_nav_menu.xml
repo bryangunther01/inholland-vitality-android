@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_notification_settings"
-        android:icon="@drawable/ic_settings"
+        android:id="@+id/profile_logout"
+        android:icon="@drawable/ic_exit"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:title="@string/navigation_notification_settings" />
+        android:title="@string/navigation_logout" />
 
 </menu>

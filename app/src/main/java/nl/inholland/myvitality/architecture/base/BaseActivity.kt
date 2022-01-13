@@ -1,13 +1,9 @@
 package nl.inholland.myvitality.architecture.base
 
-import androidx.appcompat.app.AppCompatActivity
-import butterknife.ButterKnife
-
 import android.os.Bundle
 import androidx.annotation.LayoutRes
-import dagger.android.support.DaggerAppCompatActivity
-
-import androidx.lifecycle.ViewModel
+import androidx.appcompat.app.AppCompatActivity
+import butterknife.ButterKnife
 
 
 abstract class BaseActivity : AppCompatActivity() {

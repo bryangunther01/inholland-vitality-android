@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Notification
 import nl.inholland.myvitality.data.entities.NotificationType
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
 
@@ -34,9 +35,12 @@ class NotificationAdapter(context: Context) :
 
         when(currentItem.type){
             NotificationType.LIKE -> {
-                holder.image.load(currentItem.profileImage)
+                Glide.with(context)
+                    .load(currentItem.profileImage)
+                    .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
+                holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
                     view.context.startActivity(
@@ -46,10 +50,14 @@ class NotificationAdapter(context: Context) :
                 }
             }
             NotificationType.COMMENT -> {
-                holder.image.load(currentItem.profileImage)
-                // TODO: Fix text not going to next line
+                Glide.with(context)
+                    .load(currentItem.profileImage)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
+                holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
                     view.context.startActivity(
@@ -59,13 +67,12 @@ class NotificationAdapter(context: Context) :
                 }
             }
             NotificationType.FOLLOW -> {
-                holder.image.load(currentItem.profileImage)
+                Glide.with(context)
+                    .load(currentItem.profileImage)
+                    .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_follow, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
-
-                if(currentItem.isFollowing == false){
-                    // TODO: Show follow icon if not following
-                }
+                holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
                     view.context.startActivity(

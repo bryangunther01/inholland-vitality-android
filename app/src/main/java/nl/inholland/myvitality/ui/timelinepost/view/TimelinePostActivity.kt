@@ -5,43 +5,38 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.button.MaterialButton
 import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.CommentAdapter
-import nl.inholland.myvitality.data.entities.Comment
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.TimelinePost
-import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class TimelinePostActivity : BaseActivity() {
     @Inject
-    lateinit var apiClient: ApiClient
-
-    @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
 
-    @BindView(R.id.timeline_profile_image)
+    @BindView(R.id.post_profile_image)
     lateinit var profileImage: ImageView
+    @BindView(R.id.post_delete)
+    lateinit var deleteIcon: ImageView
     @BindView(R.id.post_user_name)
     lateinit var userName: TextView
     @BindView(R.id.post_date)
@@ -56,6 +51,8 @@ class TimelinePostActivity : BaseActivity() {
     lateinit var likedCount: TextView
     @BindView(R.id.post_comment_count)
     lateinit var commentCount: TextView
+    @BindView(R.id.comments_empty_text)
+    lateinit var commentsEmptyText: TextView
     @BindView(R.id.comment_recyclerview)
     lateinit var recyclerView: RecyclerView
     @BindView(R.id.post_like_button)
@@ -150,7 +147,7 @@ class TimelinePostActivity : BaseActivity() {
         })
     }
 
-    @OnClick(value = [R.id.timeline_profile_image, R.id.post_user_name])
+    @OnClick(value = [R.id.post_profile_image, R.id.post_user_name])
     fun onClickUser(){
         startActivity(
             Intent(this, ProfileActivity::class.java)
@@ -211,14 +208,28 @@ class TimelinePostActivity : BaseActivity() {
         viewModel.post.observe(this, { timelinePost ->
             currentPost = timelinePost
 
-            profileImage.load(timelinePost.profilePicture)
+            sharedPrefs.currentUserId?.let {
+                if(it == timelinePost.userId){
+                    deleteIcon.visibility = View.VISIBLE
+                    deleteIcon.setOnClickListener { viewModel.deletePost(currentPostId) }
+                }
+            }
+
+            Glide.with(this)
+                .load(timelinePost.profilePicture)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(profileImage)
+
             userName.text = timelinePost.fullName
             date.append(DateUtils.formatDateToTimeAgo(this, timelinePost.publishDate))
             content.text = timelinePost.text
 
             timelinePost.imageUrl?.let {
                 image.visibility = View.VISIBLE
-                image.load(it)
+                Glide.with(this)
+                    .load(it)
+                    .into(image)
             }
 
             if (timelinePost.countOfLikes > 0) {
@@ -245,6 +256,14 @@ class TimelinePostActivity : BaseActivity() {
 
     private fun initComments(){
         viewModel.comments.observe(this, {
+            if(page == 0 && it.isEmpty()) {
+                commentsEmptyText.visibility = View.VISIBLE
+                recyclerView.visibility = View.INVISIBLE
+            } else {
+                commentsEmptyText.visibility = View.INVISIBLE
+                recyclerView.visibility = View.VISIBLE
+            }
+
             if (it.isNotEmpty()) {
                 adapter?.addItems(it)
                 page += 1
@@ -260,10 +279,16 @@ class TimelinePostActivity : BaseActivity() {
         isCalling = true
         viewModel.getComments(currentPostId, limit, limit * page)
     }
+
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
+                ResponseStatus.DELETED -> finish()
+                ResponseStatus.NOT_FOUND -> {
+                    Toast.makeText(this, getString(R.string.api_error_post), Toast.LENGTH_LONG).show()
+                    finish()
+                }
                 else -> {}
             }
 

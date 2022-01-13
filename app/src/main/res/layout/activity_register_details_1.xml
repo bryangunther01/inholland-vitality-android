@@ -93,7 +93,7 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_person"
-                    android:hint="@string/register_details_hint_firstname"
+                    android:hint="@string/hint_firstname"
                     android:minHeight="48dp"
                     android:inputType="textPersonName|textCapSentences" />
 
@@ -106,21 +106,8 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_person"
-                    android:hint="@string/register_details_hint_lastname"
+                    android:hint="@string/hint_lastname"
                     android:inputType="textPersonName|textCapSentences"
-                    android:minHeight="48dp" />
-
-                <EditText
-                    android:id="@+id/register_details_edit_text_department"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_medium_big"
-                    android:drawableStart="@drawable/ic_department"
-                    android:hint="@string/register_details_hint_department"
-                    android:inputType="textCapSentences"
                     android:minHeight="48dp" />
 
                 <EditText
@@ -132,7 +119,7 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_suitcase"
-                    android:hint="@string/register_details_hint_jobtitle"
+                    android:hint="@string/hint_jobtitle"
                     android:inputType="textCapWords"
                     android:minHeight="48dp" />
 
@@ -145,7 +132,7 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:drawableStart="@drawable/ic_location"
-                    android:hint="@string/register_details_hint_location"
+                    android:hint="@string/hint_location"
                     android:inputType="textCapSentences"
                     android:minHeight="48dp" />
 

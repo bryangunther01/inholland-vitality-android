@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.profile
+package nl.inholland.myvitality.ui.timelinepost.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -7,11 +7,11 @@ import nl.inholland.myvitality.data.ApiClient
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class ProfileViewModelFactory @Inject constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModelProvider.Factory {
+class CreateTimelinePostViewModelFactory @Inject constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            return ProfileViewModel(apiClient, sharedPrefs) as T
+        if (modelClass.isAssignableFrom(CreateTimelinePostViewModel::class.java)) {
+            return CreateTimelinePostViewModel(apiClient, sharedPrefs) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

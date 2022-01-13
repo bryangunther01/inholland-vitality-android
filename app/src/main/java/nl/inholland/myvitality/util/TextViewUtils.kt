@@ -1,14 +1,9 @@
 package nl.inholland.myvitality.util
 
 import android.content.Context
-import android.icu.text.SimpleDateFormat
-import android.util.Log
-
 import android.text.Spannable
-
-import android.text.style.ForegroundColorSpan
-
 import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import nl.inholland.myvitality.R
 import java.util.*
 

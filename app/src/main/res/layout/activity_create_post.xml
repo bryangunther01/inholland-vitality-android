@@ -70,17 +70,39 @@
             android:inputType="textMultiLine|textCapSentences"
             android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/create_post_header_barrier"
-            app:layout_constraintBottom_toTopOf="@id/create_post_bottom_buttons"
+            app:layout_constraintBottom_toTopOf="@id/create_post_image_preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <ImageView
+            android:id="@+id/create_post_image_preview"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:src="@drawable/challenge_placeholder"
+            android:scaleType="centerCrop"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/create_post_bottom_buttons"/>
 
+        <ImageView
+            android:id="@+id/create_post_image_preview_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cancel"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="@id/create_post_image_preview"
+            app:layout_constraintEnd_toEndOf="@id/create_post_image_preview"
+            app:layout_constraintTop_toTopOf="@id/create_post_image_preview"
+            app:layout_constraintBottom_toBottomOf="@id/create_post_image_preview"/>
+        
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/create_post_bottom_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
             app:constraint_referenced_ids="create_post_image_upload_button" />
+
 
         <View
             android:id="@+id/create_post_hr_bottom"

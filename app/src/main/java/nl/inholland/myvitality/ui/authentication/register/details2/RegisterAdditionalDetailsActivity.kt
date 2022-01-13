@@ -1,36 +1,29 @@
 package nl.inholland.myvitality.ui.authentication.register.details2
 
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.widget.*
 import butterknife.BindView
+import butterknife.OnClick
+import butterknife.OnTextChanged
+import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
+import nl.inholland.myvitality.util.ImageUploadUtil
+import nl.inholland.myvitality.util.RequestUtils
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import android.content.Intent
-
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
-
-import android.widget.Toast
-
-import android.graphics.Bitmap
-
-import android.net.Uri
-
-import android.graphics.drawable.BitmapDrawable
-import butterknife.OnClick
-import butterknife.OnTextChanged
-import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
-import nl.inholland.myvitality.util.RequestUtils
-import java.io.*
 
 
 class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
@@ -48,8 +41,8 @@ class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
     @BindView(R.id.register_details_2_button)
     lateinit var button: Button
 
-    val PICK_IMAGE = 1000
-    val DESCRIPTION_LENGTH = 10
+    private val PICK_IMAGE = 1000
+    private val DESCRIPTION_LENGTH = 10
 
     private var selectedImage: Uri? = null
     private var filePath: String? = null
@@ -66,10 +59,9 @@ class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, PICK_IMAGE)
-//            Toast.makeText(this, "WIP - Upload Profile Image",  Toast.LENGTH_LONG).show()
         }
 
-        description.hint = getString(R.string.register_details_hint_profile_description, DESCRIPTION_LENGTH)
+        description.hint = getString(R.string.hint_profile_description, DESCRIPTION_LENGTH)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,13 +77,13 @@ class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
 
     @OnTextChanged(R.id.register_details_edit_text_description)
     fun onDescriptionChanged(){
-        val isValid = description.text.length > 10
+        val isValid = description.text.length >= DESCRIPTION_LENGTH
         button.isEnabled = isValid
     }
 
     @OnClick(R.id.register_details_2_button)
     fun onClickStart(){
-        val isValid = description.text.length > 10
+        val isValid = description.text.length >= DESCRIPTION_LENGTH
 
         if(isValid){
             val description = RequestUtils.createPartFromString(description.text.toString())
@@ -99,7 +91,7 @@ class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
             if(imageButton.drawable is BitmapDrawable) {
                 selectedImage?.let {
                     val bitmap = (imageButton.drawable as BitmapDrawable).bitmap
-                    val file = convertBitmapToFile("profile_image.png", bitmap)
+                    val file = ImageUploadUtil.convertBitmapToFile(this,"profile_image.png", bitmap)
                     val reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
 
                     val filePart = MultipartBody.Part.createFormData("file", file.name, reqFile)
@@ -119,34 +111,6 @@ class RegisterAdditionalDetailsActivity : BaseActivity(), Callback<Void> {
             }
         }
     }
-
-    private fun convertBitmapToFile(fileName: String, bitmap: Bitmap): File {
-        //create a file to write bitmap data
-        val file = File(this.cacheDir, fileName)
-        file.createNewFile()
-
-        //Convert bitmap to byte array
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 /*ignored for PNG*/, bos)
-        val bitMapData = bos.toByteArray()
-
-        //write the bytes in file
-        var fos: FileOutputStream? = null
-        try {
-            fos = FileOutputStream(file)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
-        try {
-            fos?.write(bitMapData)
-            fos?.flush()
-            fos?.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return file
-    }
-
 
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
         if (response.isSuccessful) {

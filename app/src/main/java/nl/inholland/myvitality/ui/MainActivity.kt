@@ -2,16 +2,15 @@ package nl.inholland.myvitality.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.databinding.ActivityMainBinding
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 
@@ -68,6 +67,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
+        val currentFragment = this.supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        currentFragment?.let{
+            if(fragment::class.java == currentFragment::class.java) return
+            if(currentFragment.isRemoving) return
+        }
+
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             commit()

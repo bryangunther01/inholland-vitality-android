@@ -8,7 +8,7 @@ import nl.inholland.myvitality.ui.challenge.ChallengeViewModel
 import nl.inholland.myvitality.ui.home.HomeViewModelFactory
 import nl.inholland.myvitality.ui.notification.NotificationViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
-import nl.inholland.myvitality.ui.profile.ProfileViewModel
+import nl.inholland.myvitality.ui.profile.overview.ProfileViewModel
 import nl.inholland.myvitality.ui.search.SearchViewModel
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedViewModel
 import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewViewModel

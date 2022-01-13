@@ -9,8 +9,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeType
@@ -26,9 +27,10 @@ class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true
         val currentItem = items[position]
 
         // Load the challenge image with a fallback image
-        holder.challengeImage.load(currentItem.imageLink) {
-            transformations(RoundedCornersTransformation(20f))
-        }
+        Glide.with(context)
+            .load(currentItem.imageLink)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+            .into(holder.challengeImage)
 
         // Set the challenge type
         when (currentItem.challengeType) {

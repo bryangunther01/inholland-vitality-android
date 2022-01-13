@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.timeline.liked
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -14,11 +13,6 @@ import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class TimelineLikedActivity : BaseActivity() {
@@ -122,19 +116,12 @@ class TimelineLikedActivity : BaseActivity() {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.UNAUTHORIZED -> startActivity(
-                    Intent(
-                        this,
-                        LoginActivity::class.java
-                    )
-                )
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                ResponseStatus.UPDATED_VALUE -> {
-                }
+                else -> {}
             }
         })
     }

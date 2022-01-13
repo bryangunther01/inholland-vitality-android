@@ -116,6 +116,7 @@
                     android:layout_height="150dp"
                     android:layout_marginBottom="@dimen/margin_medium_big"
                     android:inputType="textMultiLine|textCapSentences"
+                    android:maxLength="130"
                     android:minHeight="48dp" />
 
                 <Button

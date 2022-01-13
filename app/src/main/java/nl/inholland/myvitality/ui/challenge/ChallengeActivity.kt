@@ -12,21 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.OnClick
-import coil.load
+import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
-import nl.inholland.myvitality.data.entities.Challenge
 import nl.inholland.myvitality.data.entities.ChallengeProgress
 import nl.inholland.myvitality.data.entities.ChallengeType
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
-import retrofit2.Callback
 import javax.inject.Inject
 
 class ChallengeActivity : BaseActivity() {
@@ -75,7 +72,7 @@ class ChallengeActivity : BaseActivity() {
 
     @OnClick(R.id.back_button)
     override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java))
+        super.onBackPressed()
     }
 
     private fun initChallenge() {
@@ -114,7 +111,9 @@ class ChallengeActivity : BaseActivity() {
                 ChallengeProgress.DONE -> {}
             }
 
-            image.load(challenge.imageLink)
+            Glide.with(this)
+                .load(challenge.imageLink)
+                .into(image)
 
             // Set the challenge type
             when (challenge.challengeType) {
@@ -197,12 +196,12 @@ class ChallengeActivity : BaseActivity() {
     private fun initResponseHandler(){
         viewModel.apiResponse.observe(this, { response ->
             when(response.status){
-                ResponseStatus.UNAUTHORIZED -> startActivity(Intent(this, LoginActivity::class.java))
                 ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
                 ResponseStatus.UPDATED_VALUE -> {
                     startActivity(Intent(this@ChallengeActivity, MainActivity::class.java))
                     finish()
                 }
+                else -> {}
             }
         })
     }

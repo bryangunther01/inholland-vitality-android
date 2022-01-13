@@ -29,7 +29,7 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
     // The expire time of the token
     var tokenExpireTime: Long
         get() = preferences.getLong(TOKEN_EXPIRE_TIME, 0L)
-        set(value) = preferences.edit().putLong(TOKEN_EXPIRE_TIME, 0L).apply()
+        set(value) = preferences.edit().putLong(TOKEN_EXPIRE_TIME, value).apply()
 
     // If the user is using the app for the first time for things like the tutorial
     var isFirstAppUse: Boolean
@@ -50,8 +50,10 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
         return accessToken != null
     }
 
-    fun deleteAccessToken(){
-        val settings = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
-        settings?.edit()?.remove(ACCESS_TOKEN)?.apply()
+    fun logoutUser(){
+        accessToken = null
+        refreshToken = null
+        tokenExpireTime = 0L
+        currentUserId = null
     }
 }

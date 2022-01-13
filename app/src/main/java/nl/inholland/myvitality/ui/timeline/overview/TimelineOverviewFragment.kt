@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,16 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import butterknife.OnClick
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
-
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
 import nl.inholland.myvitality.data.adapters.TimelinePostAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.search.SearchActivity
 import javax.inject.Inject
 
@@ -36,11 +35,17 @@ class TimelineOverviewFragment : BaseFragment() {
     @BindView(R.id.timeline_searchbar)
     lateinit var timelineSearchbar: EditText
 
+    @BindView(R.id.timeline_empty_icon)
+    lateinit var timelineEmptyIcon: ImageView
+
+    @BindView(R.id.timeline_empty_text)
+    lateinit var timelineEmptyText: TextView
+
     @BindView(R.id.timeline_refresh_layout)
     lateinit var refreshLayout: SwipeRefreshLayout
 
     @BindView(R.id.timeline_post_recyclerview)
-    lateinit var timelineRecyclerView: RecyclerView
+    lateinit var recyclerView: RecyclerView
 
     @Inject
     lateinit var factory: TimelineOverviewViewModelFactory
@@ -73,8 +78,8 @@ class TimelineOverviewFragment : BaseFragment() {
         super.onAttach(context)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initResponseHandler()
 
@@ -85,6 +90,12 @@ class TimelineOverviewFragment : BaseFragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             initTimelinePosts()
         }, 100)
+    }
+
+
+    @OnClick(R.id.timeline_profile_image)
+    fun onClickProfileImage() {
+        startActivity(Intent(requireActivity(), ProfileActivity::class.java))
     }
 
     @OnClick(R.id.timeline_searchbar)
@@ -99,7 +110,7 @@ class TimelineOverviewFragment : BaseFragment() {
             toggleLike(viewHolder, !timelinePost.iLikedPost, timelinePost.countOfLikes)
         }
 
-        timelineRecyclerView.let {
+        recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
@@ -111,7 +122,7 @@ class TimelineOverviewFragment : BaseFragment() {
             skeletonScreen?.show()
         }
 
-        timelineRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -166,7 +177,7 @@ class TimelineOverviewFragment : BaseFragment() {
     }
 
     private fun setupSkeleton() {
-        skeletonScreen = Skeleton.bind(timelineRecyclerView)
+        skeletonScreen = Skeleton.bind(recyclerView)
             .adapter(adapter)
             .frozen(true)
             .duration(2400)
@@ -176,18 +187,37 @@ class TimelineOverviewFragment : BaseFragment() {
     }
 
     private fun initUser() {
-        viewModel.getLoggedInUser()
+        if(view == null) return
 
+        viewModel.getLoggedInUser()
         viewModel.currentUser.observe(viewLifecycleOwner, { user ->
             // Set greeting message
             val profileImage = view?.findViewById<ImageView>(R.id.timeline_profile_image)
-            profileImage?.load(user.profilePicture)
+            profileImage?.let {
+                Glide.with(this)
+                    .load(user.profilePicture)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(profileImage)
+            }
         })
     }
 
     private fun initTimelinePosts() {
+        if(view == null) return
+
         tryLoadTimelinePosts()
-        viewModel.posts.observe(this, {
+        viewModel.posts.observe(viewLifecycleOwner, {
+            if(page == 0 && it.isEmpty()){
+                timelineEmptyIcon.visibility = View.VISIBLE
+                timelineEmptyText.visibility = View.VISIBLE
+                recyclerView.visibility = View.INVISIBLE
+            } else {
+                timelineEmptyIcon.visibility = View.INVISIBLE
+                timelineEmptyText.visibility = View.INVISIBLE
+                recyclerView.visibility = View.VISIBLE
+            }
+
             adapter?.addItems(it)
 
             if (page == 0) skeletonScreen?.hide()
@@ -205,28 +235,18 @@ class TimelineOverviewFragment : BaseFragment() {
         isCalling = true
         viewModel.getTimelinePosts(limit, page * limit)
     }
-
-    override fun onResume() {
-        super.onResume()
-        skeletonScreen?.hide()
-    }
-
+    
     private fun initResponseHandler() {
+        if(view == null) return
+
         viewModel.apiResponse.observe(viewLifecycleOwner, { response ->
             when (response.status) {
-                ResponseStatus.UNAUTHORIZED -> startActivity(
-                    Intent(
-                        requireActivity(),
-                        LoginActivity::class.java
-                    )
-                )
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     requireContext(),
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                ResponseStatus.UPDATED_VALUE -> {
-                }
+                else -> {}
             }
         })
     }

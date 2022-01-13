@@ -9,11 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.ScoreboardUser
-import nl.inholland.myvitality.data.entities.SimpleUser
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 
 class ScoreboardAdapter(context: Context) :
     BaseRecyclerAdapter<ScoreboardUser, ScoreboardAdapter.ViewHolder>(context) {
@@ -43,7 +42,9 @@ class ScoreboardAdapter(context: Context) :
 
 
         holder.position.text = userPosition.toString()
-        holder.profileImage.load(currentItem.profileImage)
+        Glide.with(context)
+            .load(currentItem.profileImage)
+            .into(holder.profileImage)
         holder.fullName.text = currentItem.fullName
         holder.points.text = currentItem.points.toString()
 

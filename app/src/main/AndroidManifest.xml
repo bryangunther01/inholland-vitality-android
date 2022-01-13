@@ -42,7 +42,11 @@
             android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.profile.ProfileActivity"
+            android:name=".ui.profile.overview.ProfileActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true" />
+        <activity
+            android:name=".ui.profile.edit.ProfileEditActivity"
             android:theme="@style/AppTheme"
             android:exported="true" />
         <activity
@@ -65,7 +69,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.timelinepost.create.CreateTimelinePostActivity"
-            android:exported="true"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.authentication.login.LoginActivity"

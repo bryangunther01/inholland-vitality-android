@@ -1,27 +1,28 @@
 package nl.inholland.myvitality.architecture
 
 import dagger.Component
-import javax.inject.Singleton
 import nl.inholland.myvitality.di.modules.ApplicationModule
 import nl.inholland.myvitality.di.modules.NetworkModule
 import nl.inholland.myvitality.di.modules.ViewModelModule
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
-import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
-import nl.inholland.myvitality.ui.profile.ProfileActivity
+import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.scoreboard.ScoreboardActivity
 import nl.inholland.myvitality.ui.search.SearchActivity
 import nl.inholland.myvitality.ui.splash.SplashScreenActivity
-import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
-import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
+import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.tutorial.TutorialActivity
+import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [ApplicationModule::class, NetworkModule::class, ViewModelModule::class])
@@ -43,4 +44,5 @@ interface ApplicationComponent {
     fun inject(activity: NotificationActivity)
     fun inject(activity: ScoreboardActivity)
     fun inject(activity: TutorialActivity)
+    fun inject(activity: ProfileEditActivity)
 }

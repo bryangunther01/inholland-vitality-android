@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.profile.overview.ProfileActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/profile_edit_profile_image_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_edit_profile_image_title"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/avenir_lt_pro_heavy"
+            app:layout_constraintTop_toTopOf="@id/guideline_top"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_edit_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@color/dark_grey"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_image_title"
+            app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+        <TextView
+            android:id="@+id/profile_edit_image_modify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_edit_modify"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_tiny"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_image"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/profile_edit_header_image_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_small_medium"
+            app:constraint_referenced_ids="profile_edit_image_modify, profile_edit_image, profile_edit_profile_image_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#c0c0c0"
+            app:layout_constraintTop_toTopOf="@+id/profile_edit_header_image_barrier" />
+
+        <TextView
+            android:id="@+id/profile_edit_personal_details_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_edit_personal_details_title"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/avenir_lt_pro_heavy"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_header_image_barrier"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <EditText
+            android:id="@+id/profile_edit_text_first_name"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium_big"
+            android:drawableStart="@drawable/ic_person"
+            android:hint="@string/hint_firstname"
+            android:minHeight="48dp"
+            android:inputType="textPersonName|textCapSentences"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_personal_details_title"
+            app:layout_constraintStart_toEndOf="@id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right" />
+
+        <EditText
+            android:id="@+id/profile_edit_text_last_name"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium_big"
+            android:drawableStart="@drawable/ic_person"
+            android:hint="@string/hint_lastname"
+            android:inputType="textPersonName|textCapSentences"
+            android:minHeight="48dp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_first_name"
+            app:layout_constraintStart_toEndOf="@id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
+
+        <EditText
+            android:id="@+id/profile_edit_text_jobtitle"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium_big"
+            android:drawableStart="@drawable/ic_suitcase"
+            android:hint="@string/hint_jobtitle"
+            android:inputType="textCapWords"
+            android:minHeight="48dp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_last_name"
+            app:layout_constraintStart_toEndOf="@id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
+
+        <EditText
+            android:id="@+id/profile_edit_text_location"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium_big"
+            android:drawableStart="@drawable/ic_location"
+            android:hint="@string/hint_location"
+            android:inputType="textCapSentences"
+            android:minHeight="48dp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_jobtitle"
+            app:layout_constraintStart_toEndOf="@id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/profile_edit_personal_details_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/margin_small_medium"
+            app:constraint_referenced_ids="profile_edit_text_first_name, profile_edit_text_last_name, profile_edit_text_jobtitle, profile_edit_text_location" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#c0c0c0"
+            app:layout_constraintTop_toTopOf="@+id/profile_edit_personal_details_barrier" />
+
+        <TextView
+            android:id="@+id/profile_edit_description_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_edit_description_title"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/avenir_lt_pro_heavy"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_personal_details_barrier"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <EditText
+            android:id="@+id/profile_edit_text_description"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="@dimen/margin_medium_big"
+            android:inputType="textMultiLine|textCapSentences"
+            android:minHeight="48dp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            android:maxLength="130"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_description_title"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
+
+        <Button
+            android:id="@+id/profile_edit_button"
+            style="@style/ButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@drawable/button_primary"
+            android:text="@string/profile_edit_save"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="12.5dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="12.5dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
