@@ -27,7 +27,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="@color/light_grey"
-                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="@id/guideline_left"
                 app:layout_constraintTop_toTopOf="@id/guideline_top"
                 app:shapeAppearanceOverlay="@style/CircleImageView" />

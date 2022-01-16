@@ -1,5 +1,6 @@
 package nl.inholland.myvitality.ui.timelinepost.create
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -23,6 +24,7 @@ import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
+import nl.inholland.myvitality.util.PermissionsUtil
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -30,8 +32,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import nl.inholland.myvitality.util.PermissionsUtil.IPermissionResult
+import nl.inholland.myvitality.util.PermissionsUtil.isPermissionExists
 
-// TODO: Image/Video upload
+
 class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
@@ -62,6 +66,8 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     lateinit var viewModel: CreateTimelinePostViewModel
 
     private val PICK_IMAGE = 1000
+    private val REQUEST_PERMISSION = 2000
+
     private var selectedImage: Uri? = null
     private var filePath: String? = null
 
@@ -87,9 +93,11 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
         }
 
         imageUploadButton.setOnClickListener {
-            val photoPickerIntent = Intent(Intent.ACTION_PICK)
-            photoPickerIntent.type = "image/*"
-            startActivityForResult(photoPickerIntent, PICK_IMAGE)
+            if(!PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)){
+                PermissionsUtil.requestPermissions(this, REQUEST_PERMISSION, Manifest.permission.CAMERA)
+            } else {
+                requestImage()
+            }
         }
 
         initResponseHandler()
@@ -111,6 +119,25 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
             imagePreview.setImageURI(selectedImage)
             imagePreview.visibility = View.VISIBLE
             imagePreviewRemoveButton.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_PERMISSION) {
+            PermissionsUtil.onRequestPermissionsResult(permissions, grantResults,
+                object : IPermissionResult {
+                    override fun grantedPermissions(permission: Array<String>?) {
+                        if (isPermissionExists(permission, Manifest.permission.ACCESS_FINE_LOCATION)
+                            || isPermissionExists(
+                                permission,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        ) {
+                            requestImage()
+                        }
+                    }
+                })
         }
     }
 
@@ -149,6 +176,12 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     @OnTextChanged(R.id.create_post_message)
     fun onTextChanged() {
         postButton.isEnabled = message.text.isNotEmpty()
+    }
+
+    private fun requestImage(){
+        val photoPickerIntent = Intent(Intent.ACTION_PICK)
+        photoPickerIntent.type = "image/*"
+        startActivityForResult(photoPickerIntent, PICK_IMAGE)
     }
 
     private fun initUser() {

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -33,6 +35,8 @@ class ScoreboardActivity : BaseActivity() {
 
     var layoutManager: LinearLayoutManager? = null
     var adapter: ScoreboardAdapter? = null
+    var skeletonScreen: RecyclerViewSkeletonScreen? = null
+
     var isCalling: Boolean = false
 
     private var page = 0
@@ -52,6 +56,8 @@ class ScoreboardActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this, factory).get(ScoreboardViewModel::class.java)
 
         setupRecyclerViews()
+        setupSkeleton()
+
         initResponseHandler()
         initScoreboard()
     }
@@ -78,8 +84,7 @@ class ScoreboardActivity : BaseActivity() {
         refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadNotifications(true)
-            // TODO:
-//            skeletonScreen?.show()
+            skeletonScreen?.show()
         }
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -99,14 +104,23 @@ class ScoreboardActivity : BaseActivity() {
         })
     }
 
+    private fun setupSkeleton() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+            .adapter(adapter)
+            .frozen(true)
+            .duration(2400)
+            .count(10)
+            .load(R.layout.scoreboard_skeleton_view_item)
+            .show()
+    }
+
     private fun initScoreboard() {
         tryLoadNotifications()
 
         viewModel.results.observe(this, {
             adapter?.addItems(it)
 
-            // TODO
-//            if (page == 0) skeletonScreen?.hide()
+            if (page == 0) skeletonScreen?.hide()
             if (it.isNotEmpty()) page += 1
 
             isCalling = false

@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.ScoreboardUser
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
@@ -26,24 +27,24 @@ class ScoreboardAdapter(context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[position]
-        val userPosition = position+1
+        val userPosition = position + 1
 
-        if(userPosition == 1) {
-            holder.position.setTextColor(context.getColor(R.color.primary))
-            holder.fullName.setTextColor(context.getColor(R.color.primary))
-            holder.points.setTextColor(context.getColor(R.color.primary))
-        }
+        val color = if (userPosition == 1) context.getColor(R.color.primary) else context.getColor(R.color.black)
+        val typeFace = if (userPosition <= 3) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
 
-        if(userPosition <= 3){
-            holder.position.typeface = Typeface.DEFAULT_BOLD
-            holder.fullName.typeface = Typeface.DEFAULT_BOLD
-            holder.points.typeface = Typeface.DEFAULT_BOLD
-        }
+        holder.position.setTextColor(color)
+        holder.fullName.setTextColor(color)
+        holder.points.setTextColor(color)
 
+        holder.position.typeface = typeFace
+        holder.fullName.typeface = typeFace
+        holder.points.typeface = typeFace
 
         holder.position.text = userPosition.toString()
         Glide.with(context)
             .load(currentItem.profileImage)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(holder.profileImage)
         holder.fullName.text = currentItem.fullName
         holder.points.text = currentItem.points.toString()

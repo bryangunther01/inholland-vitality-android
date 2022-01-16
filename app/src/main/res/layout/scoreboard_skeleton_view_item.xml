@@ -14,14 +14,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <View
             android:id="@+id/scoreboard_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/avenir_lt_pro_roman"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
+            android:layout_width="20sp"
+            android:layout_height="20sp"
+            android:background="@color/light_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,35 +28,27 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginStart="@dimen/margin_medium"
-            android:background="@drawable/person_placeholder"
-            android:scaleType="centerCrop"
+            android:background="@color/light_grey"
             app:layout_constraintStart_toEndOf="@+id/scoreboard_position"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
-        <TextView
+        <View
             android:id="@+id/scoreboard_full_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/avenir_lt_pro_roman"
-            android:textColor="@color/black"
+            android:layout_height="18sp"
             android:layout_marginStart="@dimen/margin_medium"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
+            android:background="@color/light_grey"
             app:layout_constraintStart_toEndOf="@id/scoreboard_profile_image"
             app:layout_constraintEnd_toStartOf="@id/scoreboard_points"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <TextView
+        <View
             android:id="@+id/scoreboard_points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/avenir_lt_pro_roman"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_width="18sp"
+            android:layout_height="18sp"
+            android:background="@color/light_grey"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
