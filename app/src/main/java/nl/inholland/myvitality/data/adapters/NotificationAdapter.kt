@@ -96,7 +96,6 @@ class NotificationAdapter(context: Context) :
             }
         }
 
-        // TODO: Check general permissions needed
         holder.itemView.setOnClickListener(clickListener)
         holder.image.setOnClickListener { view ->
             if (currentItem.type == NotificationType.GLOBAL) {

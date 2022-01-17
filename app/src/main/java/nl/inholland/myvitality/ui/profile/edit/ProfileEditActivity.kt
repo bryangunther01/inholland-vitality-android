@@ -153,7 +153,7 @@ class ProfileEditActivity : BaseActivity() {
                 filePart)
             Dialogs.showGeneralLoadingDialog(this)
         } else {
-            // TODO: Show errors
+            Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_LONG).show()
         }
     }
 

@@ -72,7 +72,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @OnTextChanged(R.id.login_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onEmailInputFieldChanged(){
         if(email.text.length > 3){
-            // TODO: Validate if is inholland email
             FieldValidationUtil(this).setFieldState(email, Patterns.EMAIL_ADDRESS.matcher(email.text).matches(), errorField, getString(
                 R.string.login_error_invalid_email))
         }

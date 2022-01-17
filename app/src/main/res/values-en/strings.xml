@@ -168,6 +168,7 @@
     <string name="profile_edit_description_title">Biography</string>
     <string name="profile_edit_modify">Modify</string>
     <string name="profile_edit_save">Save</string>
+    <string name="profile_edit_empty_fields">Enter all fields</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> liked your post</string>

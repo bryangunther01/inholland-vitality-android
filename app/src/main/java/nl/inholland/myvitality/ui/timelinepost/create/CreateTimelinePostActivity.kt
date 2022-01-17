@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.timelinepost.create
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -24,7 +23,6 @@ import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
-import nl.inholland.myvitality.util.PermissionsUtil
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,8 +30,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import nl.inholland.myvitality.util.PermissionsUtil.IPermissionResult
-import nl.inholland.myvitality.util.PermissionsUtil.isPermissionExists
 
 
 class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {

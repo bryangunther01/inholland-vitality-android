@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import javax.inject.Inject
 
-class SharedPreferenceHelper @Inject constructor(private val context: Context){
+class SharedPreferenceHelper @Inject constructor(val context: Context){
 
     private val SHARED_PREF_KEY = "nl.inholland.myvitality"
     private val ACCESS_TOKEN = "accessToken"
@@ -12,7 +12,6 @@ class SharedPreferenceHelper @Inject constructor(private val context: Context){
     private val TOKEN_EXPIRE_TIME = "tokenExpireTime"
     private val IS_FIRST_APP_USE = "isFirstAppUse"
     private val RECENTLY_REGISTERED = "recentlyRegistered"
-    private val RECENTLY_REGISTERED_USER_ID = "recentlyRegisteredUserId"
     private val CURRENT_USER_ID = "currentUserId"
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)

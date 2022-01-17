@@ -171,6 +171,7 @@
     <string name="profile_edit_description_title">Biografie</string>
     <string name="profile_edit_modify">Aanpassen</string>
     <string name="profile_edit_save">Opslaan</string>
+    <string name="profile_edit_empty_fields">Vul alle velden in</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>
