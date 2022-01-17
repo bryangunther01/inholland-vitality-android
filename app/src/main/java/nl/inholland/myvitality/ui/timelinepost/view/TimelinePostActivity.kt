@@ -26,6 +26,7 @@ import nl.inholland.myvitality.data.entities.TimelinePost
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
+import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
 import javax.inject.Inject
 
@@ -35,28 +36,40 @@ class TimelinePostActivity : BaseActivity() {
 
     @BindView(R.id.post_profile_image)
     lateinit var profileImage: ImageView
+
     @BindView(R.id.post_delete)
     lateinit var deleteIcon: ImageView
+
     @BindView(R.id.post_user_name)
     lateinit var userName: TextView
+
     @BindView(R.id.post_date)
     lateinit var date: TextView
+
     @BindView(R.id.post_content)
     lateinit var content: TextView
+
     @BindView(R.id.post_image)
     lateinit var image: ImageView
+
     @BindView(R.id.post_like_count_icon)
     lateinit var likedCountIcon: ImageView
+
     @BindView(R.id.post_like_count)
     lateinit var likedCount: TextView
+
     @BindView(R.id.post_comment_count)
     lateinit var commentCount: TextView
+
     @BindView(R.id.comments_empty_text)
     lateinit var commentsEmptyText: TextView
+
     @BindView(R.id.comment_recyclerview)
     lateinit var recyclerView: RecyclerView
+
     @BindView(R.id.post_like_button)
     lateinit var likeButton: MaterialButton
+
     @BindView(R.id.post_comment_button)
     lateinit var commentButton: MaterialButton
 
@@ -148,10 +161,11 @@ class TimelinePostActivity : BaseActivity() {
     }
 
     @OnClick(value = [R.id.post_profile_image, R.id.post_user_name])
-    fun onClickUser(){
+    fun onClickUser() {
         startActivity(
             Intent(this, ProfileActivity::class.java)
-                .putExtra("USER_ID", currentPost?.userId))
+                .putExtra("USER_ID", currentPost?.userId)
+        )
     }
 
     @OnClick(R.id.post_like_button)
@@ -167,11 +181,11 @@ class TimelinePostActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    fun updateLikeCount(likeCount: Int){
+    fun updateLikeCount(likeCount: Int) {
         val isLiked = viewModel.isLiked.value ?: false
 
-        if(isLiked){
-            val otherCount = likeCount-1
+        if (isLiked) {
+            val otherCount = likeCount - 1
 
             val visibility = View.VISIBLE
 
@@ -209,9 +223,13 @@ class TimelinePostActivity : BaseActivity() {
             currentPost = timelinePost
 
             sharedPrefs.currentUserId?.let {
-                if(it == timelinePost.userId){
+                if (it == timelinePost.userId) {
                     deleteIcon.visibility = View.VISIBLE
-                    deleteIcon.setOnClickListener { viewModel.deletePost(currentPostId) }
+                    deleteIcon.setOnClickListener {
+                        Dialogs.showDeletePostDialog(this) {
+                            viewModel.deletePost(currentPostId)
+                        }
+                    }
                 }
             }
 
@@ -254,9 +272,9 @@ class TimelinePostActivity : BaseActivity() {
         viewModel.likedCount.observe(this, { updateLikeCount(it) })
     }
 
-    private fun initComments(){
+    private fun initComments() {
         viewModel.comments.observe(this, {
-            if(page == 0 && it.isEmpty()) {
+            if (page == 0 && it.isEmpty()) {
                 commentsEmptyText.visibility = View.VISIBLE
                 recyclerView.visibility = View.INVISIBLE
             } else {
@@ -272,6 +290,7 @@ class TimelinePostActivity : BaseActivity() {
 
         tryLoadComments()
     }
+
     private fun tryLoadComments(refresh: Boolean = false) {
         if (isCalling) return
         if (refresh) page = 0
@@ -283,13 +302,19 @@ class TimelinePostActivity : BaseActivity() {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    this,
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
                 ResponseStatus.DELETED -> finish()
                 ResponseStatus.NOT_FOUND -> {
-                    Toast.makeText(this, getString(R.string.api_error_post), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.api_error_post), Toast.LENGTH_LONG)
+                        .show()
                     finish()
                 }
-                else -> {}
+                else -> {
+                }
             }
 
             isCalling = false

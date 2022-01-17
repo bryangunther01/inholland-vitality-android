@@ -105,6 +105,8 @@
     <string name="home_points_text">%1$s punten</string>
     <string name="home_title_curr_chl">Huidige activiteiten</string>
     <string name="home_title_disc_chl">Ontdek activiteiten</string>
+    <string name="home_no_active_activities">Geen actieve activiteiten</string>
+    <string name="home_no_explorable_activities">Geen activiteiten beschikbaar</string>
     <string name="challenge_view_item_button_text">Bekijk voortgang</string>
     <string name="challenge_view_item_button_text_exp">Bekijk activiteit</string>
 
@@ -115,6 +117,7 @@
     <string name="challenge_points_message_1">Verdien</string>
     <string name="challenge_points_message_2">punten met deze activiteit</string>
     <string name="challenge_date_text">Start</string>
+    <string name="challenge_participating_text">%01d collega(\'s) doen al mee</string>
     <string name="dialog_challenge_title">Stop de activiteit</string>
     <string name="dialog_challenge_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
     <string name="dialog_challenge_button_confirm_text">Ik weet het zeker</string>
@@ -127,6 +130,7 @@
     <string name="navigation_notifications">Notificaties</string>
     <string name="navigation_profile">Profiel</string>
     <string name="navigation_scoreboard">Scorebord</string>
+    <string name="navigation_challenge">Activiteit</string>
     <string name="navigation_logout">Uitloggen</string>
     <string name="navigation_settings">Instellingen</string>
 
@@ -142,6 +146,10 @@
     <string name="create_post_image_button_text">Voeg afbeelding toe</string>
     <string name="create_post_hint">Wat wil je met je collega\'s delen?</string>
     <string name="comments_empty">Nog geen reacties</string>
+    <string name="post_dialog_title">Bericht verwijderen</string>
+    <string name="post_dialog_body">Je staat op het punt om dit bericht te verwijderen, weet je dat zeker?</string>
+    <string name="post_dialog_button_confirm_text">Ik weet het zeker</string>
+    <string name="post_dialog_button_cancel_text">Annuleren</string>
 
     <!-- Profile strings -->
     <string name="profile_follow">Volgen</string>

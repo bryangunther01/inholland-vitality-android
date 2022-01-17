@@ -21,6 +21,8 @@ import nl.inholland.myvitality.data.entities.ChallengeProgress
 import nl.inholland.myvitality.data.entities.ChallengeType
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.challenge.participants.ChallengeParticipantsActivity
+import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
@@ -157,7 +159,14 @@ class ChallengeActivity : BaseActivity() {
             description.text = Html.fromHtml(challenge.description, Html.FROM_HTML_MODE_LEGACY)
             if (challenge.totalSubscribers ?: 0 >= 1) {
                 participantsCount.text = null
-                participantsCount.append("${challenge.totalSubscribers} collega('s) doen al mee")
+                participantsCount.append(getString(R.string.challenge_participating_text, challenge.totalSubscribers))
+
+                participantsCount.setOnClickListener {
+                    startActivity(
+                        Intent(this, ChallengeParticipantsActivity::class.java)
+                            .putExtra("CHALLENGE_ID", currentChallengeId)
+                    )
+                }
             }
         })
     }

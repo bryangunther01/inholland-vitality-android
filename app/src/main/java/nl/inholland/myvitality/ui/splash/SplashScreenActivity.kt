@@ -49,7 +49,6 @@ class SplashScreenActivity : BaseActivity() {
             }
 
             startActivity(intent)
-            // close this activity
             finish()
         }, 3000)
     }

@@ -35,10 +35,10 @@ object PermissionsUtil {
     }
 
     fun isPermissionExists(permissions: Array<String?>, permission: String): Boolean {
-        return Arrays.asList(*permissions).contains(permission)
+        return listOf(*permissions).contains(permission)
     }
 
     interface IPermissionResult {
-        fun grantedPermissions(permission: Array<String>?)
+        fun grantedPermissions(permission: Array<String?>)
     }
 }

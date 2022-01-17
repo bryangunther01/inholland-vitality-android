@@ -93,11 +93,7 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
         }
 
         imageUploadButton.setOnClickListener {
-            if(!PermissionsUtil.isPermissionGranted(this, Manifest.permission.CAMERA)){
-                PermissionsUtil.requestPermissions(this, REQUEST_PERMISSION, Manifest.permission.CAMERA)
-            } else {
-                requestImage()
-            }
+            requestImage()
         }
 
         initResponseHandler()
@@ -119,25 +115,6 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
             imagePreview.setImageURI(selectedImage)
             imagePreview.visibility = View.VISIBLE
             imagePreviewRemoveButton.visibility = View.VISIBLE
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION) {
-            PermissionsUtil.onRequestPermissionsResult(permissions, grantResults,
-                object : IPermissionResult {
-                    override fun grantedPermissions(permission: Array<String>?) {
-                        if (isPermissionExists(permission, Manifest.permission.ACCESS_FINE_LOCATION)
-                            || isPermissionExists(
-                                permission,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                        ) {
-                            requestImage()
-                        }
-                    }
-                })
         }
     }
 
@@ -219,20 +196,26 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     private fun initResponseHandler() {
         viewModel.apiResponse.observe(this, { response ->
             when (response.status) {
-                ResponseStatus.API_ERROR -> Toast.makeText(
-                    this,
-                    getString(R.string.api_error),
-                    Toast.LENGTH_LONG
-                ).show()
+                ResponseStatus.API_ERROR -> {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.api_error),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    Dialogs.hideCurrentDialog()
+                }
                 ResponseStatus.CREATED -> {
                     if(postId != null){
                         startActivity(
                             Intent(this, TimelinePostActivity::class.java)
                                 .putExtra("POST_ID", postId))
+                        finish()
                     } else {
                         startActivity(
                             Intent(this, MainActivity::class.java)
                                 .putExtra("FRAGMENT_TO_LOAD", ChosenFragment.FRAGMENT_TIMELINE.ordinal))
+                        finish()
                     }
                 }
                 else -> {}

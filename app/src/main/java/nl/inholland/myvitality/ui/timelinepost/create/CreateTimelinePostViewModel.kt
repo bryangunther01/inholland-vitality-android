@@ -58,6 +58,8 @@ class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, 
                         _response.value = ApiResponse(ResponseStatus.CREATED)
                     } else if (response.code() == 401) {
                         _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    } else {
+                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     }
                 }
 
@@ -77,6 +79,8 @@ class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, 
                         _response.value = ApiResponse(ResponseStatus.CREATED)
                     } else if (response.code() == 401) {
                         _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    } else {
+                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     }
                 }
 

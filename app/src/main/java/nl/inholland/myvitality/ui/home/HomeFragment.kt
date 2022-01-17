@@ -3,8 +3,6 @@ package nl.inholland.myvitality.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -148,14 +146,24 @@ class HomeFragment : BaseFragment() {
         viewModel.getChallenges()
         viewModel.currentChallenges.observe(viewLifecycleOwner, { challenges ->
             val visibility = if(challenges.isEmpty()) View.GONE else View.VISIBLE
-            view?.findViewById<CardView>(R.id.home_curr_chl_content)?.visibility = visibility
+            val emptyVisibility = if(challenges.isEmpty()) View.VISIBLE else View.GONE
+            view?.findViewById<ImageView>(R.id.home_curr_chl_icon)?.visibility = visibility
+            view?.findViewById<TextView>(R.id.home_curr_chl_title)?.visibility = visibility
+            view?.findViewById<RecyclerView>(R.id.home_curr_chl_recyclerview)?.visibility = visibility
+            view?.findViewById<ImageView>(R.id.home_curr_chl_empty_icon)?.visibility = emptyVisibility
+            view?.findViewById<TextView>(R.id.home_curr_chl_empty_text)?.visibility = emptyVisibility
 
             crtChlAdapter?.addItems(challenges)
         })
 
         viewModel.explorableChallenges.observe(viewLifecycleOwner, { challenges ->
             val visibility = if(challenges.isEmpty()) View.GONE else View.VISIBLE
-            view?.findViewById<CardView>(R.id.home_exp_chl_content)?.visibility = visibility
+            val emptyVisibility = if(challenges.isEmpty()) View.VISIBLE else View.GONE
+            view?.findViewById<ImageView>(R.id.home_exp_chl_icon)?.visibility = visibility
+            view?.findViewById<TextView>(R.id.home_exp_chl_title)?.visibility = visibility
+            view?.findViewById<RecyclerView>(R.id.home_exp_chl_recyclerview)?.visibility = visibility
+            view?.findViewById<ImageView>(R.id.home_exp_chl_empty_icon)?.visibility = emptyVisibility
+            view?.findViewById<TextView>(R.id.home_exp_chl_empty_text)?.visibility = emptyVisibility
 
             expChlAdapter?.addItems(challenges)
             skeletonScreen?.hide()

@@ -29,7 +29,10 @@
             android:name=".ui.notification.NotificationActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
-
+        <activity
+            android:name=".ui.challenge.participants.ChallengeParticipantsActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.tutorial.TutorialActivity"
             android:exported="true"/>

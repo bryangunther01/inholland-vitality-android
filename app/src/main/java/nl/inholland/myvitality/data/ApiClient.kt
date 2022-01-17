@@ -82,6 +82,15 @@ interface ApiClient {
         @Query("challengeProgress") progress: Int
     ): Call<Void>
 
+
+    @GET("challenge/{challengeId}/subscribers")
+    fun getChallengeSubscribers(
+        @Header("Authorization") token: String,
+        @Path("challengeId") challengeId: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<SimpleUser>>
+
     /** Timeline calls **/
     @GET("timelinepost")
     fun getTimelinePosts(

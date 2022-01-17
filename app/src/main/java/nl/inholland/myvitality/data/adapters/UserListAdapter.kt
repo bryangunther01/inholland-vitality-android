@@ -26,6 +26,8 @@ class UserListAdapter(context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = items[position]
 
+        holder.userDetails.text = null
+
         Glide.with(context)
             .load(currentItem.profileImage)
             .into(holder.profileImage)
@@ -36,6 +38,10 @@ class UserListAdapter(context: Context) :
 
         if(currentItem.jobTitle != null && currentItem.location != null){
             holder.userDetails.append("${currentItem.jobTitle}, ${currentItem.location}")
+        } else if (currentItem.jobTitle != null) {
+            holder.userDetails.append(currentItem.jobTitle)
+        } else if (currentItem.location != null) {
+            holder.userDetails.append(currentItem.location)
         }
 
         holder.itemView.setOnClickListener { view ->

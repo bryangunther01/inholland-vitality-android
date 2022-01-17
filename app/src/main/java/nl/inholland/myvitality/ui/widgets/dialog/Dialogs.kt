@@ -104,6 +104,30 @@ object Dialogs  {
         currentDialog = dialog
     }
 
+    fun showDeletePostDialog(activity: Activity, onClickListener: View.OnClickListener) {
+        val dialog = setupSimpleDialog(activity)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
+        val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+        buttonBack.visibility = View.VISIBLE
+
+        title.text = activity.getString(R.string.post_dialog_title)
+        body.text = activity.getString(R.string.post_dialog_body)
+        buttonContinue.text = activity.getString(R.string.post_dialog_button_confirm_text)
+        buttonBack.text = activity.getString(R.string.post_dialog_button_cancel_text)
+
+        buttonContinue.setOnClickListener(onClickListener)
+        buttonBack.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        currentDialog = dialog
+    }
+
     private fun setupSimpleDialog(activity: Activity): Dialog{
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

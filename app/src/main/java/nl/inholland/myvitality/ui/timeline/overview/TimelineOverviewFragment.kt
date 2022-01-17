@@ -87,9 +87,6 @@ class TimelineOverviewFragment : BaseFragment() {
         setupSkeleton()
 
         initUser()
-        Handler(Looper.getMainLooper()).postDelayed({
-            initTimelinePosts()
-        }, 100)
     }
 
 
@@ -191,6 +188,8 @@ class TimelineOverviewFragment : BaseFragment() {
 
         viewModel.getLoggedInUser()
         viewModel.currentUser.observe(viewLifecycleOwner, { user ->
+            initTimelinePosts()
+
             // Set greeting message
             val profileImage = view?.findViewById<ImageView>(R.id.timeline_profile_image)
             profileImage?.let {

@@ -30,8 +30,8 @@
     <!-- Tutorial Strings -->
     <string name="tutorial_skip">Skip</string>
     <string name="tutorial_continue">Continue</string>
-    <string name="tutorial_first_title">Welkom bij het vitaliteitsprogramma, voor docenten van Inholland!</string>
-    <string name="tutorial_first_description">Samen vechten we voor vitaliteit, doe jij met ons mee? Alleen zo wordt jij de beste versie van jezelf!</string>
+    <string name="tutorial_first_title">Welcome to the vitality program for Inholland teachers!</string>
+    <string name="tutorial_first_description">Together we fight for vitality, will you join us? This is the only way to become the best version of yourself!</string>
 
     <string name="tutorial_description_mind">Have you found a way to clear your mind? Rest brings many benefits!</string>
     <string name="tutorial_description_diet">Become aware of your nutrition through nutrition-oriented activities.</string>
@@ -114,6 +114,7 @@
     <string name="challenge_points_message_1">Earn</string>
     <string name="challenge_points_message_2">points with this activity</string>
     <string name="challenge_date_text">Starts</string>
+    <string name="challenge_participating_text">%01d colleague(s) are already participating</string>
     <string name="dialog_challenge_title">Stop the activity</string>
     <string name="dialog_challenge_body">You are about to quit this activity, are you sure?</string>
     <string name="dialog_challenge_button_confirm_text">I\'m sure</string>
@@ -125,6 +126,7 @@
     <string name="navigation_notifications">Notifications</string>
     <string name="navigation_profile">Profile</string>
     <string name="navigation_scoreboard">Scoreboard</string>
+    <string name="navigation_challenge">Activity</string>
     <string name="navigation_logout">Logout</string>
     <string name="navigation_settings">Settings</string>
 
@@ -141,6 +143,10 @@
     <string name="create_post_image_button_text">Add image</string>
     <string name="create_post_hint">What do you want to share with your colleagues?</string>
     <string name="comments_empty">No comments</string>
+    <string name="post_dialog_title">Delete post</string>
+    <string name="post_dialog_body">You are about to delete this message, are you sure?</string>
+    <string name="post_dialog_button_confirm_text">I\'m sure</string>
+    <string name="post_dialog_button_cancel_text">Cancel</string>
 
     <!-- Profile strings -->
     <string name="profile_follow">Follow</string>

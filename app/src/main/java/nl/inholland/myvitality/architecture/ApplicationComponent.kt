@@ -10,6 +10,7 @@ import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetai
 import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
 import nl.inholland.myvitality.ui.challenge.ChallengeActivity
+import nl.inholland.myvitality.ui.challenge.participants.ChallengeParticipantsActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
@@ -45,4 +46,5 @@ interface ApplicationComponent {
     fun inject(activity: ScoreboardActivity)
     fun inject(activity: TutorialActivity)
     fun inject(activity: ProfileEditActivity)
+    fun inject(activity: ChallengeParticipantsActivity)
 }

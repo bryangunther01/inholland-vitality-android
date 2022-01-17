@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.timeline.liked
+package nl.inholland.myvitality.ui.challenge.participants
 
 import android.os.Bundle
 import android.widget.Toast
@@ -15,7 +15,7 @@ import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import javax.inject.Inject
 
-class TimelineLikedActivity : BaseActivity() {
+class ChallengeParticipantsActivity : BaseActivity() {
 
     @Inject
     lateinit var apiClient: ApiClient
@@ -27,8 +27,8 @@ class TimelineLikedActivity : BaseActivity() {
     lateinit var recyclerView: RecyclerView
 
     @Inject
-    lateinit var factory: TimelineLikedViewModelFactory
-    lateinit var viewModel: TimelineLikedViewModel
+    lateinit var factory: ChallengeParticipantsViewModelFactory
+    lateinit var viewModel: ChallengeParticipantsViewModel
 
     var layoutManager: LinearLayoutManager? = null
     var adapter: UserListAdapter? = null
@@ -37,7 +37,7 @@ class TimelineLikedActivity : BaseActivity() {
     private var page = 0
     private var limit = 10
 
-    var timelinePostId: String = ""
+    var currentChallengeId: String = ""
 
     override fun layoutResourceId(): Int {
         return R.layout.activity_post_likers
@@ -47,13 +47,13 @@ class TimelineLikedActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.navigation_timeline)
+        supportActionBar?.setTitle(R.string.navigation_challenge)
 
         (application as VitalityApplication).appComponent.inject(this)
-        viewModel = ViewModelProviders.of(this, factory).get(TimelineLikedViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(ChallengeParticipantsViewModel::class.java)
 
-        val postId = intent.getStringExtra("POST_ID")
-        if (postId == null) finish() else timelinePostId = postId
+        val challengeId = intent.getStringExtra("CHALLENGE_ID")
+        if (challengeId == null) finish() else currentChallengeId = challengeId
 
         initResponseHandler()
         initUsersObserver()
@@ -97,7 +97,7 @@ class TimelineLikedActivity : BaseActivity() {
         if (isCalling) return
 
         isCalling = true
-        viewModel.getLikers(timelinePostId, limit, page * limit)
+        viewModel.getSubscribers(currentChallengeId, limit, page * limit)
     }
 
     private fun initUsersObserver() {
