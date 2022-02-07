@@ -58,6 +58,19 @@
     <string name="login_error_empty_fields">Enter all fields</string>
     <string name="login_error_invalid_email">Please enter a valid email address</string>
     <string name="login_error_invalid_combination">Incorrect combination of email and password</string>
+    <string name="login_forgot_password">Forgot password?</string>
+
+    <!-- Account Recovery Strings -->
+    <string name="recovery_title">Forgot password?</string>
+    <string name="recovery_subtitle">No worries, we got this!</string>
+    <string name="recovery_content">Enter the e-mail address with which you would normally log in, and we will help you solve the problem!</string>
+    <string name="recovery_button">RESET PASSWORD</string>
+    <string name="recovery_go_back">I do not want to reset my password</string>
+    <string name="recovery_error">Something went wrong</string>
+    <string name="recovery_try_again">Try again</string>
+    <string name="recovery_confirm_title">Check your e-mail</string>
+    <string name="recovery_confirm_description">If the specified e-mail address is known to us, we have sent you an e-mail to reset your password. This may take a few minutes!</string>
+    <string name="recovery_confirm_button">Understood</string>
 
     <!-- Loading Dialog Strings -->
     <string name="dialog_loading_general">Please wait...</string>
@@ -168,7 +181,12 @@
     <string name="profile_edit_description_title">Biography</string>
     <string name="profile_edit_modify">Modify</string>
     <string name="profile_edit_save">Save</string>
+    <string name="profile_edit_delete">Delete account</string>
     <string name="profile_edit_empty_fields">Enter all fields</string>
+    <string name="profile_delete_dialog_title">Watch out</string>
+    <string name="profile_delete_dialog_body">You are about to delete your account permanently. We delete all your data, this cannot be reversed.</string>
+    <string name="profile_delete_dialog_confirm">Delete account</string>
+    <string name="profile_delete_dialog_cancel">Cancel</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> liked your post</string>

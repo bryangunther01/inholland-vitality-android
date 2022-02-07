@@ -16,11 +16,11 @@ import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.AuthSettings
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.authentication.recover.AccountRecoverActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
@@ -67,6 +67,11 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             Dialogs.showGeneralLoadingDialog(this)
             apiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
         }
+    }
+
+    @OnClick(R.id.login_forgot_password)
+    fun onClickForgotPassword() {
+        startActivity(Intent(this, AccountRecoverActivity::class.java))
     }
 
     @OnTextChanged(R.id.login_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)

@@ -21,13 +21,13 @@ class ProfileEditViewModel constructor(
 ) : ViewModel() {
 
     private val _currentUser = MutableLiveData<User>()
-    private val _responseError = MutableLiveData<ApiResponse>()
+    private val _response = MutableLiveData<ApiResponse>()
 
     val currentUser: LiveData<User>
         get() = _currentUser
 
     val apiResponse: LiveData<ApiResponse>
-        get() = _responseError
+        get() = _response
 
     fun getLoggedInUser() {
         sharedPrefs.accessToken?.let {
@@ -39,12 +39,32 @@ class ProfileEditViewModel constructor(
                             sharedPrefs.currentUserId = user.userId
                         }
                     } else if (response.code() == 401) {
-                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    Log.e("ProfileEditActivity", "onFailure: ", t)
+                }
+            })
+        }
+    }
+
+    fun deleteAccount() {
+        sharedPrefs.accessToken?.let {
+            apiClient.deleteUser("Bearer $it").enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        _response.value = ApiResponse(ResponseStatus.DELETED)
+                        sharedPrefs.logoutUser()
+                    } else if (response.code() == 401) {
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileEditActivity", "onFailure: ", t)
                 }
             })
@@ -71,14 +91,14 @@ class ProfileEditViewModel constructor(
             ).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        _responseError.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                        _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
                     } else if (response.code() == 401) {
-                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileEditActivity", "onFailure: ", t)
                 }
             })

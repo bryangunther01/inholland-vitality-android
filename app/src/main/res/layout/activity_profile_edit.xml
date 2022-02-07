@@ -182,13 +182,25 @@
             style="@style/ButtonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/button_primary"
             android:text="@string/profile_edit_save"
             android:enabled="false"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"/>
+            app:layout_constraintBottom_toTopOf="@id/profile_delete_button"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/profile_delete_button"
+            style="@style/ButtonDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_delete"
+            android:text="@string/profile_edit_delete"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"
