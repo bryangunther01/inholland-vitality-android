@@ -65,7 +65,7 @@
                 android:layout_marginTop="@dimen/margin_small_medium"
                 android:orientation="vertical">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/dialog_button"
                     style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"

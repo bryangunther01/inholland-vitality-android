@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule(val context: Context) {
-    private val BASE_URL: String = "https://vitalityfunctionsapp.azurewebsites.net/api/"
+    private val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
 
     @Provides
     @Singleton

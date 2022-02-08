@@ -6,6 +6,7 @@ import nl.inholland.myvitality.di.modules.NetworkModule
 import nl.inholland.myvitality.di.modules.ViewModelModule
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.authentication.recover.AccountRecoverActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
@@ -47,4 +48,5 @@ interface ApplicationComponent {
     fun inject(activity: TutorialActivity)
     fun inject(activity: ProfileEditActivity)
     fun inject(activity: ChallengeParticipantsActivity)
+    fun inject(activity: AccountRecoverActivity)
 }

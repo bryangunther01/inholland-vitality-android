@@ -58,6 +58,16 @@ interface ApiClient {
         @Query("offset") offset: Int,
     ): Call<List<ScoreboardUser>>
 
+    @DELETE("user")
+    fun deleteUser(
+        @Header("Authorization") token: String
+    ): Call<Void>
+
+    @POST("user/recover")
+    fun recoverUser(
+        @Query("email") email: String
+    ): Call<Void>
+
     /** Challenge calls **/
     @GET("challenge")
     fun getChallenges(

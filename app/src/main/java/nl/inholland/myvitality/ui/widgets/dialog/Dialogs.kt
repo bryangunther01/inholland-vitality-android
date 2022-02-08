@@ -16,7 +16,7 @@ object Dialogs  {
     private var currentDialog: Dialog? = null
 
     fun hideCurrentDialog(){
-        currentDialog?.hide()
+        currentDialog?.dismiss()
         currentDialog = null
     }
 
@@ -28,6 +28,51 @@ object Dialogs  {
         dialog.show()
 
         currentDialog = dialog
+    }
+
+    fun showAccountDeletionDialog(activity: Activity, onClickListener: View.OnClickListener) {
+        val dialog = setupSimpleDialog(activity)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val button = dialog.findViewById<TextView>(R.id.dialog_button)
+        val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+        buttonCancel.visibility = View.VISIBLE
+
+        title.text = activity.getString(R.string.profile_delete_dialog_title)
+        body.text = activity.getString(R.string.profile_delete_dialog_body)
+        button.text = activity.getString(R.string.profile_delete_dialog_confirm)
+        buttonCancel.text = activity.getString(R.string.profile_delete_dialog_cancel)
+
+        button.setBackgroundResource(R.drawable.button_delete)
+
+        button.setOnClickListener(onClickListener)
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    fun showAccountRecoveryDialog(activity: Activity) {
+        val dialog = setupSimpleDialog(activity)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val button = dialog.findViewById<TextView>(R.id.dialog_button)
+
+        title.text = activity.getString(R.string.recovery_confirm_title)
+        body.text = activity.getString(R.string.recovery_confirm_description)
+        button.text = activity.getString(R.string.recovery_confirm_button)
+
+        button.setOnClickListener {
+            dialog.dismiss()
+            activity.finish()
+        }
+
+        dialog.show()
     }
 
     fun showEmailVerificationDialog(activity: Activity) {

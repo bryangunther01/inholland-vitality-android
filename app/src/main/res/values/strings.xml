@@ -58,6 +58,19 @@
     <string name="login_error_empty_fields">Vul alle velden in</string>
     <string name="login_error_invalid_email">Vul een geldig email adres in</string>
     <string name="login_error_invalid_combination">Combinatie email en wachtwoord onjuist</string>
+    <string name="login_forgot_password">Wachtwoord vergeten?</string>
+
+    <!-- Account Recovery Strings -->
+    <string name="recovery_title">Wachtwoord vergeten?</string>
+    <string name="recovery_subtitle">Geen zorgen, het komt goed!</string>
+    <string name="recovery_content">Vul het e-mail adres in waarmee je normaal zou inloggen en we helpen je het probleem op te lossen!</string>
+    <string name="recovery_button">RESET WACHTWOORD</string>
+    <string name="recovery_go_back">Ik wil mijn wachtwoord niet wijzigen</string>
+    <string name="recovery_error">Er is een fout opgetreden</string>
+    <string name="recovery_try_again">Probeer opnieuw</string>
+    <string name="recovery_confirm_title">Controleer je e-mail</string>
+    <string name="recovery_confirm_description">Als het opgegeven e-mail adres bij ons bekend is hebben we je een mail gestuurd om je wachtwoord opnieuw in te stellen. Dit kan een paar minuten duren!</string>
+    <string name="recovery_confirm_button">Begrepen</string>
 
     <!-- Loading Dialog Strings -->
     <string name="dialog_loading_general">Even geduld...</string>
@@ -171,7 +184,12 @@
     <string name="profile_edit_description_title">Biografie</string>
     <string name="profile_edit_modify">Aanpassen</string>
     <string name="profile_edit_save">Opslaan</string>
+    <string name="profile_edit_delete">Verwijder account</string>
     <string name="profile_edit_empty_fields">Vul alle velden in</string>
+    <string name="profile_delete_dialog_title">Let op</string>
+    <string name="profile_delete_dialog_body">Je staat op het punt om jouw account permanent te verwijderen. Wij verwijderen al jouw gegevens, dit kan niet terug gedraaid worden.</string>
+    <string name="profile_delete_dialog_confirm">Ik weet het zeker</string>
+    <string name="profile_delete_dialog_cancel">Annuleer</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>

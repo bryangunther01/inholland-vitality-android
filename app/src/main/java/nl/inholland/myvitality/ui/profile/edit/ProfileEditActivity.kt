@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -18,6 +19,7 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
@@ -123,6 +125,13 @@ class ProfileEditActivity : BaseActivity() {
         startActivityForResult(photoPickerIntent, PICK_IMAGE)
     }
 
+    @OnClick(R.id.profile_delete_button)
+    fun onClickProfileDelete() {
+        Dialogs.showAccountDeletionDialog(this, View.OnClickListener {
+            viewModel.deleteAccount()
+        })
+    }
+
     @OnClick(R.id.profile_edit_button)
     fun onClickSave() {
         val isValid = firstName.text.isNotEmpty() &&
@@ -159,7 +168,7 @@ class ProfileEditActivity : BaseActivity() {
 
     private fun initUser() {
         viewModel.getLoggedInUser()
-        viewModel.currentUser.observe(this, { user ->
+        viewModel.currentUser.observe(this) { user ->
             Glide.with(this)
                 .load(user.profilePicture)
                 .skipMemoryCache(true)
@@ -170,11 +179,11 @@ class ProfileEditActivity : BaseActivity() {
             jobTitle.setText(user.jobTitle)
             location.setText(user.location)
             description.setText(user.description)
-        })
+        }
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
@@ -185,9 +194,13 @@ class ProfileEditActivity : BaseActivity() {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     finish()
                 }
+                ResponseStatus.DELETED -> {
+                    finishAffinity()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
                 else -> {
                 }
             }
-        })
+        }
     }
 }
