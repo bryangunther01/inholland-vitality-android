@@ -72,6 +72,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @OnClick(R.id.login_forgot_password)
     fun onClickForgotPassword() {
         startActivity(Intent(this, AccountRecoverActivity::class.java))
+        finish()
     }
 
     @OnTextChanged(R.id.login_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)

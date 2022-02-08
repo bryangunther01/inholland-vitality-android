@@ -1,11 +1,12 @@
 package nl.inholland.myvitality.ui.authentication.recover
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import butterknife.BindView
 import butterknife.OnClick
@@ -14,6 +15,8 @@ import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import javax.inject.Inject
 
@@ -35,14 +38,19 @@ class AccountRecoverActivity : BaseActivity() {
 
         (application as VitalityApplication).appComponent.inject(this)
         viewModel = ViewModelProviders.of(this, factory).get(AccountRecoveryViewModel::class.java)
+        initResponseHandler()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     @OnClick(R.id.recover_button)
     fun onClickRecoverAccount() {
-        Dialogs.showAccountRecoveryDialog(this, View.OnClickListener {
-            viewModel.sendRecoveryMail(email.text.toString())
-            finish()
-        })
+        viewModel.sendRecoveryMail(email.text.toString())
+        Dialogs.showGeneralLoadingDialog(this)
     }
 
     @OnTextChanged(R.id.recover_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
@@ -61,6 +69,25 @@ class AccountRecoverActivity : BaseActivity() {
 
     @OnClick(R.id.recover_cancel)
     fun onClickCancelRecover() {
+        startActivity(Intent(this, LoginActivity::class.java))
         finish()
+    }
+
+    private fun initResponseHandler() {
+        viewModel.apiResponse.observe(this) { response ->
+            when (response.status) {
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    this,
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                ResponseStatus.SUCCESSFUL -> {
+                    Dialogs.hideCurrentDialog()
+                    Dialogs.showAccountRecoveryDialog(this)
+                }
+                else -> {
+                }
+            }
+        }
     }
 }

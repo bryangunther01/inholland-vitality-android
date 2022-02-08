@@ -16,7 +16,7 @@ object Dialogs  {
     private var currentDialog: Dialog? = null
 
     fun hideCurrentDialog(){
-        currentDialog?.hide()
+        currentDialog?.dismiss()
         currentDialog = null
     }
 
@@ -50,13 +50,13 @@ object Dialogs  {
         button.setOnClickListener(onClickListener)
 
         buttonCancel.setOnClickListener {
-            dialog.hide()
+            dialog.dismiss()
         }
 
         dialog.show()
     }
 
-    fun showAccountRecoveryDialog(activity: Activity, onClickListener: View.OnClickListener) {
+    fun showAccountRecoveryDialog(activity: Activity) {
         val dialog = setupSimpleDialog(activity)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
@@ -67,7 +67,10 @@ object Dialogs  {
         body.text = activity.getString(R.string.recovery_confirm_description)
         button.text = activity.getString(R.string.recovery_confirm_button)
 
-        button.setOnClickListener(onClickListener)
+        button.setOnClickListener {
+            dialog.dismiss()
+            activity.finish()
+        }
 
         dialog.show()
     }

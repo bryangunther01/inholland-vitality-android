@@ -26,9 +26,7 @@ class AccountRecoveryViewModel constructor(
         apiClient.recoverUser(email).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    //TODO: Do something??...
-                } else if (response.code() == 400) {
-                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.SUCCESSFUL)
                 }
             }
 
