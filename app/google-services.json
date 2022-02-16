@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "263537186309",
+    "project_id": "vitalityapppushnotifications",
+    "storage_bucket": "vitalityapppushnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263537186309:android:56625581b5c9e847a3ae6c",
+        "android_client_info": {
+          "package_name": "nl.inholland.myvitality"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263537186309-lso4a1iu5pfk3g8j33fc70lfg2u0msku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhnkxya16bjMWa-El9J7h2X30iIm2bwCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263537186309-lso4a1iu5pfk3g8j33fc70lfg2u0msku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

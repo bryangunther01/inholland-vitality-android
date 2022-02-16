@@ -88,6 +88,13 @@
             android:name=".ui.authentication.register.details2.RegisterAdditionalDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
+        <service
+            android:name=".ui.push_notifications.PushNotifications"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
