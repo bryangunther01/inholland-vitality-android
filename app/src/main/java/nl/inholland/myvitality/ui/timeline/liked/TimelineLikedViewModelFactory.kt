@@ -2,7 +2,7 @@ package nl.inholland.myvitality.ui.timeline.liked
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import javax.inject.Inject
 

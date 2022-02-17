@@ -1,10 +1,9 @@
 package nl.inholland.myvitality.ui.push_notifications
 
+import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -13,14 +12,25 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.util.SharedPreferenceHelper
+import javax.inject.Inject
 import kotlin.random.Random
 
-private const val CHANNEL_ID = "vitality_channel"
+class PushService : FirebaseMessagingService() {
+    @Inject
+    lateinit var sharedPrefs: SharedPreferenceHelper
 
-class PushNotifications(private val sharedPrefs: SharedPreferenceHelper) : FirebaseMessagingService() {
+    private val CHANNEL_ID = "vitality_channel"
+
+    override fun onCreate() {
+        super.onCreate()
+
+        (application as VitalityApplication).appComponent.inject(this)
+    }
+
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
@@ -35,7 +45,7 @@ class PushNotifications(private val sharedPrefs: SharedPreferenceHelper) : Fireb
         Log.d("TAG", message.data.toString())
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, FLAG_ONE_SHOT)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["message"])
@@ -50,7 +60,7 @@ class PushNotifications(private val sharedPrefs: SharedPreferenceHelper) : Fireb
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val channelName = "vitality_notifications"
-        val channel = NotificationChannel(CHANNEL_ID, channelName, IMPORTANCE_HIGH).apply {
+        val channel = NotificationChannel(CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
             description = "Vitality notifications channel"
         }
         notificationManager.createNotificationChannel(channel)
@@ -59,8 +69,8 @@ class PushNotifications(private val sharedPrefs: SharedPreferenceHelper) : Fireb
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
-        Log.e("token", "New Token: $token")
+        sharedPrefs.pushToken = token
+
+        Log.d("token", "New Token: ${sharedPrefs.pushToken}")
     }
-
-
 }

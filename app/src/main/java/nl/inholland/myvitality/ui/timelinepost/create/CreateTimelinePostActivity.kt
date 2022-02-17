@@ -12,7 +12,7 @@ import butterknife.OnClick
 import butterknife.OnTextChanged
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
