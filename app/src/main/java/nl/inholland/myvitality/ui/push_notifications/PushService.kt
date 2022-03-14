@@ -14,7 +14,10 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
 import kotlin.random.Random
@@ -22,6 +25,9 @@ import kotlin.random.Random
 class PushService : FirebaseMessagingService() {
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
+
+    @Inject
+    lateinit var apiClient: TokenApiClient
 
     private val CHANNEL_ID = "vitality_channel"
 
@@ -34,7 +40,7 @@ class PushService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, NotificationActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = Random.nextInt()
 
@@ -47,9 +53,9 @@ class PushService : FirebaseMessagingService() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(message.data["title"])
-            .setContentText(message.data["message"])
-            .setSmallIcon(R.drawable.vitality_logo)
+            .setContentTitle(message.notification?.title)
+            .setContentText(message.notification?.body)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
@@ -70,6 +76,9 @@ class PushService : FirebaseMessagingService() {
         super.onNewToken(token)
 
         sharedPrefs.pushToken = token
+        if(sharedPrefs.isLoggedIn()) {
+            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(token))
+        }
 
         Log.d("token", "New Token: ${sharedPrefs.pushToken}")
     }
