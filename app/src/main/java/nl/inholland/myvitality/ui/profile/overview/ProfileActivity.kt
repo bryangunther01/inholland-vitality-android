@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,6 +25,7 @@ import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
@@ -32,12 +34,16 @@ import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.TextViewUtils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 
 class ProfileActivity : BaseActivity() {
 
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
+    @Inject lateinit var apiClient: TokenApiClient
 
     @BindView(R.id.profile_image) lateinit var profileImage: ImageView
     @BindView(R.id.profile_fullname) lateinit var fullname: TextView
@@ -109,6 +115,19 @@ class ProfileActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         return if(id == R.id.profile_logout){
+            sharedPrefs.pushToken?.let {
+                apiClient.deletePushToken("Bearer ${sharedPrefs.accessToken}", it).enqueue(object :
+                    Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        Log.i("ProfileActivity", "Push token deleted")
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("ProfileActivity", "onFailure: ", t)
+                    }
+                })
+            }
+
             sharedPrefs.logoutUser()
             finishAffinity()
             startActivity(Intent(this, LoginActivity::class.java))

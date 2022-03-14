@@ -19,6 +19,9 @@ import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -77,7 +80,15 @@ class PushService : FirebaseMessagingService() {
 
         sharedPrefs.pushToken = token
         if(sharedPrefs.isLoggedIn()) {
-            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(token))
+            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(token)).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.i("LoginActivity", "New pushtoken sent to API")
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.e("LoginActivity", "onFailure: ", t)
+                }
+            })
         }
 
         Log.d("token", "New Token: ${sharedPrefs.pushToken}")

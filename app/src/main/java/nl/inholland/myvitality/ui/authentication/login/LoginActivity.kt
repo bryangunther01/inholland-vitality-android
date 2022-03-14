@@ -117,7 +117,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
             apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-
+                    Log.i("LoginActivity", "New pushtoken sent to API")
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
