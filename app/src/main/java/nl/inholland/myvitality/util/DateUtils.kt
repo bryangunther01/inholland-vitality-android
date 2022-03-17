@@ -2,7 +2,13 @@ package nl.inholland.myvitality.util
 
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.text.format.DateUtils
+import android.util.Log
+import android.widget.Toast
 import nl.inholland.myvitality.R
+import java.lang.Exception
+import java.lang.IllegalArgumentException
+import java.time.LocalDateTime
 import java.util.*
 
 object DateUtils {
@@ -12,10 +18,15 @@ object DateUtils {
     private const val DAY_MILLIS = 24 * HOUR_MILLIS
     private const val WEEK_MILLIS = 7 * DAY_MILLIS
 
-    private fun currentDate(): Date {
-        val calendar = Calendar.getInstance()
-        return calendar.time
+    private fun now(): Date {
+        return Calendar.getInstance().time
     }
+
+    fun isInPast(dateString: String): Boolean {
+        val date = stringToDate(dateString)
+        return date.before(now())
+    }
+
 
     private fun isSameYear(date: Date): Boolean {
         val currentCalendar = Calendar.getInstance()
@@ -25,52 +36,31 @@ object DateUtils {
         return currentCalendar.get(Calendar.YEAR) == givenDateCalender.get(Calendar.YEAR)
     }
 
+    private fun stringToDate(dateString: String): Date{
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+
+        return format.parse(dateString)
+    }
+
     fun formatDate(date: String): String {
         // Set the publishData including the right format
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
         val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         return formatter.format(parser.parse(date))
     }
 
-    fun formatDateToTimeAgo(
-        context: Context,
-        dateString: String,
-        withTime: Boolean = false
-    ): String {
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-        val date = parser.parse(dateString)
+    fun formatDate(date: String, format: String): String {
+        // Set the publishData including the right format
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        return formatter.format(parser.parse(date))
+    }
 
-        val dateYearFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        val dateFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        val defaultDateFormatter = if (isSameYear(date)) dateFormatter else dateYearFormatter
 
-        val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+    fun formatDateToTimeAgo(dateString: String): String {
+        val date = stringToDate(dateString)
+        val time = date.time.plus(HOUR_MILLIS)
 
-        var time = date.time
-        time = time.plus(HOUR_MILLIS)
-
-        val now = currentDate().time
-        if (time > now || time <= 0) {
-            return context.getString(R.string.time_future)
-        }
-
-        val diff = now - time
-        return when {
-            diff < 2 * MINUTE_MILLIS -> context.getString(R.string.time_minute_ago)
-            diff < 60 * MINUTE_MILLIS -> context.getString(
-                R.string.time_minutes_ago,
-                diff / MINUTE_MILLIS
-            )
-            diff < 1 * DAY_MILLIS -> context.getString(R.string.time_hours_ago, diff / HOUR_MILLIS)
-            diff < 2 * DAY_MILLIS -> if (withTime) context.getString(
-                R.string.time_yesterday_with_time,
-                timeFormatter.format(date)
-            ) else context.getString(R.string.time_yesterday)
-            else -> if (withTime) context.getString(
-                R.string.time_date_at,
-                defaultDateFormatter.format(date),
-                timeFormatter.format(date)
-            ) else defaultDateFormatter.format(date)
-        }
+        return DateUtils.getRelativeTimeSpanString(time, now().time.plus(SECOND_MILLIS * 5), 59000L, DateUtils.FORMAT_ABBREV_MONTH).toString()
     }
 }

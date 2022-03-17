@@ -14,8 +14,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Challenge
-import nl.inholland.myvitality.data.entities.ChallengeType
-import nl.inholland.myvitality.ui.challenge.ChallengeActivity
+import nl.inholland.myvitality.data.entities.ActivityType
+import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 
 class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true) : BaseRecyclerAdapter<Challenge, ExploreChallengeAdapter.ViewHolder>(context) {
 
@@ -33,20 +33,20 @@ class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true
             .into(holder.challengeImage)
 
         // Set the challenge type
-        when (currentItem.challengeType) {
-            ChallengeType.EXERCISE ->
-                holder.challengeType.text = context.getString(R.string.challenge_type_exercise)
-            ChallengeType.DIET ->
-                holder.challengeType.text = context.getString(R.string.challenge_type_diet)
-            ChallengeType.MIND ->
-                holder.challengeType.text = context.getString(R.string.challenge_type_mind)
+        when (currentItem.activityType) {
+            ActivityType.EXERCISE ->
+                holder.challengeType.text = context.getString(R.string.activity_type_exercise)
+            ActivityType.DIET ->
+                holder.challengeType.text = context.getString(R.string.activity_type_diet)
+            ActivityType.MIND ->
+                holder.challengeType.text = context.getString(R.string.activity_type_mind)
         }
 
         if(showButtons == true){
             holder.challengeButton.visibility = View.VISIBLE
 
             holder.challengeButton.setOnClickListener { view ->
-                val intent = Intent(view.context, ChallengeActivity::class.java)
+                val intent = Intent(view.context, ActivityDetailActivity::class.java)
                 intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
                 view.context.startActivity(intent)
             }
@@ -54,7 +54,7 @@ class ExploreChallengeAdapter(context: Context, var showButtons: Boolean? = true
 
         holder.challengeTitle.text = currentItem.title
         val onClickAction = View.OnClickListener { view ->
-            val intent = Intent(view.context, ChallengeActivity::class.java)
+            val intent = Intent(view.context, ActivityDetailActivity::class.java)
             intent.putExtra("CHALLENGE_ID", currentItem.challengeId)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             view.context.startActivity(intent)

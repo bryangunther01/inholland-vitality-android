@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.challenge.participants
+package nl.inholland.myvitality.ui.activity.participants
 
 import android.os.Bundle
 import android.widget.Toast
@@ -15,20 +15,14 @@ import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import javax.inject.Inject
 
-class ChallengeParticipantsActivity : BaseActivity() {
-
-    @Inject
-    lateinit var apiClient: ApiClient
-
-    @Inject
-    lateinit var sharedPrefs: SharedPreferenceHelper
+class ActivityParticipantsActivity : BaseActivity() {
 
     @BindView(R.id.user_recyclerview)
     lateinit var recyclerView: RecyclerView
 
     @Inject
-    lateinit var factory: ChallengeParticipantsViewModelFactory
-    lateinit var viewModel: ChallengeParticipantsViewModel
+    lateinit var factory: ActivityParticipantsViewModelFactory
+    lateinit var viewModel: ActivityParticipantsViewModel
 
     var layoutManager: LinearLayoutManager? = null
     var adapter: UserListAdapter? = null
@@ -37,23 +31,23 @@ class ChallengeParticipantsActivity : BaseActivity() {
     private var page = 0
     private var limit = 10
 
-    var currentChallengeId: String = ""
+    var currentActivityId: String = ""
 
     override fun layoutResourceId(): Int {
-        return R.layout.activity_post_likers
+        return R.layout.activity_user_list
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(R.string.navigation_challenge)
+        supportActionBar?.setTitle(R.string.navigation_activity)
 
         (application as VitalityApplication).appComponent.inject(this)
-        viewModel = ViewModelProviders.of(this, factory).get(ChallengeParticipantsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(ActivityParticipantsViewModel::class.java)
 
-        val challengeId = intent.getStringExtra("CHALLENGE_ID")
-        if (challengeId == null) finish() else currentChallengeId = challengeId
+        val activityId = intent.getStringExtra("ACTIVITY_ID")
+        if (activityId == null) finish() else currentActivityId = activityId
 
         initResponseHandler()
         initUsersObserver()
@@ -97,11 +91,11 @@ class ChallengeParticipantsActivity : BaseActivity() {
         if (isCalling) return
 
         isCalling = true
-        viewModel.getSubscribers(currentChallengeId, limit, page * limit)
+        viewModel.getSubscribers(currentActivityId, limit, page * limit)
     }
 
     private fun initUsersObserver() {
-        viewModel.results.observe(this, {
+        viewModel.results.observe(this) {
             if (page == 0) adapter?.clearItems()
 
             if (it.isNotEmpty()) {
@@ -110,19 +104,20 @@ class ChallengeParticipantsActivity : BaseActivity() {
             }
 
             isCalling = false
-        })
+        }
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                }
             }
-        })
+        }
     }
 }

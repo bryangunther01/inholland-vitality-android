@@ -68,6 +68,47 @@ interface ApiClient {
         @Query("email") email: String
     ): Call<Void>
 
+    /** Activity Calls **/
+    @GET("category")
+    fun getActivityCategories(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+    ): Call<List<ActivityCategory>>
+
+    @GET("activity/{activityId}")
+    fun getActivity(
+        @Header("Authorization") token: String,
+        @Path("activityId") activityId: String,
+    ): Call<Activity>
+
+    @GET("activity")
+    fun getActivities(
+        @Header("Authorization") token: String,
+        @Query("categoryId") categoryId: String,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("activityState") state: Int? = null,
+        @Query("progress") progress: Int? = null,
+        @Query("userId") userId: String? = null,
+        ): Call<List<Activity>>
+
+    @GET("activity/{activityId}/subscribers")
+    fun getActivitySubscribers(
+        @Header("Authorization") token: String,
+        @Path("activityId") activityId: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<SimpleUser>>
+
+    @PUT("activity/{activityId}/progress")
+    fun updateActivityProgress(
+        @Header("Authorization") token: String,
+        @Path("activityId") activityId: String,
+        @Query("activityProgress") progress: Int
+    ): Call<Void>
+
+
     /** Challenge calls **/
     @GET("challenge")
     fun getChallenges(
@@ -78,28 +119,6 @@ interface ApiClient {
         @Query("progress") progress: Int? = null,
         @Query("userId") userId: String? = null
     ): Call<List<Challenge>>
-
-    @GET("challenge/{challengeId}")
-    fun getChallenge(
-        @Header("Authorization") token: String,
-        @Path("challengeId") challengeId: String,
-    ): Call<Challenge>
-
-    @PUT("challenge/{challengeId}/progress")
-    fun updateChallengeProgress(
-        @Header("Authorization") token: String,
-        @Path("challengeId") challengeId: String,
-        @Query("challengeProgress") progress: Int
-    ): Call<Void>
-
-
-    @GET("challenge/{challengeId}/subscribers")
-    fun getChallengeSubscribers(
-        @Header("Authorization") token: String,
-        @Path("challengeId") challengeId: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
-    ): Call<List<SimpleUser>>
 
     /** Timeline calls **/
     @GET("timelinepost")

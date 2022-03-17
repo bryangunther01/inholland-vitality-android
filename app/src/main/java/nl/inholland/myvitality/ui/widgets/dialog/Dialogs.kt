@@ -107,10 +107,10 @@ object Dialogs  {
 
         buttonBack.visibility = View.VISIBLE
 
-        title.text = activity.getString(R.string.dialog_challenge_title)
-        body.text = activity.getString(R.string.dialog_challenge_body)
-        buttonContinue.text = activity.getString(R.string.dialog_challenge_button_confirm_text)
-        buttonBack.text = activity.getString(R.string.dialog_challenge_button_cancel_text)
+        title.text = activity.getString(R.string.dialog_activity_title)
+        body.text = activity.getString(R.string.dialog_activity_body)
+        buttonContinue.text = activity.getString(R.string.dialog_activity_button_confirm_text)
+        buttonBack.text = activity.getString(R.string.dialog_activity_button_cancel_text)
 
         buttonContinue.setOnClickListener(onClickListener)
         buttonBack.setOnClickListener {

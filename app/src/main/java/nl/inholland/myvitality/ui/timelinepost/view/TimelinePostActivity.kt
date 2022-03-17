@@ -219,7 +219,7 @@ class TimelinePostActivity : BaseActivity() {
 
     private fun initPost() {
         viewModel.getPost(currentPostId)
-        viewModel.post.observe(this, { timelinePost ->
+        viewModel.post.observe(this) { timelinePost ->
             currentPost = timelinePost
 
             sharedPrefs.currentUserId?.let {
@@ -240,7 +240,7 @@ class TimelinePostActivity : BaseActivity() {
                 .into(profileImage)
 
             userName.text = timelinePost.fullName
-            date.append(DateUtils.formatDateToTimeAgo(this, timelinePost.publishDate))
+            date.append(DateUtils.formatDateToTimeAgo(timelinePost.publishDate))
             content.text = timelinePost.text
 
             timelinePost.imageUrl?.let {
@@ -266,14 +266,14 @@ class TimelinePostActivity : BaseActivity() {
                 commentCount.append(getString(R.string.post_text_comments))
             }
 
-        })
+        }
 
         viewModel.isLiked.observe(this, { toggleLike(it) })
         viewModel.likedCount.observe(this, { updateLikeCount(it) })
     }
 
     private fun initComments() {
-        viewModel.comments.observe(this, {
+        viewModel.comments.observe(this) {
             if (page == 0 && it.isEmpty()) {
                 commentsEmptyText.visibility = View.VISIBLE
                 recyclerView.visibility = View.INVISIBLE
@@ -286,7 +286,7 @@ class TimelinePostActivity : BaseActivity() {
                 adapter?.addItems(it)
                 page += 1
             }
-        })
+        }
 
         tryLoadComments()
     }

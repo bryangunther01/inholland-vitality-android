@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.ui.challenge.participants
+package nl.inholland.myvitality.ui.activity.participants
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ChallengeParticipantsViewModel constructor(
+class ActivityParticipantsViewModel constructor(
     private val apiClient: ApiClient,
     private val sharedPrefs: SharedPreferenceHelper
 ) : ViewModel() {
@@ -27,9 +27,9 @@ class ChallengeParticipantsViewModel constructor(
     val apiResponse: LiveData<ApiResponse>
         get() = _response
 
-    fun getSubscribers(timelinePostId: String, limit: Int, offset: Int) {
+    fun getSubscribers(activityId: String, limit: Int, offset: Int) {
         sharedPrefs.accessToken?.let {
-            apiClient.getChallengeSubscribers("Bearer $it", timelinePostId, limit , offset).enqueue(object : Callback<List<SimpleUser>> {
+            apiClient.getActivitySubscribers("Bearer $it", activityId, limit , offset).enqueue(object : Callback<List<SimpleUser>> {
                 override fun onResponse(call: Call<List<SimpleUser>>, response: Response<List<SimpleUser>>) {
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { users ->
@@ -42,7 +42,7 @@ class ChallengeParticipantsViewModel constructor(
 
                 override fun onFailure(call: Call<List<SimpleUser>>, t: Throwable) {
                     _response.value = ApiResponse(ResponseStatus.API_ERROR)
-                    Log.e("ChallengeParticipantsActivity", "onFailure: ", t)
+                    Log.e("ActivityParticipantsActivity", "onFailure: ", t)
                 }
             })
         }

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import nl.inholland.myvitality.R
-import nl.inholland.myvitality.data.entities.ChallengeType
+import nl.inholland.myvitality.data.entities.ActivityType
 
-class TutorialTypeFragment(val type: ChallengeType) : Fragment() {
+class TutorialTypeFragment(val type: ActivityType) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,16 +23,16 @@ class TutorialTypeFragment(val type: ChallengeType) : Fragment() {
 
         // Set the challenge type
         when (type) {
-            ChallengeType.EXERCISE -> {
-                challengeType.text = getString(R.string.challenge_type_exercise)
+            ActivityType.EXERCISE -> {
+                challengeType.text = getString(R.string.activity_type_exercise)
                 description.text = getString(R.string.tutorial_description_exercise)
             }
-            ChallengeType.DIET -> {
-                challengeType.text = getString(R.string.challenge_type_diet)
+            ActivityType.DIET -> {
+                challengeType.text = getString(R.string.activity_type_diet)
                 description.text = getString(R.string.tutorial_description_diet)
             }
-            ChallengeType.MIND -> {
-                challengeType.text = getString(R.string.challenge_type_mind)
+            ActivityType.MIND -> {
+                challengeType.text = getString(R.string.activity_type_mind)
                 description.text = getString(R.string.tutorial_description_mind)
             }
         }
