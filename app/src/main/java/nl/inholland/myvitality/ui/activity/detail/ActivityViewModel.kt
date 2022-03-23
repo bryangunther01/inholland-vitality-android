@@ -86,7 +86,11 @@ class ActivityViewModel constructor(
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                            if (activityProgress == ActivityProgress.IN_PROGRESS) {
+                                _response.value = ApiResponse((ResponseStatus.SUCCESSFUL))
+                            } else {
+                                _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                            }
                         } else if (response.code() == 401) {
                             _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                         }

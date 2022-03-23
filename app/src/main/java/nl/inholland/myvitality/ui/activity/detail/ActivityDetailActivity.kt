@@ -1,9 +1,13 @@
 package nl.inholland.myvitality.ui.activity.detail
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
@@ -27,6 +31,11 @@ import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActi
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
+import java.lang.Exception
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.*
 import javax.inject.Inject
 
 class ActivityDetailActivity : BaseActivity() {
@@ -247,6 +256,34 @@ class ActivityDetailActivity : BaseActivity() {
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             .putExtra("CATEGORY_ID", currentActivity?.category?.categoryId))
                     finish()
+                }
+                ResponseStatus.SUCCESSFUL -> {
+                    Dialogs.showCalendarEventDialog(this, View.OnClickListener {
+                        startActivity(
+                            Intent(this@ActivityDetailActivity, ActivityOverviewActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .putExtra("CATEGORY_ID", currentActivity?.category?.categoryId))
+
+                        finish()
+                        val intent = Intent(Intent.ACTION_INSERT)
+                            .setData(CalendarContract.Events.CONTENT_URI)
+                            .putExtra(CalendarContract.Events.TITLE, currentActivity!!.title)
+                            .putExtra(CalendarContract.Events.DESCRIPTION,
+                                currentActivity!!.description)
+                            .putExtra(CalendarContract.Events.EVENT_LOCATION,
+                                currentActivity!!.location)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            val startDate = LocalDateTime.parse(currentActivity!!.startDate)
+                            val endDate = LocalDateTime.parse(currentActivity!!.endDate)
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                                startDate.atZone(ZoneOffset.ofHours(1)).toInstant().toEpochMilli())
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                                endDate.atZone(ZoneOffset.ofHours(1)).toInstant().toEpochMilli())
+                        }
+
+                        startActivity(intent)
+                    })
                 }
                 else -> {
                 }

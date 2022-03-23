@@ -5,11 +5,16 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.provider.CalendarContract
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 object Dialogs  {
 
@@ -68,6 +73,33 @@ object Dialogs  {
         button.text = activity.getString(R.string.recovery_confirm_button)
 
         button.setOnClickListener {
+            dialog.dismiss()
+            activity.finish()
+        }
+
+        dialog.show()
+    }
+
+    fun showCalendarEventDialog(activity: Activity, onClickListener: View.OnClickListener) {
+        val dialog = setupSimpleDialog(activity)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val buttonConfirm = dialog.findViewById<TextView>(R.id.dialog_button)
+        val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+        buttonCancel.visibility = View.VISIBLE
+        buttonCancel.setBackgroundResource(R.drawable.button_cancel)
+
+        title.text = activity.getString(R.string.dialog_activity_calendar_title)
+        body.text = activity.getString(R.string.dialog_activity_calendar_body)
+        buttonConfirm.text = activity.getString(R.string.dialog_activity_calendar_button_confirm)
+        buttonCancel.text = activity.getString(R.string.dialog_activity_calendar_button_cancel)
+
+
+        buttonConfirm.setOnClickListener(onClickListener)
+
+        buttonCancel.setOnClickListener {
             dialog.dismiss()
             activity.finish()
         }
