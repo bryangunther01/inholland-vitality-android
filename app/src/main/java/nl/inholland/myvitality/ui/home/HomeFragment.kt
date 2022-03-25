@@ -9,41 +9,36 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
-import com.ethanhua.skeleton.Skeleton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
-import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
-import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
+import nl.inholland.myvitality.data.adapters.ActivityCategoryAdapter
+import nl.inholland.myvitality.data.entities.ActivityCategory
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.ui.scoreboard.ScoreboardActivity
 import nl.inholland.myvitality.util.TextViewUtils
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
-    @BindView(R.id.home_curr_chl_recyclerview)
+    @BindView(R.id.activity_recyclerview)
     lateinit var currentChallengesRecyclerView: RecyclerView
-
-    @BindView(R.id.home_exp_chl_recyclerview)
-    lateinit var exploreChallengesRecyclerView: RecyclerView
 
     @Inject
     lateinit var factory: HomeViewModelFactory
     lateinit var viewModel: HomeViewModel
 
-    private var crtLayoutManager: LinearLayoutManager? = null
-    private var expLayoutManager: LinearLayoutManager? = null
-    private var crtChlAdapter: CurrentChallengeAdapter? = null
-    private var expChlAdapter: ExploreChallengeAdapter? = null
+    private var layoutManager: StaggeredGridLayoutManager? = null
+    private var adapter: ActivityCategoryAdapter? = null
+
+    // TODO: Fix this in new layout
     private var skeletonScreen: RecyclerViewSkeletonScreen? = null
 
     override fun layoutResourceId(): Int {
@@ -71,7 +66,9 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerViews()
-        setupSkeleton()
+
+        // TODO: Fix this in new layout
+//        setupSkeleton()
 
         initResponseHandler()
         initUser()
@@ -82,33 +79,25 @@ class HomeFragment : BaseFragment() {
         startActivity(Intent(requireContext(), ScoreboardActivity::class.java))
     }
 
-    private fun setupSkeleton() {
-        skeletonScreen = Skeleton.bind(exploreChallengesRecyclerView)
-            .adapter(expChlAdapter)
-            .frozen(true)
-            .duration(2400)
-            .count(10)
-            .load(R.layout.challenge_skeleton_view_item)
-            .show()
-    }
+    // TODO: Fix this in new layout
+//    private fun setupSkeleton() {
+//        skeletonScreen = Skeleton.bind(exploreChallengesRecyclerView)
+//            .adapter(expChlAdapter)
+//            .frozen(true)
+//            .duration(2400)
+//            .count(10)
+//            .load(R.layout.challenge_skeleton_view_item)
+//            .show()
+//    }
 
     private fun setupRecyclerViews() {
-        crtLayoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        crtChlAdapter = CurrentChallengeAdapter(requireActivity())
+        layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        adapter = ActivityCategoryAdapter(requireActivity())
 
         currentChallengesRecyclerView.let {
-            it.adapter = crtChlAdapter
-            it.layoutManager = crtLayoutManager
-        }
-
-        expLayoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        expChlAdapter = ExploreChallengeAdapter(requireActivity())
-
-        exploreChallengesRecyclerView.let {
-            it.adapter = expChlAdapter
-            it.layoutManager = expLayoutManager
+            it.adapter = adapter
+            it.layoutManager = layoutManager
         }
     }
 
@@ -116,8 +105,8 @@ class HomeFragment : BaseFragment() {
         if(view == null) return
 
         viewModel.getLoggedInUser()
-        viewModel.currentUser.observe(viewLifecycleOwner, { user ->
-            initChallenges()
+        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            initCategories()
 
             val nameTextView = view?.findViewById<TextView>(R.id.home_header_name)
             nameTextView?.text = ""
@@ -137,47 +126,33 @@ class HomeFragment : BaseFragment() {
             // Set greeting message
             val points = view?.findViewById<TextView>(R.id.home_header_points)
             points?.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
-        })
+        }
     }
 
-    private fun initChallenges(){
+    private fun initCategories(){
         if(view == null) return
 
-        viewModel.getChallenges()
-        viewModel.currentChallenges.observe(viewLifecycleOwner, { challenges ->
-            val visibility = if(challenges.isEmpty()) View.GONE else View.VISIBLE
-            val emptyVisibility = if(challenges.isEmpty()) View.VISIBLE else View.GONE
-            view?.findViewById<ImageView>(R.id.home_curr_chl_icon)?.visibility = visibility
-            view?.findViewById<TextView>(R.id.home_curr_chl_title)?.visibility = visibility
-            view?.findViewById<RecyclerView>(R.id.home_curr_chl_recyclerview)?.visibility = visibility
-            view?.findViewById<ImageView>(R.id.home_curr_chl_empty_icon)?.visibility = emptyVisibility
-            view?.findViewById<TextView>(R.id.home_curr_chl_empty_text)?.visibility = emptyVisibility
+        adapter?.addItem(ActivityCategory("", getString(R.string.home_my_activities_text), "", "", true))
 
-            crtChlAdapter?.addItems(challenges)
-        })
-
-        viewModel.explorableChallenges.observe(viewLifecycleOwner, { challenges ->
-            val visibility = if(challenges.isEmpty()) View.GONE else View.VISIBLE
-            val emptyVisibility = if(challenges.isEmpty()) View.VISIBLE else View.GONE
-            view?.findViewById<ImageView>(R.id.home_exp_chl_icon)?.visibility = visibility
-            view?.findViewById<TextView>(R.id.home_exp_chl_title)?.visibility = visibility
-            view?.findViewById<RecyclerView>(R.id.home_exp_chl_recyclerview)?.visibility = visibility
-            view?.findViewById<ImageView>(R.id.home_exp_chl_empty_icon)?.visibility = emptyVisibility
-            view?.findViewById<TextView>(R.id.home_exp_chl_empty_text)?.visibility = emptyVisibility
-
-            expChlAdapter?.addItems(challenges)
-            skeletonScreen?.hide()
-        })
+        viewModel.getActivityCategories()
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            adapter?.addItems(categories)
+        }
     }
 
     private fun initResponseHandler(){
         if(view == null) return
 
-        viewModel.apiResponse.observe(viewLifecycleOwner, { response ->
-            when(response.status){
-                ResponseStatus.API_ERROR -> Toast.makeText(requireContext(), getString(R.string.api_error), Toast.LENGTH_LONG).show()
-                else -> {}
+        viewModel.apiResponse.observe(viewLifecycleOwner) { response ->
+            when (response.status) {
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    requireContext(),
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                else -> {
+                }
             }
-        })
+        }
     }
 }

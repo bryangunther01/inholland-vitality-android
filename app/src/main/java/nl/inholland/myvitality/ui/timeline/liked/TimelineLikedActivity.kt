@@ -40,7 +40,7 @@ class TimelineLikedActivity : BaseActivity() {
     var timelinePostId: String = ""
 
     override fun layoutResourceId(): Int {
-        return R.layout.activity_post_likers
+        return R.layout.activity_user_list
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

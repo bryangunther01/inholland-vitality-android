@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.ui.challenge.ChallengeViewModel
+import nl.inholland.myvitality.ui.activity.detail.ActivityViewModel
 import nl.inholland.myvitality.ui.home.HomeViewModelFactory
 import nl.inholland.myvitality.ui.notification.NotificationViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
@@ -22,8 +22,8 @@ class ViewModelModule {
     }
 
     @Provides
-    fun providesChallengeViewModelFactory(apiClient: ApiClient, sharedPres: SharedPreferenceHelper): ChallengeViewModel {
-        return ChallengeViewModel(apiClient, sharedPres)
+    fun providesChallengeViewModelFactory(apiClient: ApiClient, sharedPres: SharedPreferenceHelper): ActivityViewModel {
+        return ActivityViewModel(apiClient, sharedPres)
     }
 
     @Provides

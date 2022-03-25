@@ -39,7 +39,7 @@ class TimelinePostAdapter(context: Context, private val onClickedLike: (Timeline
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(holder.profileImage)
         holder.userName.text = currentItem.fullName
-        holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.publishDate)
+        holder.postDate.text = DateUtils.formatDateToTimeAgo(currentItem.publishDate)
         holder.content.text = currentItem.text
 
         currentItem.imageUrl?.let {

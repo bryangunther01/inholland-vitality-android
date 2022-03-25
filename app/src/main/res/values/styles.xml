@@ -40,6 +40,11 @@
         <item name="android:padding">0dp</item>
     </style>
 
+    <style name="ButtonSecondaryMini" parent="ButtonSecondary">
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
     <style name="RoundedCorners">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

@@ -15,18 +15,14 @@ import java.util.stream.Collectors
 class HomeViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
     private val _currentUser = MutableLiveData<User>()
-    private val _currentChallenges = MutableLiveData<List<Challenge>>()
-    private val _explorableChallenges = MutableLiveData<List<Challenge>>()
+    private val _categories = MutableLiveData<List<ActivityCategory>>()
     private val _responseError = MutableLiveData<ApiResponse>()
 
     val currentUser: LiveData<User>
         get() = _currentUser
 
-    val currentChallenges: LiveData<List<Challenge>>
-        get() = _currentChallenges
-
-    val explorableChallenges: LiveData<List<Challenge>>
-        get() = _explorableChallenges
+    val categories: LiveData<List<ActivityCategory>>
+        get() = _categories
 
     val apiResponse: LiveData<ApiResponse>
         get() = _responseError
@@ -53,28 +49,20 @@ class HomeViewModel constructor(private val apiClient: ApiClient, private val sh
         }
     }
 
-    fun getChallenges(){
+    fun getActivityCategories(){
         sharedPrefs.accessToken?.let {
-            apiClient.getChallenges("Bearer $it").enqueue(object : Callback<List<Challenge>> {
-                override fun onResponse(call: Call<List<Challenge>>, response: Response<List<Challenge>>) {
+            apiClient.getActivityCategories("Bearer $it").enqueue(object : Callback<List<ActivityCategory>> {
+                override fun onResponse(call: Call<List<ActivityCategory>>, response: Response<List<ActivityCategory>>) {
                     if(response.isSuccessful && response.body() != null){
-                        response.body()?.let { challenges ->
-                            val currentChallenges = challenges.stream()
-                                .filter { o -> o.challengeProgress == ChallengeProgress.IN_PROGRESS }
-                                .collect(Collectors.toList())
-                            val exploreChallenges = challenges.stream()
-                                .filter { o -> o.challengeProgress == ChallengeProgress.NOT_SUBSCRIBED || o.challengeProgress == ChallengeProgress.CANCELLED }
-                                .collect(Collectors.toList())
-
-                            _currentChallenges.value = currentChallenges
-                            _explorableChallenges.value = exploreChallenges
+                        response.body()?.let { categories ->
+                            _categories.value = categories
                         }
                     } else if(response.code() == 401){
                         _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
-                override fun onFailure(call: Call<List<Challenge>>, t: Throwable) {
+                override fun onFailure(call: Call<List<ActivityCategory>>, t: Throwable) {
                     _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("HomeFragment", "onFailure: ", t)
                 }

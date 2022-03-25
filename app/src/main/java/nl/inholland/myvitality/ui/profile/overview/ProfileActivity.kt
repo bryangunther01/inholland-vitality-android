@@ -25,9 +25,13 @@ import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
+<<<<<<< HEAD
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
 import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
+=======
+import nl.inholland.myvitality.data.adapters.ActivityAdapter
+>>>>>>> ba9416d2b43e4eae32110c31fc0a6ccd2edde07a
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
@@ -51,7 +55,7 @@ class ProfileActivity : BaseActivity() {
     @BindView(R.id.profile_description) lateinit var description: TextView
     @BindView(R.id.profile_points) lateinit var points: TextView
     @BindView(R.id.profile_button) lateinit var button: Button
-    @BindView(R.id.profile_curr_chl_recyclerview) lateinit var currentChallengesRecyclerView: RecyclerView
+    @BindView(R.id.profile_curr_chl_recyclerview) lateinit var userActivitiesRecyclerView: RecyclerView
     @BindView(R.id.profile_finn_chl_recyclerview) lateinit var finishedChallengesRecyclerView: RecyclerView
     @BindView(R.id.profile_curr_chl_title) lateinit var currChlTitle: TextView
     @BindView(R.id.profile_finn_chl_title) lateinit var finnChlTitle: TextView
@@ -60,12 +64,8 @@ class ProfileActivity : BaseActivity() {
     lateinit var factory: ProfileViewModelFactory
     lateinit var viewModel: ProfileViewModel
 
-    var crtSkeletonScreen: RecyclerViewSkeletonScreen? = null
-    var finnSkeletonScreen: RecyclerViewSkeletonScreen? = null
-    var crtLayoutManager: LinearLayoutManager? = null
-    var finnLayoutManager: LinearLayoutManager? = null
-    var crtChlAdapter: CurrentChallengeAdapter? = null
-    var finnChlAdapter: ExploreChallengeAdapter? = null
+    var userActivitiesSkeletonScreen: RecyclerViewSkeletonScreen? = null
+    var userActivitiesAdapter: ActivityAdapter? = null
 
     var userId: String? = null
     var currentUser: User? = null
@@ -156,36 +156,18 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun setupRecyclerViews() {
-        crtLayoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        crtChlAdapter = CurrentChallengeAdapter(this, false)
+        userActivitiesAdapter = ActivityAdapter(this)
 
-        currentChallengesRecyclerView.let {
-            it.adapter = crtChlAdapter
-            it.layoutManager = crtLayoutManager
+        userActivitiesRecyclerView.let {
+            it.adapter = userActivitiesAdapter
+            it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        finnLayoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        finnChlAdapter = ExploreChallengeAdapter(this, false)
-
-        finishedChallengesRecyclerView.let {
-            it.adapter = finnChlAdapter
-            it.layoutManager = finnLayoutManager
-        }
     }
 
     private fun setupSkeletons() {
-        crtSkeletonScreen = Skeleton.bind(currentChallengesRecyclerView)
-            .adapter(crtChlAdapter)
-            .frozen(true)
-            .duration(2400)
-            .count(10)
-            .load(R.layout.challenge_skeleton_view_item)
-            .show()
-
-        finnSkeletonScreen = Skeleton.bind(finishedChallengesRecyclerView)
-            .adapter(finnChlAdapter)
+        userActivitiesSkeletonScreen = Skeleton.bind(userActivitiesRecyclerView)
+            .adapter(userActivitiesAdapter)
             .frozen(true)
             .duration(2400)
             .count(10)
@@ -196,7 +178,7 @@ class ProfileActivity : BaseActivity() {
     private fun initUser(){
         viewModel.getUser(userId)
 
-        viewModel.currentUser.observe(this, { user ->
+        viewModel.currentUser.observe(this) { user ->
             currentUser = user
 
             Glide.with(this)
@@ -226,60 +208,54 @@ class ProfileActivity : BaseActivity() {
                 )
             )
 
-            if(userId.isNullOrBlank()){
+            if (userId.isNullOrBlank()) {
                 finnChlTitle.text = getString(R.string.profile_your_prize_cabinet)
                 button.text = getString(R.string.profile_edit)
                 button.visibility = View.VISIBLE
             } else {
                 finnChlTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
             }
-        })
+        }
 
-        if(userId != null) viewModel.isFollowing.observe(this, { isFollowing ->
+        if(userId != null) viewModel.isFollowing.observe(this) { isFollowing ->
             Dialogs.hideCurrentDialog()
 
-            if(isFollowing){
+            if (isFollowing) {
                 button.text = getString(R.string.profile_unfollow)
             } else {
                 button.text = getString(R.string.profile_follow)
             }
 
             button.visibility = View.VISIBLE
-        })
+        }
     }
 
     private fun initChallenges(){
         viewModel.getChallenges(userId)
 
-        viewModel.currentChallenges.observe(this, { challenges ->
-            if(challenges.isEmpty()) {
+        viewModel.currentActivities.observe(this) { activities ->
+            if (activities.isEmpty()) {
                 currChlTitle.visibility = View.GONE
-                currentChallengesRecyclerView.visibility = View.GONE
+                userActivitiesRecyclerView.visibility = View.GONE
             } else {
-                crtChlAdapter?.addItems(challenges)
+                userActivitiesAdapter?.addItems(activities)
             }
 
-            crtSkeletonScreen?.hide()
-        })
-
-        viewModel.finishedChallenges.observe(this, { challenges ->
-            if(challenges.isEmpty()) {
-                finnChlTitle.visibility = View.GONE
-                finishedChallengesRecyclerView.visibility = View.GONE
-            } else {
-                finnChlAdapter?.addItems(challenges)
-            }
-
-            finnSkeletonScreen?.hide()
-        })
+            userActivitiesSkeletonScreen?.hide()
+        }
     }
 
     private fun initResponseHandler(){
-        viewModel.apiResponse.observe(this, { response ->
-            when(response.status){
-                ResponseStatus.API_ERROR -> Toast.makeText(this, getString(R.string.api_error), Toast.LENGTH_LONG).show()
-                else -> {}
+        viewModel.apiResponse.observe(this) { response ->
+            when (response.status) {
+                ResponseStatus.API_ERROR -> Toast.makeText(
+                    this,
+                    getString(R.string.api_error),
+                    Toast.LENGTH_LONG
+                ).show()
+                else -> {
+                }
             }
-        })
+        }
     }
 }

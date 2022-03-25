@@ -9,9 +9,9 @@
     <string name="content_desc_vitality_logo">Vitaliteits Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
 
-    <string name="challenge_type_exercise">Bewegen</string>
-    <string name="challenge_type_diet">Voeding</string>
-    <string name="challenge_type_mind">Ontspanning</string>
+    <string name="activity_type_exercise">Bewegen</string>
+    <string name="activity_type_diet">Voeding</string>
+    <string name="activity_type_mind">Ontspanning</string>
 
     <string name="message_good_morning">Goedemorgen</string>
     <string name="message_good_afternoon">Goedemiddag</string>
@@ -116,25 +116,38 @@
     <string name="home_header_scoreboard_text">Bekijk scorebord</string>
     <string name="content_desc_current_chl_icon">Current Activities Icon</string>
     <string name="home_points_text">%1$s punten</string>
-    <string name="home_title_curr_chl">Huidige activiteiten</string>
-    <string name="home_title_disc_chl">Ontdek activiteiten</string>
-    <string name="home_no_active_activities">Geen actieve activiteiten</string>
-    <string name="home_no_explorable_activities">Geen activiteiten beschikbaar</string>
+    <string name="home_my_activities_text">Mijn activiteiten</string>
     <string name="challenge_view_item_button_text">Bekijk voortgang</string>
     <string name="challenge_view_item_button_text_exp">Bekijk activiteit</string>
 
-    <!-- Challenge Strings -->
-    <string name="challenge_button_start_text">Start activiteit</string>
-    <string name="challenge_button_complete_text">Voltooi activiteit</string>
-    <string name="challenge_button_cancel_text">Stop activiteit</string>
-    <string name="challenge_points_message_1">Verdien</string>
-    <string name="challenge_points_message_2">punten met deze activiteit</string>
-    <string name="challenge_date_text">Start</string>
-    <string name="challenge_participating_text">%01d collega(\'s) doen al mee</string>
-    <string name="dialog_challenge_title">Stop de activiteit</string>
-    <string name="dialog_challenge_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
-    <string name="dialog_challenge_button_confirm_text">Ik weet het zeker</string>
-    <string name="dialog_challenge_button_cancel_text">Ga terug</string>
+    <!-- Activity Overview Strings -->
+    <string name="activities_overview_user_activities_text">Mijn Activiteiten</string>
+    <string name="activities_overview_available_activities_text">Beschikbare Activiteiten</string>
+    <string name="activities_overview_upcoming_activities_text">Komende Activiteiten</string>
+    <string name="activities_overview_no_user_activities">Je neemt nog geen deel aan een activiteit</string>
+    <string name="activities_overview_no_available_activities">Er zijn geen actieve activiteiten beschikbaar</string>
+    <string name="activities_overview_no_upcoming_activities">Er zijn op dit moment geen activiteiten gepland</string>
+
+    <!-- Activity Strings -->
+    <string name="activity_button_start_text">Start activiteit</string>
+    <string name="activity_button_complete_text">Voltooi activiteit</string>
+    <string name="activity_button_cancel_text">Stop activiteit</string>
+    <string name="activity_points_message_1">Verdien</string>
+    <string name="activity_points_message_2">punten met deze activiteit</string>
+    <string name="activity_start_date_text">Start %1$s</string>
+    <string name="activity_end_date_text">Eindigt %1$s</string>
+    <string name="activity_participating_text">%01d collega(\'s) doen al mee</string>
+    <string name="activity_starting_soon">Start binnenkort</string>
+    <string name="activity_recommended_activity_text">Voorgestelde activiteiten</string>
+    <string name="activity_open_url_button">Open Link</string>
+    <string name="dialog_activity_title">Stop de activiteit</string>
+    <string name="dialog_activity_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
+    <string name="dialog_activity_button_confirm_text">Ik weet het zeker</string>
+    <string name="dialog_activity_button_cancel_text">Ga terug</string>
+    <string name="dialog_activity_calendar_title">Je doet mee aan de activiteit</string>
+    <string name="dialog_activity_calendar_body">Wil je deze activiteit toevoegen aan jouw kalender?</string>
+    <string name="dialog_activity_calendar_button_confirm">Toevoegen</string>
+    <string name="dialog_activity_calendar_button_cancel">Negeren</string>
 
     <!-- Bottom naviagtion -->
     <string name="navigation_home" translatable="false">Home</string>
@@ -143,7 +156,7 @@
     <string name="navigation_notifications">Notificaties</string>
     <string name="navigation_profile">Profiel</string>
     <string name="navigation_scoreboard">Scorebord</string>
-    <string name="navigation_challenge">Activiteit</string>
+    <string name="navigation_activity">Activiteit</string>
     <string name="navigation_logout">Uitloggen</string>
     <string name="navigation_settings">Instellingen</string>
 
