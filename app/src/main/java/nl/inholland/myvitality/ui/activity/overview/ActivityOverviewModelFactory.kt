@@ -2,8 +2,8 @@ package nl.inholland.myvitality.ui.activity.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

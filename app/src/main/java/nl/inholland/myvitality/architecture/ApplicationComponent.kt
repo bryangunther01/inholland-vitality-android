@@ -51,6 +51,6 @@ interface ApplicationComponent {
     fun inject(activity: ProfileEditActivity)
     fun inject(activity: ActivityParticipantsActivity)
     fun inject(activity: AccountRecoverActivity)
-    fun inject(pushService: PushService)
     fun inject(activity: ActivityOverviewActivity)
+    fun inject(pushService: PushService)
 }

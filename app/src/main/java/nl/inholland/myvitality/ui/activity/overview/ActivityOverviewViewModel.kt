@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -25,13 +25,8 @@ import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-<<<<<<< HEAD
 import nl.inholland.myvitality.data.TokenApiClient
-import nl.inholland.myvitality.data.adapters.CurrentChallengeAdapter
-import nl.inholland.myvitality.data.adapters.ExploreChallengeAdapter
-=======
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
->>>>>>> ba9416d2b43e4eae32110c31fc0a6ccd2edde07a
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
