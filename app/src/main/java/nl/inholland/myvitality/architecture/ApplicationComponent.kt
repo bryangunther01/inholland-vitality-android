@@ -10,8 +10,9 @@ import nl.inholland.myvitality.ui.authentication.recover.AccountRecoverActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
-import nl.inholland.myvitality.ui.challenge.ChallengeActivity
-import nl.inholland.myvitality.ui.challenge.participants.ChallengeParticipantsActivity
+import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
+import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
+import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
@@ -37,7 +38,7 @@ interface ApplicationComponent {
     fun inject(activity: MainActivity)
     fun inject(fragment: HomeFragment)
     fun inject(overviewFragment: TimelineOverviewFragment)
-    fun inject(activity: ChallengeActivity)
+    fun inject(activity: ActivityDetailActivity)
     fun inject(activity: TimelinePostActivity)
     fun inject(activity: CreateTimelinePostActivity)
     fun inject(activity: SearchActivity)
@@ -47,6 +48,7 @@ interface ApplicationComponent {
     fun inject(activity: ScoreboardActivity)
     fun inject(activity: TutorialActivity)
     fun inject(activity: ProfileEditActivity)
-    fun inject(activity: ChallengeParticipantsActivity)
+    fun inject(activity: ActivityParticipantsActivity)
     fun inject(activity: AccountRecoverActivity)
+    fun inject(activity: ActivityOverviewActivity)
 }

@@ -14,7 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Notification
 import nl.inholland.myvitality.data.entities.NotificationType
-import nl.inholland.myvitality.ui.challenge.ChallengeActivity
+import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
@@ -39,7 +39,7 @@ class NotificationAdapter(context: Context) :
                     .load(currentItem.profileImage)
                     .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
-                holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
+                holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
@@ -56,7 +56,7 @@ class NotificationAdapter(context: Context) :
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
-                holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
+                holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
@@ -71,7 +71,7 @@ class NotificationAdapter(context: Context) :
                     .load(currentItem.profileImage)
                     .into(holder.image)
                 holder.title.text = Html.fromHtml(context.getString(R.string.notification_follow, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
-                holder.subtitle.text = DateUtils.formatDateToTimeAgo(context, currentItem.date)
+                holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
                 clickListener = View.OnClickListener { view ->
@@ -82,14 +82,14 @@ class NotificationAdapter(context: Context) :
                 }
             }
             NotificationType.GLOBAL -> {
-                holder.image.setImageResource(R.drawable.challenge_placeholder)
+                holder.image.setImageResource(R.drawable.activity_placeholder)
                 holder.title.text = context.getString(R.string.notification_new_activity_title)
                 holder.subtitle.text = context.getString(R.string.notification_new_activity_subtitle)
                 holder.subtitle.setTextColor(context.getColor(R.color.primary))
 
                 clickListener = View.OnClickListener { view ->
                     view.context.startActivity(
-                        Intent(view.context, ChallengeActivity::class.java)
+                        Intent(view.context, ActivityDetailActivity::class.java)
                             .putExtra("CHALLENGE_ID", currentItem.challengeId)
                     )
                 }
@@ -100,7 +100,7 @@ class NotificationAdapter(context: Context) :
         holder.image.setOnClickListener { view ->
             if (currentItem.type == NotificationType.GLOBAL) {
                 view.context.startActivity(
-                    Intent(view.context, ChallengeActivity::class.java)
+                    Intent(view.context, ActivityDetailActivity::class.java)
                         .putExtra("CHALLENGE_ID", currentItem.challengeId)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )

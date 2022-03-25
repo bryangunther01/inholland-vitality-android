@@ -31,7 +31,7 @@ class CommentAdapter(context: Context) :
             .load(currentItem.imageUrl)
             .into(holder.profileImage)
         holder.userName.text = currentItem.fullName
-        holder.postDate.text = DateUtils.formatDateToTimeAgo(context, currentItem.timestamp)
+        holder.postDate.text = DateUtils.formatDateToTimeAgo(currentItem.timestamp)
         holder.content.text = currentItem.text
 
         holder.itemView.setOnClickListener { view ->

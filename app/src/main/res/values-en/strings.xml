@@ -9,9 +9,9 @@
     <string name="content_desc_vitality_logo">Vitality Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
 
-    <string name="challenge_type_exercise">Exercise</string>
-    <string name="challenge_type_diet">Diet</string>
-    <string name="challenge_type_mind">Mind</string>
+    <string name="activity_type_exercise">Exercise</string>
+    <string name="activity_type_diet">Diet</string>
+    <string name="activity_type_mind">Mind</string>
 
     <string name="message_good_morning">Good morning</string>
     <string name="message_good_afternoon">Good afternoon</string>
@@ -115,23 +115,34 @@
     <string name="home_header_scoreboard_text">View scoreboard</string>
     <string name="content_desc_current_chl_icon">Current activities Icon</string>
     <string name="home_points_text">%1$s points</string>
-    <string name="home_title_curr_chl">Current activities</string>
-    <string name="home_title_disc_chl">Discover activities</string>
+    <string name="home_my_activities_text">My activities</string>
     <string name="challenge_view_item_button_text">View progress</string>
     <string name="challenge_view_item_button_text_exp">View activity</string>
 
+    <!-- Activity Overview Strings -->
+    <string name="activities_overview_user_activities_text">My Activities</string>
+    <string name="activities_overview_available_activities_text">Available Activities</string>
+    <string name="activities_overview_upcoming_activities_text">Upcoming Activities</string>
+    <string name="activities_overview_no_user_activities">You are not participating in an activity yet</string>
+    <string name="activities_overview_no_available_activities">There are no active activities available</string>
+    <string name="activities_overview_no_upcoming_activities">There are currently no activities planned</string>
+
     <!-- Challenge Strings -->
-    <string name="challenge_button_start_text">Start activity</string>
-    <string name="challenge_button_complete_text">Complete activity</string>
-    <string name="challenge_button_cancel_text">Stop activity</string>
-    <string name="challenge_points_message_1">Earn</string>
-    <string name="challenge_points_message_2">points with this activity</string>
-    <string name="challenge_date_text">Starts</string>
-    <string name="challenge_participating_text">%01d colleague(s) are already participating</string>
-    <string name="dialog_challenge_title">Stop the activity</string>
-    <string name="dialog_challenge_body">You are about to quit this activity, are you sure?</string>
-    <string name="dialog_challenge_button_confirm_text">I\'m sure</string>
-    <string name="dialog_challenge_button_cancel_text">Go back</string>
+    <string name="activity_button_start_text">Start activity</string>
+    <string name="activity_button_complete_text">Complete activity</string>
+    <string name="activity_button_cancel_text">Stop activity</string>
+    <string name="activity_points_message_1">Earn</string>
+    <string name="activity_points_message_2">points with this activity</string>
+    <string name="activity_start_date_text">Starts %1$s</string>
+    <string name="activity_end_date_text">Ends %1$s</string>
+    <string name="activity_participating_text">%01d colleague(s) are already participating</string>
+    <string name="activity_starting_soon">Starting soon</string>
+    <string name="activity_recommended_activity_text">Recommended activities</string>
+    <string name="activity_open_url_button">Open Link</string>
+    <string name="dialog_activity_title">Stop the activity</string>
+    <string name="dialog_activity_body">You are about to quit this activity, are you sure?</string>
+    <string name="dialog_activity_button_confirm_text">I\'m sure</string>
+    <string name="dialog_activity_button_cancel_text">Go back</string>
 
     <!-- Bottom naviagtion -->
     <string name="navigation_timeline">Timeline</string>
@@ -139,7 +150,7 @@
     <string name="navigation_notifications">Notifications</string>
     <string name="navigation_profile">Profile</string>
     <string name="navigation_scoreboard">Scoreboard</string>
-    <string name="navigation_challenge">Activity</string>
+    <string name="navigation_activity">Activity</string>
     <string name="navigation_logout">Logout</string>
     <string name="navigation_settings">Settings</string>
 

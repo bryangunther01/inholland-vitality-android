@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    tools:context=".ui.challenge.ChallengeActivity">
+    tools:context=".ui.activity.detail.ActivityDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/post_content_container"
@@ -78,7 +78,7 @@
             android:id="@+id/create_post_image_preview"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:src="@drawable/challenge_placeholder"
+            android:src="@drawable/activity_placeholder"
             android:scaleType="centerCrop"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"

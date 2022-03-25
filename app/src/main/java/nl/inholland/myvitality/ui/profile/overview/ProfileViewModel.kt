@@ -16,8 +16,7 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
 
     private val _currentUser = MutableLiveData<User>()
     private val _isFollowing = MutableLiveData<Boolean>()
-    private val _currentChallenges = MutableLiveData<List<Challenge>>()
-    private val _finishedChallenges = MutableLiveData<List<Challenge>>()
+    private val _currentChallenges = MutableLiveData<List<Activity>>()
     private val _responseError = MutableLiveData<ApiResponse>()
 
     val currentUser: LiveData<User>
@@ -26,11 +25,8 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
     val isFollowing: LiveData<Boolean>
         get() = _isFollowing
 
-    val currentChallenges: LiveData<List<Challenge>>
+    val currentActivities: LiveData<List<Activity>>
         get() = _currentChallenges
-
-    val finishedChallenges: LiveData<List<Challenge>>
-        get() = _finishedChallenges
 
     val apiResponse: LiveData<ApiResponse>
         get() = _responseError
@@ -61,32 +57,24 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
     }
 
     fun getChallenges(userId: String?){
-        sharedPrefs.accessToken?.let {
-            apiClient.getChallenges("Bearer $it", userId = userId).enqueue(object : Callback<List<Challenge>> {
-                override fun onResponse(call: Call<List<Challenge>>, response: Response<List<Challenge>>) {
-                    if(response.isSuccessful && response.body() != null){
-                        response.body()?.let { challenges ->
-                            val currentChallenges = challenges.stream()
-                                .filter { o -> o.challengeProgress == ChallengeProgress.IN_PROGRESS }
-                                .collect(Collectors.toList())
-                            val finishedChallenges = challenges.stream()
-                                .filter { o -> o.challengeProgress == ChallengeProgress.DONE }
-                                .collect(Collectors.toList())
-
-                            _currentChallenges.value = currentChallenges
-                            _finishedChallenges.value = finishedChallenges
-                        }
-                    } else if(response.code() == 401){
-                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Challenge>>, t: Throwable) {
-                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
-                    Log.e("ProfileActivity", "onFailure: ", t)
-                }
-            })
-        }
+//        sharedPrefs.accessToken?.let {
+//            apiClient.getActivities("Bearer $it", userId = userId, progress = ActivityProgress.IN_PROGRESS.id).enqueue(object : Callback<List<Activity>> {
+//                override fun onResponse(call: Call<List<Activity>>, response: Response<List<Activity>>) {
+//                    if(response.isSuccessful && response.body() != null){
+//                        response.body()?.let { activities ->
+//                            _currentChallenges.value = activities
+//                        }
+//                    } else if(response.code() == 401){
+//                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<List<Activity>>, t: Throwable) {
+//                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+//                    Log.e("ProfileActivity", "onFailure: ", t)
+//                }
+//            })
+//        }
     }
 
     fun toggleUserFollow(userId: String, following: Boolean){

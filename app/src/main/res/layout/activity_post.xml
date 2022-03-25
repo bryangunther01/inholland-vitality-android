@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    tools:context=".ui.challenge.ChallengeActivity">
+    tools:context=".ui.activity.detail.ActivityDetailActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/post_content_container"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:scaleType="centerCrop"
-                android:src="@drawable/challenge_placeholder"
+                android:src="@drawable/activity_placeholder"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    tools:context=".ui.challenge.ChallengeActivity">
+    tools:context=".ui.activity.detail.ActivityDetailActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.challenge.ChallengeActivity">
+        tools:context=".ui.activity.detail.ActivityDetailActivity">
 
         <ImageButton
             android:id="@+id/back_button"
@@ -23,10 +23,10 @@
             app:layout_constraintTop_toBottomOf="@+id/header_guideline_top"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/challenge_image"
+            android:id="@+id/activity_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@drawable/challenge_placeholder"
+            android:background="@drawable/activity_placeholder"
             android:foreground="@drawable/gradient_shape"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="16:9"
@@ -35,7 +35,7 @@
             app:shapeAppearanceOverlay="@style/RoundedCornersBottom" />
 
         <TextView
-            android:id="@+id/challenge_type"
+            android:id="@+id/activity_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_black"
@@ -43,21 +43,21 @@
             android:textAllCaps="true"
             android:textColor="@color/secondary"
             app:layout_constraintStart_toEndOf="@id/header_guideline_left"
-            app:layout_constraintBottom_toTopOf="@+id/challenge_title"/>
+            app:layout_constraintBottom_toTopOf="@+id/activity_title"/>
 
         <TextView
-            android:id="@+id/challenge_date"
+            android:id="@+id/activity_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_roman"
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginStart="@dimen/margin_small"
-            app:layout_constraintStart_toEndOf="@id/challenge_type"
-            app:layout_constraintBottom_toTopOf="@+id/challenge_title"/>
+            app:layout_constraintStart_toEndOf="@id/activity_type"
+            app:layout_constraintBottom_toTopOf="@+id/activity_title"/>
 
         <TextView
-            android:id="@+id/challenge_title"
+            android:id="@+id/activity_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_black"
@@ -66,17 +66,17 @@
             android:textColor="@color/white"
             app:layout_constraintStart_toEndOf="@id/header_guideline_left"
             app:layout_constraintEnd_toStartOf="@id/header_guideline_right"
-            app:layout_constraintBottom_toBottomOf="@+id/challenge_image"/>
+            app:layout_constraintBottom_toBottomOf="@+id/activity_image"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/header_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="challenge_image, challenge_type, challenge_date, challenge_title"/>
+            app:constraint_referenced_ids="activity_image, activity_type, activity_date, activity_title"/>
 
         <TextView
-            android:id="@+id/challenge_points"
+            android:id="@+id/activity_points"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_black"
@@ -87,73 +87,84 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 
         <TextView
-            android:id="@+id/challenge_description"
+            android:id="@+id/activity_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_light"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_marginTop="@dimen/margin_tiny"
-            app:layout_constraintTop_toBottomOf="@id/challenge_points"
+            app:layout_constraintTop_toBottomOf="@id/activity_points"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 
         <FrameLayout
-            android:id="@+id/challenge_video_container"
+            android:id="@+id/activity_video_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/challenge_description" >
+            app:layout_constraintTop_toBottomOf="@+id/activity_description" >
             <VideoView
-                android:id="@+id/challenge_video"
+                android:id="@+id/activity_video"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </FrameLayout>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/activity_open_url_button"
+            style="@style/ButtonSecondaryMini"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:background="@drawable/button_secondary"
+            android:text="@string/activity_open_url_button"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/header_guideline_right"
+            app:layout_constraintTop_toTopOf="@+id/back_button"
+            app:layout_constraintBottom_toBottomOf="@+id/back_button"/>
 
         <Button
-            android:id="@+id/challenge_start_button"
+            android:id="@+id/activity_start_button"
             style="@style/ButtonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="@string/challenge_button_start_text"
+            android:text="@string/activity_button_start_text"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/challenge_video_container"
+            app:layout_constraintTop_toBottomOf="@+id/activity_video_container"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/challenge_cancel_button"
+            android:id="@+id/activity_cancel_button"
             style="@style/ButtonCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_small_medium"
-            android:text="@string/challenge_button_cancel_text"
+            android:text="@string/activity_button_cancel_text"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
             app:layout_constraintStart_toEndOf="@+id/header_guideline_left"
-            app:layout_constraintEnd_toStartOf="@+id/challenge_complete_button"/>
+            app:layout_constraintEnd_toStartOf="@+id/activity_complete_button"/>
 
 
         <Button
-            android:id="@+id/challenge_complete_button"
+            android:id="@+id/activity_complete_button"
             style="@style/ButtonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:text="@string/challenge_button_complete_text"
+            android:text="@string/activity_button_complete_text"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-            app:layout_constraintStart_toEndOf="@+id/challenge_cancel_button"
+            app:layout_constraintStart_toEndOf="@+id/activity_cancel_button"
             app:layout_constraintEnd_toStartOf="@+id/header_guideline_right"/>
 
         <TextView
-            android:id="@+id/challenge_participants"
+            android:id="@+id/activity_participants"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_medium"
@@ -162,7 +173,7 @@
             android:layout_marginTop="@dimen/margin_tiny"
             android:gravity="center"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/challenge_start_button"
+            app:layout_constraintTop_toBottomOf="@id/activity_start_button"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 
@@ -171,10 +182,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="challenge_points, challenge_description, challenge_start_button, challenge_participants"/>
+            app:constraint_referenced_ids="activity_points, activity_description, activity_start_button, activity_participants"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/activity_recommended_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:constraint_referenced_ids="activity_recommended_activities_icon, activity_recommended_activities_title, activity_recommended_activities_recyclerview"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/challenge_exp_chl_icon"
+            android:id="@+id/activity_recommended_activities_icon"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginEnd="@dimen/margin_small"
@@ -186,28 +208,28 @@
             app:layout_constraintStart_toEndOf="@+id/guideline_left"/>
 
         <TextView
-            android:id="@+id/challenge_exp_chl_title"
+            android:id="@+id/activity_recommended_activities_title"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginTop="@dimen/margin_big"
             android:layout_marginStart="@dimen/margin_small"
             android:fontFamily="@font/avenir_lt_pro_book"
-            android:text="@string/home_title_disc_chl"
+            android:text="@string/activity_recommended_activity_text"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:gravity="center"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/content_barrier"
-            app:layout_constraintStart_toEndOf="@+id/challenge_exp_chl_icon"/>
+            app:layout_constraintStart_toEndOf="@+id/activity_recommended_activities_icon"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/challenge_exp_chl_recyclerview"
+            android:id="@+id/activity_recommended_activities_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:orientation="horizontal"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/challenge_exp_chl_icon"
+            app:layout_constraintTop_toBottomOf="@+id/activity_recommended_activities_icon"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 

@@ -84,7 +84,7 @@
                 android:id="@+id/post_image"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
-                android:src="@drawable/challenge_placeholder"
+                android:src="@drawable/activity_placeholder"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:scaleType="centerCrop"

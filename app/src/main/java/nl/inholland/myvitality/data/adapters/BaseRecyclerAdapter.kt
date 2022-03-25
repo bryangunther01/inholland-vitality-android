@@ -47,6 +47,15 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder> @JvmOverload
     /**
      * Function to add a bunch of items to the list
      */
+    fun addItem(item: T) {
+        // Add the items to the list
+        mItems.add(item)
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Function to add a bunch of items to the list
+     */
     fun addItems(items: List<T>) {
         // Add the items to the list
         mItems.addAll(items)
