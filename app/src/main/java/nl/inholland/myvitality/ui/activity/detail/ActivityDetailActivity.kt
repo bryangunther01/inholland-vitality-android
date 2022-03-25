@@ -50,10 +50,10 @@ class ActivityDetailActivity : BaseActivity() {
     @BindView(R.id.activity_video) lateinit var videoView: VideoView
     @BindView(R.id.activity_participants) lateinit var participantsCount: TextView
     @BindView(R.id.activity_recommended_activities_recyclerview) lateinit var exploreActivitiesRecyclerView: RecyclerView
-    @BindView(R.id.activity_start_button) lateinit var startChallengeButton: Button
-    @BindView(R.id.activity_cancel_button) lateinit var cancelChallengeButton: AppCompatButton
+    @BindView(R.id.activity_start_button) lateinit var startActivityButton: Button
+    @BindView(R.id.activity_cancel_button) lateinit var cancelActivityButton: AppCompatButton
     @BindView(R.id.activity_open_url_button) lateinit var urlButton: AppCompatButton
-    @BindView(R.id.activity_complete_button) lateinit var completeChallengeButton: Button
+    @BindView(R.id.activity_complete_button) lateinit var completeActivityButton: Button
 
     @Inject
     lateinit var factory: ActivityViewModelFactory
@@ -92,34 +92,33 @@ class ActivityDetailActivity : BaseActivity() {
         viewModel.getActivity(activityId)
         viewModel.currentActivity.observe(this) { activity ->
             currentActivity = activity
-            val activityStarted = DateUtils.isInPast(activity.startDate)
 
             // Load the correct views based on the activity progress
             when (activity.activityProgress) {
                 ActivityProgress.NOT_SUBSCRIBED, ActivityProgress.CANCELLED -> {
-                    startChallengeButton.visibility = View.VISIBLE
+                    startActivityButton.visibility = View.VISIBLE
                     participantsCount.visibility = View.VISIBLE
 
-                    if(!activityStarted) startChallengeButton.isEnabled = false
+                    if(!activity.signUpOpen) startActivityButton.isEnabled = false
 
                     // Load recommended activities
                     initRecommendedActivities()
 
-                    startChallengeButton.setOnClickListener {
+                    startActivityButton.setOnClickListener {
                         updateActivityProgress(ActivityProgress.IN_PROGRESS)
                     }
                 }
                 ActivityProgress.IN_PROGRESS -> {
-                    cancelChallengeButton.visibility = View.VISIBLE
-                    completeChallengeButton.visibility = View.VISIBLE
+                    cancelActivityButton.visibility = View.VISIBLE
+                    completeActivityButton.visibility = View.VISIBLE
 
-                    cancelChallengeButton.setOnClickListener {
+                    cancelActivityButton.setOnClickListener {
                         Dialogs.showCancelChallengeDialog(this) {
                             updateActivityProgress(ActivityProgress.CANCELLED)
                         }
                     }
 
-                    completeChallengeButton.setOnClickListener {
+                    completeActivityButton.setOnClickListener {
                         updateActivityProgress(ActivityProgress.DONE)
                     }
                 }
@@ -187,7 +186,7 @@ class ActivityDetailActivity : BaseActivity() {
             )
 
             description.text = Html.fromHtml(activity.description, Html.FROM_HTML_MODE_LEGACY)
-            if(activityStarted){
+            if(activity.signUpOpen){
                 if (activity.totalSubscribers ?: 0 >= 1) {
                     participantsCount.text = null
                     participantsCount.append(

@@ -8,15 +8,17 @@ import android.widget.Toast
 import nl.inholland.myvitality.R
 import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 object DateUtils {
-    private const val SECOND_MILLIS = 1000
-    private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
-    private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
-    private const val DAY_MILLIS = 24 * HOUR_MILLIS
-    private const val WEEK_MILLIS = 7 * DAY_MILLIS
+    const val SECOND_MILLIS = 1000
+    const val MINUTE_MILLIS = 60 * SECOND_MILLIS
+    const val HOUR_MILLIS = 60 * MINUTE_MILLIS
+    const val DAY_MILLIS = 24 * HOUR_MILLIS
+    const val WEEK_MILLIS = 7 * DAY_MILLIS
 
     private fun now(): Date {
         return Calendar.getInstance().time
@@ -27,12 +29,21 @@ object DateUtils {
         return date.before(now())
     }
 
-    private fun isSameYear(date: Date): Boolean {
-        val currentCalendar = Calendar.getInstance()
-        val givenDateCalender = Calendar.getInstance()
-        givenDateCalender.time = date
+    fun isWithinAWeek(dateString: String): Boolean {
+        val date = stringToDate(dateString)
+        date.time = date.time.minus(WEEK_MILLIS)
 
-        return currentCalendar.get(Calendar.YEAR) == givenDateCalender.get(Calendar.YEAR)
+        return date.before(now())
+    }
+
+    private fun isSameDate(date: Date): Boolean {
+        val c1 = Calendar.getInstance()
+        val c2 = Calendar.getInstance()
+        c2.time = date
+
+        return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+                c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&
+                c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH));
     }
 
     private fun stringToDate(dateString: String): Date{
