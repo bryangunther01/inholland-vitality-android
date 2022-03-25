@@ -27,7 +27,6 @@ object DateUtils {
         return date.before(now())
     }
 
-
     private fun isSameYear(date: Date): Boolean {
         val currentCalendar = Calendar.getInstance()
         val givenDateCalender = Calendar.getInstance()
