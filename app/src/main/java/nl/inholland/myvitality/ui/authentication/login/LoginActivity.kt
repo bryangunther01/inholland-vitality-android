@@ -2,6 +2,7 @@ package nl.inholland.myvitality.ui.authentication.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
@@ -12,13 +13,16 @@ import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.entities.ApiResponse
 import nl.inholland.myvitality.data.entities.AuthSettings
+import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
+import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.recover.AccountRecoverActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
@@ -110,6 +114,16 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             }
 
             var intent = Intent(this, MainActivity::class.java)
+
+            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    Log.i("LoginActivity", "New pushtoken sent to API")
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Log.e("LoginActivity", "onFailure: ", t)
+                }
+            })
 
             if(sharedPrefs.recentlyRegistered) {
                 intent = Intent(this, RegisterDetailsActivity::class.java)

@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.ApiResponse
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
@@ -17,6 +18,7 @@ import retrofit2.Response
 
 class ProfileEditViewModel constructor(
     private val apiClient: ApiClient,
+    private val tokenApiClient: TokenApiClient,
     private val sharedPrefs: SharedPreferenceHelper
 ) : ViewModel() {
 
@@ -53,6 +55,18 @@ class ProfileEditViewModel constructor(
 
     fun deleteAccount() {
         sharedPrefs.accessToken?.let {
+            sharedPrefs.pushToken?.let {
+                tokenApiClient.deletePushToken("Bearer ${sharedPrefs.accessToken}", it).enqueue(object :
+                    Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        Log.i("ProfileEditActivity", "Push token deleted")
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        Log.e("ProfileEditActivity", "onFailure: ", t)
+                    }
+                })
+            }
             apiClient.deleteUser("Bearer $it").enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {

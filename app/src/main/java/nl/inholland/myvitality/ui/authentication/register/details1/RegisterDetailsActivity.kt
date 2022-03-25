@@ -10,7 +10,7 @@ import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity

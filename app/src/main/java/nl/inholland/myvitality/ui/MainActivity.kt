@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.messaging.FirebaseMessaging
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.databinding.ActivityMainBinding
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        FirebaseMessaging.getInstance().subscribeToTopic("test")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -2,7 +2,7 @@ package nl.inholland.myvitality.di.modules
 
 import dagger.Module
 import dagger.Provides
-import nl.gunther.bryan.newsreader.utils.SharedPreferenceHelper
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.ui.activity.detail.ActivityViewModel
 import nl.inholland.myvitality.ui.home.HomeViewModelFactory

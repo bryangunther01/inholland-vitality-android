@@ -17,6 +17,7 @@ import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
+import nl.inholland.myvitality.ui.push_notifications.PushService
 import nl.inholland.myvitality.ui.scoreboard.ScoreboardActivity
 import nl.inholland.myvitality.ui.search.SearchActivity
 import nl.inholland.myvitality.ui.splash.SplashScreenActivity
@@ -50,5 +51,6 @@ interface ApplicationComponent {
     fun inject(activity: ProfileEditActivity)
     fun inject(activity: ActivityParticipantsActivity)
     fun inject(activity: AccountRecoverActivity)
+    fun inject(pushService: PushService)
     fun inject(activity: ActivityOverviewActivity)
 }

@@ -1,4 +1,4 @@
-package nl.gunther.bryan.newsreader.utils
+package nl.inholland.myvitality.util
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,6 +13,7 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
     private val IS_FIRST_APP_USE = "isFirstAppUse"
     private val RECENTLY_REGISTERED = "recentlyRegistered"
     private val CURRENT_USER_ID = "currentUserId"
+    private val PUSH_TOKEN = "pushToken"
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
@@ -45,6 +46,11 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
     var currentUserId: String?
         get() = preferences.getString(CURRENT_USER_ID, null)
         set(value) = preferences.edit().putString(CURRENT_USER_ID, value).apply()
+
+    // The token that will be used to send push notifications to the user's device
+    var pushToken: String?
+        get() = preferences.getString(PUSH_TOKEN, null)
+        set(value) = preferences.edit().putString(PUSH_TOKEN, value).apply()
 
     fun isLoggedIn(): Boolean {
         return accessToken != null
