@@ -13,9 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import jp.wasabeef.glide.transformations.BlurTransformation
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.entities.Activity
-import nl.inholland.myvitality.data.entities.ActivityCategory
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
-import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.util.DateUtils
 
 class ActivityAdapter(context: Context) :
@@ -32,7 +30,7 @@ class ActivityAdapter(context: Context) :
         val currentItem = items[position]
 
         // Load the challenge image with a fallback image
-        if(currentItem.isActive) {
+        if(currentItem.hasStarted) {
             Glide.with(context)
                 .load(currentItem.imageLink)
                 .into(holder.activityImage)
@@ -45,7 +43,7 @@ class ActivityAdapter(context: Context) :
 
         holder.activityTitle.text = currentItem.title
 
-        if(!currentItem.isActive){
+        if(!currentItem.hasStarted){
             holder.activityDate.text = context.getString(R.string.activity_start_date_text, DateUtils.formatDate(currentItem.startDate, "dd-MM-yyyy"))
         } else {
             holder.activityDate.text = context.getString(R.string.activity_end_date_text, DateUtils.formatDate(currentItem.endDate, "dd-MM-yyyy"))
