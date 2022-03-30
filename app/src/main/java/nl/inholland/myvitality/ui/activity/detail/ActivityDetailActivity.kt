@@ -174,6 +174,7 @@ class ActivityDetailActivity : BaseActivity() {
 
             cancelActivityButton.visibility = showWhenInProgress
             completeActivityButton.visibility = showWhenInProgress
+            urlButton.visibility = showWhenInProgress
             findViewById<ImageButton>(R.id.calendar_button).visibility = showWhenInProgress
 
             when(progress){
@@ -221,7 +222,6 @@ class ActivityDetailActivity : BaseActivity() {
             completeActivityButton.isEnabled = activity.hasStarted
 
             activity.url?.let { url ->
-                urlButton.visibility = View.VISIBLE
                 urlButton.setOnClickListener {
                     val uri: Uri = Uri.parse(url)
 

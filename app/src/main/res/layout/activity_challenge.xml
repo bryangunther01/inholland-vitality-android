@@ -140,12 +140,16 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/activity_open_url_button"
-            style="@style/ButtonSecondaryMini"
+            style="@style/ButtonPrimaryMini"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:background="@drawable/button_secondary"
+            android:background="@drawable/button_primary"
             android:text="@string/activity_open_url_button"
-            android:visibility="invisible"/>
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@id/activity_description"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/activity_start_button"
