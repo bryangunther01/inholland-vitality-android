@@ -146,6 +146,8 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
                                 Log.e("LoginActivity" , "User exists")
                                 //tokenApiClient.login(AuthRequest(authenticationResult.getAccount().username,
                                 //    authenticationResult.getAccount().id)).enqueue(this)
+                            } else if (response.code() == 404) {
+                                Log.e("LoginActivity" , "User does not exist")
                             }
                         }
 
