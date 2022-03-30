@@ -4,6 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import com.microsoft.identity.client.IAccount
+import com.microsoft.identity.client.IPublicClientApplication
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication
+import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
@@ -23,6 +29,10 @@ class SplashScreenActivity : BaseActivity() {
     @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
 
+    private final val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
+    val AUTHORITY: String? = "https://login.microsoftonline.com/common"
+    private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
+
     override fun layoutResourceId(): Int {
         return R.layout.activity_splash_screen
     }
@@ -30,6 +40,17 @@ class SplashScreenActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
+
+        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
+            R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
+                override fun onCreated(application: ISingleAccountPublicClientApplication?) {
+                    mSingleAccountApp = application
+                    loadAccount()
+                }
+                override fun onError(exception: MsalException) {
+                    Log.e("LoginActivity", exception.message.toString())
+                }
+            })
 
         Handler(Looper.getMainLooper()).postDelayed({
             // Start your app main activity
@@ -51,5 +72,39 @@ class SplashScreenActivity : BaseActivity() {
             startActivity(intent)
             finish()
         }, 3000)
+    }
+
+    private fun loadAccount() {
+        if (mSingleAccountApp == null) {
+            return
+        }
+
+        mSingleAccountApp!!.getCurrentAccountAsync(object :
+            ISingleAccountPublicClientApplication.CurrentAccountCallback {
+            override fun onAccountLoaded(activeAccount: IAccount?) {
+                // You can use the account data to update your UI or your app database.
+                if (activeAccount?.id != null) {
+                    Log.e("SplashScreenActivity", "User is logged in")
+                    Log.e("SplashScreenActivity", "ID: ${activeAccount.id}")
+                    Log.e("SplashScreenActivity", "Email: ${activeAccount.username}")
+                    Log.e("SplashScreenActivity", "Name: ${activeAccount.claims?.get("name")}")
+                } else {
+                    Log.e("SplashScreenActivity", "User is not logged in")
+                }
+            }
+
+            override fun onAccountChanged(
+                priorAccount: IAccount?,
+                currentAccount: IAccount?,
+            ) {
+                if (currentAccount == null) {
+                    Log.e("LoginActivity" , "Current account = null")
+                }
+            }
+
+            override fun onError(exception: MsalException) {
+                Log.e("LoginActivity", exception.message.toString())
+            }
+        })
     }
 }

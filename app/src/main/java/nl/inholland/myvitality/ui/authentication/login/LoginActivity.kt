@@ -18,6 +18,7 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.ApiResponse
 import nl.inholland.myvitality.data.entities.AuthSettings
 import nl.inholland.myvitality.data.entities.ResponseStatus
@@ -46,7 +47,8 @@ import com.microsoft.identity.client.ISingleAccountPublicClientApplication.Curre
 import com.microsoft.identity.client.IAuthenticationResult
 
 class LoginActivity : BaseActivity(), Callback<AuthSettings> {
-    @Inject lateinit var apiClient: TokenApiClient
+    @Inject lateinit var tokenApiClient: TokenApiClient
+    @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
     @BindView(R.id.login_error) lateinit var errorField: TextView
     @BindView(R.id.login_edit_text_email) lateinit var email: EditText
@@ -56,6 +58,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     private final val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
     val AUTHORITY: kotlin.String? = "https://login.microsoftonline.com/common"
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
+    private var userEmail: String? = null
 
     override fun layoutResourceId(): Int {
         return R.layout.activity_login
@@ -120,10 +123,37 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         return object : com.microsoft.identity.client.AuthenticationCallback {
             override fun onSuccess(authenticationResult: IAuthenticationResult) {
                 /* Successfully got a token, use it to call a protected resource - MSGraph */
+                sharedPrefs.azureToken = authenticationResult.getAccount().id
+                userEmail = authenticationResult.getAccount().username
                 Log.d("LoginActivity", "Successfully authenticated")
                 Log.e("LoginActivity", "ID: ${authenticationResult.getAccount().id}")
                 Log.e("LoginActivity", "Email: ${authenticationResult.getAccount().username}")
                 Log.e("LoginActivity", "Name: ${authenticationResult.getAccount().claims!!.get("name")}")
+
+
+//                if (apiClient.userExistsByAzureToken(authenticationResult.getAccount().id) == true) {
+//                    Log.e("LoginActivity", "User exists and is being logged in")
+//                    Dialogs.showGeneralLoadingDialog(this)
+//                    tokenApiClient.login(AuthRequest(authenticationResult.getAccount().username,
+//                        authenticationResult.getAccount().id)).enqueue(this)
+//                } else {
+//                    Log.e("LoginActivity", "User does not exist")
+//                }
+                sharedPrefs.azureToken?.let {
+                    apiClient.userExistsByAzureToken(authenticationResult.getAccount().id).enqueue(object : Callback<Boolean> {
+                        override fun onResponse(call: Call<Boolean>, response: Response<Boolean>){
+                            if (response.isSuccessful) {
+                                Log.e("LoginActivity" , "User exists")
+                                //tokenApiClient.login(AuthRequest(authenticationResult.getAccount().username,
+                                //    authenticationResult.getAccount().id)).enqueue(this)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Boolean>, t: Throwable){
+                            Log.e("LoginActivity" , "User does not exist")
+                        }
+                    })
+                }
             }
 
             override fun onError(exception: MsalException) {
@@ -140,7 +170,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
     @OnClick(R.id.azure_login_button)
     fun onClickAzureLogin() {
-        Log.e("LoginActivity" , "Executing onClickAzureLogin")
+        Log.e("LoginActivity", "Executing onClickAzureLogin")
 
         if (mSingleAccountApp == null) {
             return
@@ -177,7 +207,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
         if(isValid){
             Dialogs.showGeneralLoadingDialog(this)
-            apiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
+            tokenApiClient.login(AuthRequest(email.text.toString(), password.text.toString())).enqueue(this)
         }
     }
 
@@ -209,7 +239,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         finish()
     }
 
-
     override fun onResponse(call: Call<AuthSettings>, response: Response<AuthSettings>) {
         // Hide the loading dialog
         Dialogs.hideCurrentDialog()
@@ -223,7 +252,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
             var intent = Intent(this, MainActivity::class.java)
 
-            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
+            tokenApiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.i("LoginActivity", "New pushtoken sent to API")
                 }

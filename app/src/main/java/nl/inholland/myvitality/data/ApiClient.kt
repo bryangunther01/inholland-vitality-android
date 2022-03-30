@@ -32,6 +32,11 @@ interface ApiClient {
         @Query("offset") offset: Int,
     ): Call<List<SimpleUser>>
 
+    @GET("user/{azureToken}")
+    fun userExistsByAzureToken(
+        @Path("azureToken") azureToken: String
+    ): Call<Boolean>
+
     @Multipart
     @PUT("user")
     fun updateUserProfile(
