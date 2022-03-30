@@ -33,7 +33,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication
+import com.microsoft.identity.client.AuthenticationCallback
+import com.microsoft.identity.client.*
+import com.microsoft.identity.client.exception.*
+import com.microsoft.identity.client.exception.MsalException
 
+import androidx.annotation.NonNull
+
+import com.microsoft.identity.client.IAccount
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication.CurrentAccountCallback
+import com.microsoft.identity.client.IAuthenticationResult
 
 class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @Inject lateinit var apiClient: TokenApiClient
@@ -42,6 +52,10 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @BindView(R.id.login_edit_text_email) lateinit var email: EditText
     @BindView(R.id.login_edit_text_password) lateinit var password: EditText
     @BindView(R.id.login_button) lateinit var loginButton: Button
+
+    private final val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
+    val AUTHORITY: kotlin.String? = "https://login.microsoftonline.com/common"
+    private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
 
     override fun layoutResourceId(): Int {
         return R.layout.activity_login
@@ -59,6 +73,100 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         val registerTextView = findViewById<TextView>(R.id.login_register)
         registerTextView.append(TextViewUtils.getColoredString(getString(R.string.login_register_info_1) + " ", ContextCompat.getColor(this, R.color.black)))
         registerTextView.append(TextViewUtils.getColoredString(getString(R.string.login_register_info_2), ContextCompat.getColor(this, R.color.primary)))
+
+        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
+            R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
+                override fun onCreated(application: ISingleAccountPublicClientApplication?) {
+                    mSingleAccountApp = application
+                    loadAccount()
+                }
+                override fun onError(exception: MsalException) {
+                    Log.e("LoginActivity", exception.message.toString())
+                }
+            })
+    }
+
+    private fun loadAccount() {
+        if (mSingleAccountApp == null) {
+            return
+        }
+
+        mSingleAccountApp!!.getCurrentAccountAsync(object : CurrentAccountCallback {
+            override fun onAccountLoaded(activeAccount: IAccount?) {
+                // You can use the account data to update your UI or your app database.
+                Log.e("LoginActivity", "ID: ${activeAccount?.id}")
+                Log.e("LoginActivity", "Email: ${activeAccount?.username}")
+                Log.e("LoginActivity", "Name: ${activeAccount?.claims?.get("name")}")
+            }
+
+            override fun onAccountChanged(
+                priorAccount: IAccount?,
+                currentAccount: IAccount?,
+            ) {
+                if (currentAccount == null) {
+                    // Perform a cleanup task as the signed-in account changed.
+                    //performOperationOnSignOut()
+                    Log.e("LoginActivity" , "Current account = null")
+                }
+            }
+
+            override fun onError(exception: MsalException) {
+                Log.e("LoginActivity", exception.message.toString())
+            }
+        })
+    }
+
+    private fun getAuthInteractiveCallback(): com.microsoft.identity.client.AuthenticationCallback {
+        return object : com.microsoft.identity.client.AuthenticationCallback {
+            override fun onSuccess(authenticationResult: IAuthenticationResult) {
+                /* Successfully got a token, use it to call a protected resource - MSGraph */
+                Log.d("LoginActivity", "Successfully authenticated")
+                Log.e("LoginActivity", "ID: ${authenticationResult.getAccount().id}")
+                Log.e("LoginActivity", "Email: ${authenticationResult.getAccount().username}")
+                Log.e("LoginActivity", "Name: ${authenticationResult.getAccount().claims!!.get("name")}")
+            }
+
+            override fun onError(exception: MsalException) {
+                /* Failed to acquireToken */
+                Log.e("LoginActivity" , exception.message.toString())
+            }
+
+            override fun onCancel() {
+                /* User canceled the authentication */
+                Log.e("LoginActivity", "User cancelled login.")
+            }
+        }
+    }
+
+    @OnClick(R.id.azure_login_button)
+    fun onClickAzureLogin() {
+        Log.e("LoginActivity" , "Executing onClickAzureLogin")
+
+        if (mSingleAccountApp == null) {
+            return
+        }
+
+        mSingleAccountApp!!.signIn(this, null, SCOPES, getAuthInteractiveCallback())
+    }
+
+    @OnClick(R.id.azure_logout_button)
+    fun onClickAzureLogout() {
+        Log.e("LoginActivity" , "Executing onClickAzureLogout")
+
+        if (mSingleAccountApp == null) {
+            return
+        }
+
+        mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
+            override fun onSignOut() {
+                Log.e("LoginActivity" , "Successfully signed out of Azure AD")
+                loadAccount()
+            }
+
+            override fun onError(exception: MsalException) {
+                Log.e("LoginActivity" , exception.message.toString())
+            }
+        })
     }
 
     @OnClick(R.id.login_button)

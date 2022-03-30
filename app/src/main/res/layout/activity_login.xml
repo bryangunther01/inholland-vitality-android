@@ -133,6 +133,30 @@
                     android:background="@drawable/button_primary"
                     android:enabled="false"
                     android:text="@string/login_button_text"/>
+
+                <Button
+                    android:id="@+id/azure_login_button"
+                    style="@style/ButtonPrimary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@drawable/button_primary"
+                    android:enabled="true"
+                    android:text="Login with Azure AD"/>
+
+                <Button
+                    android:id="@+id/azure_logout_button"
+                    style="@style/ButtonPrimary"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@drawable/button_primary"
+                    android:enabled="true"
+                    android:text="Logout of Azure AD"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
