@@ -1,10 +1,17 @@
 package nl.inholland.myvitality.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.architecture.ChosenFragment
@@ -14,7 +21,6 @@ import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewFragment
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
-
 
 class MainActivity : AppCompatActivity() {
 

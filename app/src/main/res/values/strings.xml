@@ -144,10 +144,11 @@
     <string name="dialog_activity_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
     <string name="dialog_activity_button_confirm_text">Ik weet het zeker</string>
     <string name="dialog_activity_button_cancel_text">Ga terug</string>
-    <string name="dialog_activity_calendar_title">Je doet mee aan de activiteit</string>
+    <string name="dialog_activity_calendar_title">Toevoegen aan je kalender</string>
     <string name="dialog_activity_calendar_body">Wil je deze activiteit toevoegen aan jouw kalender?</string>
     <string name="dialog_activity_calendar_button_confirm">Toevoegen</string>
-    <string name="dialog_activity_calendar_button_cancel">Negeren</string>
+    <string name="dialog_activity_calendar_button_cancel">Annuleren</string>
+    <string name="activity_share_message">Neem samen met mij deel aan de activiteit \'%1$s\'</string>
 
     <!-- Bottom naviagtion -->
     <string name="navigation_home" translatable="false">Home</string>
@@ -158,6 +159,8 @@
     <string name="navigation_scoreboard">Scorebord</string>
     <string name="navigation_activity">Activiteit</string>
     <string name="navigation_logout">Uitloggen</string>
+    <string name="navigation_activity_share">Deel activiteit</string>
+    <string name="navigation_activity_calendar">Sla activitiet op</string>
     <string name="navigation_settings">Instellingen</string>
 
     <!-- Timeline post -->

@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="nl.inholland.myvitality">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".VitalityApplication"
         android:icon="@mipmap/ic_launcher"
@@ -34,7 +32,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.tutorial.TutorialActivity"
-            android:exported="true"/>
+            android:exported="true" />
 
         <activity
             android:name=".ui.scoreboard.ScoreboardActivity"
@@ -42,19 +40,20 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.profile.overview.ProfileActivity"
-            android:theme="@style/AppTheme"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.profile.edit.ProfileEditActivity"
-            android:theme="@style/AppTheme"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.search.SearchActivity"
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+        </activity>
 
         <activity
             android:name=".ui.activity.overview.ActivityOverviewActivity"
@@ -62,7 +61,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.activity.detail.ActivityDetailActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="example.com"
+                    android:scheme="https"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.timelinepost.view.TimelinePostActivity"
             android:exported="true"
@@ -94,13 +102,17 @@
             android:name=".ui.authentication.register.details2.RegisterAdditionalDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
+
         <service
             android:name=".ui.push_notifications.PushService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
