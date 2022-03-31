@@ -2,6 +2,7 @@ package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.*
 import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
+import nl.inholland.myvitality.data.entities.requestbody.RegisterRequest
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -13,7 +14,7 @@ interface ApiClient {
     /** Authentication calls **/
     @POST("user")
     fun register(
-        @Body body: AuthRequest
+        @Body body: RegisterRequest
     ): Call<Void>
 
     /** User calls **/
@@ -35,7 +36,7 @@ interface ApiClient {
     @GET("user/{azureToken}")
     fun userExistsByAzureToken(
         @Path("azureToken") azureToken: String
-    ): Call<Boolean>
+    ): Call<Void>
 
     @Multipart
     @PUT("user")

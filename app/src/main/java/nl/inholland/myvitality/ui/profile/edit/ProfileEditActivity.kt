@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,6 +16,10 @@ import butterknife.OnTextChanged
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.imageview.ShapeableImageView
+import com.microsoft.identity.client.IPublicClientApplication
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication
+import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -55,6 +60,8 @@ class ProfileEditActivity : BaseActivity() {
     @BindView(R.id.profile_edit_button)
     lateinit var button: Button
 
+    private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
+
     private val DESCRIPTION_LENGTH = 10
     private val PICK_IMAGE = 1000
     private var selectedImage: Uri? = null
@@ -77,6 +84,16 @@ class ProfileEditActivity : BaseActivity() {
 
         initResponseHandler()
         initUser()
+
+        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
+            R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
+                override fun onCreated(application: ISingleAccountPublicClientApplication?) {
+                    mSingleAccountApp = application
+                }
+                override fun onError(exception: MsalException) {
+                    Log.i("ProfileEditActivity", exception.message.toString())
+                }
+            })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -129,6 +146,17 @@ class ProfileEditActivity : BaseActivity() {
     fun onClickProfileDelete() {
         Dialogs.showAccountDeletionDialog(this, View.OnClickListener {
             viewModel.deleteAccount()
+        })
+
+        // sign out of Azure AD after deleting account
+        mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
+            override fun onSignOut() {
+                Log.i("ProfileEditActivity" , "Successfully signed out of Azure AD")
+            }
+
+            override fun onError(exception: MsalException) {
+                Log.i("ProfileEditActivity" , exception.message.toString())
+            }
         })
     }
 

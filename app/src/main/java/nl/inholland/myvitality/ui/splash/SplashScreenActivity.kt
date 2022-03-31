@@ -29,8 +29,6 @@ class SplashScreenActivity : BaseActivity() {
     @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
 
-    private final val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
-    val AUTHORITY: String? = "https://login.microsoftonline.com/common"
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
 
     override fun layoutResourceId(): Int {
@@ -84,12 +82,10 @@ class SplashScreenActivity : BaseActivity() {
             override fun onAccountLoaded(activeAccount: IAccount?) {
                 // You can use the account data to update your UI or your app database.
                 if (activeAccount?.id != null) {
-                    Log.e("SplashScreenActivity", "User is logged in")
-                    Log.e("SplashScreenActivity", "ID: ${activeAccount.id}")
-                    Log.e("SplashScreenActivity", "Email: ${activeAccount.username}")
-                    Log.e("SplashScreenActivity", "Name: ${activeAccount.claims?.get("name")}")
+                    Log.e("SplashScreenActivity", "User is logged in to Azure AD")
                 } else {
                     Log.e("SplashScreenActivity", "User is not logged in")
+                    sharedPrefs.logoutUser()
                 }
             }
 

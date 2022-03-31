@@ -15,6 +15,8 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
     private val CURRENT_USER_ID = "currentUserId"
     private val PUSH_TOKEN = "pushToken"
     private val AZURE_TOKEN = "azureToken"
+    private val USER_FIRSTNAME = "userFirstname"
+    private val USER_LASTNAME = "userLastname"
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
@@ -57,6 +59,14 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         get() = preferences.getString(AZURE_TOKEN, null)
         set(value) = preferences.edit().putString(AZURE_TOKEN, value).apply()
 
+    var userFirstname: String?
+        get() = preferences.getString(USER_FIRSTNAME, null)
+        set(value) = preferences.edit().putString(USER_FIRSTNAME, value).apply()
+
+    var userLastname: String?
+        get() = preferences.getString(USER_LASTNAME, null)
+        set(value) = preferences.edit().putString(USER_LASTNAME, value).apply()
+
     fun isLoggedIn(): Boolean {
         return accessToken != null
     }
@@ -73,6 +83,8 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         editor.remove(TOKEN_EXPIRE_TIME)
         editor.remove(CURRENT_USER_ID)
         editor.remove(AZURE_TOKEN)
+        editor.remove(USER_FIRSTNAME)
+        editor.remove(USER_LASTNAME)
 
         editor.apply()
     }
