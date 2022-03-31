@@ -47,21 +47,21 @@ object DateUtils {
     }
 
     private fun stringToDate(dateString: String): Date{
-        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
 
         return format.parse(dateString)
     }
 
     fun formatDate(date: String): String {
         // Set the publishData including the right format
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         val formatter = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         return formatter.format(parser.parse(date))
     }
 
     fun formatDate(date: String, format: String): String {
         // Set the publishData including the right format
-        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         val formatter = SimpleDateFormat(format, Locale.getDefault())
         return formatter.format(parser.parse(date))
     }
@@ -69,8 +69,6 @@ object DateUtils {
 
     fun formatDateToTimeAgo(dateString: String): String {
         val date = stringToDate(dateString)
-        val time = date.time.plus(HOUR_MILLIS)
-
-        return DateUtils.getRelativeTimeSpanString(time, now().time.plus(SECOND_MILLIS * 5), 59000L, DateUtils.FORMAT_ABBREV_MONTH).toString()
+        return DateUtils.getRelativeTimeSpanString(date.time, now().time.plus(SECOND_MILLIS * 5), 59000L, DateUtils.FORMAT_ABBREV_MONTH).toString()
     }
 }

@@ -75,7 +75,6 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/dialog_button_2"
-                    style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
