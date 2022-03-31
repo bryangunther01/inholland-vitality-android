@@ -192,11 +192,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             if(response.code() == 401){
                 //log back out of Azure AD after failed API login
                 azureLogout()
-
-//                FieldValidationUtil(this).setFieldState(email, false, errorField, getString(
-//                    R.string.login_error_invalid_combination))
-//                FieldValidationUtil(this).setFieldState(password, false, errorField, getString(
-//                    R.string.login_error_invalid_combination))
             }
         }
     }
