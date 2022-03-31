@@ -142,10 +142,12 @@
     <string name="dialog_activity_body">You are about to quit this activity, are you sure?</string>
     <string name="dialog_activity_button_confirm_text">I\'m sure</string>
     <string name="dialog_activity_button_cancel_text">Go back</string>
-    <string name="dialog_activity_calendar_title">You are subscribed to the activity</string>
+    <string name="dialog_activity_calendar_title">Add to your calendar</string>
     <string name="dialog_activity_calendar_body">Would you like to add this activity to your calendar?</string>
     <string name="dialog_activity_calendar_button_confirm">Add</string>
-    <string name="dialog_activity_calendar_button_cancel">Ignore</string>
+    <string name="dialog_activity_calendar_button_cancel">Cancel</string>
+    <string name="activity_share_message">Join me in the \'%1$s\' activity</string>
+
 
     <!-- Bottom naviagtion -->
     <string name="navigation_timeline">Timeline</string>
@@ -155,6 +157,8 @@
     <string name="navigation_scoreboard">Scoreboard</string>
     <string name="navigation_activity">Activity</string>
     <string name="navigation_logout">Logout</string>
+    <string name="navigation_activity_share">Share activity</string>
+    <string name="navigation_activity_calendar">Save activity</string>
     <string name="navigation_settings">Settings</string>
 
 

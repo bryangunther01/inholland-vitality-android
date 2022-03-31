@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "263537186309-0huk1okfum9eqg4qi89h22rlfqgrukvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.inholland.myvitality",
+            "certificate_hash": "c09bf7f213c6c8790867425f7c9e051db2759a01"
+          }
+        },
+        {
           "client_id": "263537186309-lso4a1iu5pfk3g8j33fc70lfg2u0msku.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "263537186309-lso4a1iu5pfk3g8j33fc70lfg2u0msku.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "263537186309-d75sj51t7cmudmo67l860mi8ispto9tn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nl.inholland.vitality.inholland-vitality-ios"
+              }
             }
           ]
         }

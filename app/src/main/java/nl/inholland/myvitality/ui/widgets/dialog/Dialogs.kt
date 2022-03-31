@@ -31,8 +31,6 @@ object Dialogs  {
 
         body.text = activity.getString(R.string.dialog_loading_general)
         dialog.show()
-
-        currentDialog = dialog
     }
 
     fun showAccountDeletionDialog(activity: Activity, onClickListener: View.OnClickListener) {
@@ -44,6 +42,7 @@ object Dialogs  {
         val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
         buttonCancel.visibility = View.VISIBLE
+        buttonCancel.setBackgroundResource(R.drawable.button_primary)
 
         title.text = activity.getString(R.string.profile_delete_dialog_title)
         body.text = activity.getString(R.string.profile_delete_dialog_body)
@@ -89,7 +88,9 @@ object Dialogs  {
         val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
         buttonCancel.visibility = View.VISIBLE
-        buttonCancel.setBackgroundResource(R.drawable.button_cancel)
+        buttonCancel.setBackgroundResource(R.drawable.button_secondary)
+        buttonCancel.stateListAnimator = null
+        buttonCancel.setTextColor(activity.getColor(R.color.primary))
 
         title.text = activity.getString(R.string.dialog_activity_calendar_title)
         body.text = activity.getString(R.string.dialog_activity_calendar_body)
@@ -101,7 +102,6 @@ object Dialogs  {
 
         buttonCancel.setOnClickListener {
             dialog.dismiss()
-            activity.finish()
         }
 
         dialog.show()
@@ -138,6 +138,9 @@ object Dialogs  {
         val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
         buttonBack.visibility = View.VISIBLE
+        buttonBack.setBackgroundResource(R.drawable.button_secondary)
+        buttonBack.stateListAnimator = null
+        buttonBack.setTextColor(activity.getColor(R.color.primary))
 
         title.text = activity.getString(R.string.dialog_activity_title)
         body.text = activity.getString(R.string.dialog_activity_body)
@@ -178,7 +181,6 @@ object Dialogs  {
         }
 
         dialog.show()
-        currentDialog = dialog
     }
 
     fun showDeletePostDialog(activity: Activity, onClickListener: View.OnClickListener) {
@@ -190,6 +192,10 @@ object Dialogs  {
         val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
         buttonBack.visibility = View.VISIBLE
+        buttonBack.setBackgroundResource(R.drawable.button_secondary)
+        buttonBack.stateListAnimator = null
+        buttonBack.setTextColor(activity.getColor(R.color.primary))
+
 
         title.text = activity.getString(R.string.post_dialog_title)
         body.text = activity.getString(R.string.post_dialog_body)
@@ -202,7 +208,6 @@ object Dialogs  {
         }
 
         dialog.show()
-        currentDialog = dialog
     }
 
     private fun setupSimpleDialog(activity: Activity): Dialog{
@@ -212,6 +217,7 @@ object Dialogs  {
         dialog.setContentView(R.layout.simple_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        currentDialog = dialog
         return dialog
     }
 
@@ -222,6 +228,7 @@ object Dialogs  {
         dialog.setContentView(R.layout.loading_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        currentDialog = dialog
         return dialog
     }
 }
