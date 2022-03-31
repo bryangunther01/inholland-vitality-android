@@ -60,16 +60,15 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:layout_marginTop="-4sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/login_subtitle"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/avenir_lt_pro_roman"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    />
+                    android:fontFamily="@font/avenir_lt_pro_roman"
+                    android:text="@string/login_subtitle"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/login_error"
@@ -83,45 +82,6 @@
                     android:visibility="invisible"
                     />
 
-                <EditText
-                    android:id="@+id/login_edit_text_email"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_medium_big"
-                    android:autofillHints=""
-                    android:drawableStart="@drawable/ic_mail"
-                    android:hint="@string/login_hint_email"
-                    android:inputType="textEmailAddress"
-                    android:minHeight="48dp" />
-
-                <EditText
-                    android:id="@+id/login_edit_text_password"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:drawableStart="@drawable/ic_lock"
-                    android:hint="@string/login_hint_password"
-                    android:inputType="textPassword"
-                    android:minHeight="48dp" />
-
-                <TextView
-                    android:id="@+id/login_forgot_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_forgot_password"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/avenir_lt_pro_heavy"
-                    android:layout_marginBottom="@dimen/margin_normal"
-                    />
-
                 <Button
                     android:id="@+id/login_button"
                     style="@style/ButtonPrimary"
@@ -131,20 +91,11 @@
                     android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
                     android:background="@drawable/button_primary"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:text="@string/login_button_text"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/login_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/avenir_lt_pro_heavy"
-            app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"

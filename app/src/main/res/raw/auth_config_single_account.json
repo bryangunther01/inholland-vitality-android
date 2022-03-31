@@ -1,0 +1,15 @@
+{
+  "client_id" : "35596f07-345f-4247-8d77-927e771c35c3",
+  "authorization_user_agent" : "DEFAULT",
+  "account_mode" : "SINGLE",
+  "redirect_uri" : "msauth://nl.inholland.myvitality.ui/w5G662mc4o81BUzLaFO2xjZlnHw%3D",
+    "authorities" : [
+      {
+        "type": "AAD",
+        "audience": {
+        "type": "AzureADMyOrg",
+        "tenant_id": "ad78d191-1044-4303-8212-b6f4dd7874bc"
+      }
+    }
+  ]
+}

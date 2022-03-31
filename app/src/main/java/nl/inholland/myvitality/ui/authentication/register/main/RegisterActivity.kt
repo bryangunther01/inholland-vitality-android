@@ -67,20 +67,6 @@ class RegisterActivity : BaseActivity(), Callback<Void> {
         )
     }
 
-    @OnClick(R.id.register_button)
-    fun onClickRegister() {
-        val isValid = email.text.length >= 3 &&
-                Patterns.EMAIL_ADDRESS.matcher(email.text).matches() &&
-                password.text.length >= PASSWORD_LENGTH &&
-                passwordMatch()
-
-        if (isValid) {
-            apiClient.register(AuthRequest(email.text.toString(), password.text.toString()))
-                .enqueue(this)
-            registerButton.isEnabled = false
-        }
-    }
-
     @OnTextChanged(R.id.register_edit_text_email, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     fun onEmailInputFieldChanged() {
         if (email.text.length >= 3) {

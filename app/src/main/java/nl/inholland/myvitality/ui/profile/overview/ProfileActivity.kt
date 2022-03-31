@@ -21,6 +21,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
+import com.microsoft.identity.client.IPublicClientApplication
+import com.microsoft.identity.client.ISingleAccountPublicClientApplication
+import com.microsoft.identity.client.PublicClientApplication
+import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
@@ -59,6 +63,7 @@ class ProfileActivity : BaseActivity() {
     lateinit var factory: ProfileViewModelFactory
     lateinit var viewModel: ProfileViewModel
 
+    private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     var userActivitiesSkeletonScreen: RecyclerViewSkeletonScreen? = null
     var userActivitiesAdapter: ActivityAdapter? = null
 
@@ -95,6 +100,16 @@ class ProfileActivity : BaseActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             initChallenges()
         }, 1000)
+
+        PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
+            R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
+                override fun onCreated(application: ISingleAccountPublicClientApplication?) {
+                    mSingleAccountApp = application
+                }
+                override fun onError(exception: MsalException) {
+                    Log.i("ProfileActivity", exception.message.toString())
+                }
+            })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -122,6 +137,18 @@ class ProfileActivity : BaseActivity() {
                     }
                 })
             }
+
+            Log.e("ProfileActivity" , "Executing Azure Logout")
+
+            mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
+                override fun onSignOut() {
+                    Log.i("ProfileActivity" , "Successfully signed out of Azure AD")
+                }
+
+                override fun onError(exception: MsalException) {
+                    Log.i("ProfileActivity" , exception.message.toString())
+                }
+            })
 
             sharedPrefs.logoutUser()
             finishAffinity()

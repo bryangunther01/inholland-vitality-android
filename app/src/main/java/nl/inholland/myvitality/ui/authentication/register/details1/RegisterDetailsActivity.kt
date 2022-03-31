@@ -56,6 +56,9 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
+
+        firstName.setText(sharedPrefs.userFirstname)
+        lastName.setText(sharedPrefs.userLastname)
     }
 
     @OnTextChanged(
