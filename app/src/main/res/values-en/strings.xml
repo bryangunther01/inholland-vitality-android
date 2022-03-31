@@ -38,15 +38,14 @@
     <string name="tutorial_description_exercise">Nothing is more important than every now and then stretching the legs during long working days, are you doing this enough already?</string>
 
     <string name="tutorial_last_title">Are you as excited as we are?</string>
-    <string name="tutorial_last_subtitle">Sign up now and get access to the benefits below!</string>
+    <string name="tutorial_last_subtitle">Login now and get access to the benefits below!</string>
     <string name="tutorial_advantage_1">Get access to activities</string>
     <string name="tutorial_advantage_2">Track the progress of your activities</string>
     <string name="tutorial_advantage_3">Share your progress on your profile</string>
     <string name="tutorial_advantage_4">Get in touch with your colleagues</string>
     <string name="tutorial_advantage_5">See which activities your colleagues are doing</string>
 
-    <string name="tutorial_button_signup">Sign up now</string>
-    <string name="tutorial_login">Already have an account? <u>Log in</u></string>
+    <string name="tutorial_button_signup">Login now</string>
 
     <!-- Login Strings -->
     <string name="login_subtitle">Log in with your Inholland account to continue</string>

@@ -38,15 +38,14 @@
     <string name="tutorial_description_exercise">Niets is belangrijker dan af en toe de benen strekken tijdens lange werkdagen, doe jij dit al genoeg?</string>
 
     <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
-    <string name="tutorial_last_subtitle">Meld je nu aan en krijg toegang tot de onderstaande voordelen!</string>
+    <string name="tutorial_last_subtitle">Log nu in en krijg toegang tot de onderstaande voordelen!</string>
     <string name="tutorial_advantage_1">Krijg toegang tot leuke activiteiten</string>
     <string name="tutorial_advantage_2">Houd de voortgang van jouw activiteiten bij</string>
     <string name="tutorial_advantage_3">Deel jouw voortgang op jouw profiel</string>
     <string name="tutorial_advantage_4">Kom in contact met jouw collega\'s</string>
     <string name="tutorial_advantage_5">Zie welke activiteiten jouw collega’s doen</string>
 
-    <string name="tutorial_button_signup">Meld je nu aan</string>
-    <string name="tutorial_login">Heb je al een account? <u>Log in</u></string>
+    <string name="tutorial_button_signup">Log nu in</string>
 
     <!-- Login Strings -->
     <string name="login_subtitle">Log in met uw Inholland account om verder te gaan</string>

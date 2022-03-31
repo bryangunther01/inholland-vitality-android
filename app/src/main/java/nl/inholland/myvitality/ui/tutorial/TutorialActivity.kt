@@ -37,11 +37,8 @@ class TutorialActivity : BaseFragmentActivity() {
     @BindView(R.id.tutorial_continue_button)
     lateinit var continueButton: TextView
 
-    @BindView(R.id.tutorial_register_button)
+    @BindView(R.id.tutorial_login_button)
     lateinit var registerButton: TextView
-
-    @BindView(R.id.tutorial_login)
-    lateinit var loginButton: TextView
 
     override fun layoutResourceId(): Int {
         return R.layout.activity_tutorial
@@ -70,7 +67,6 @@ class TutorialActivity : BaseFragmentActivity() {
 
                 continueButton.visibility = if(isLastPage) View.GONE else View.VISIBLE
                 registerButton.visibility = if(isLastPage) View.VISIBLE else View.GONE
-                loginButton.visibility = if(isLastPage) View.VISIBLE else View.GONE
             }
         })
 
@@ -94,16 +90,8 @@ class TutorialActivity : BaseFragmentActivity() {
         viewPager.currentItem = viewPager.currentItem+1
     }
 
-    @OnClick(R.id.tutorial_register_button)
+    @OnClick(value = [R.id.tutorial_login_button, R.id.tutorial_skip])
     fun onClickSignup(){
-        sharedPrefs.isFirstAppUse = false
-
-        startActivity(Intent(this, RegisterActivity::class.java))
-        finish()
-    }
-
-    @OnClick(value = [R.id.tutorial_skip, R.id.tutorial_login])
-    fun onClickSkip(){
         sharedPrefs.isFirstAppUse = false
 
         startActivity(Intent(this, LoginActivity::class.java))

@@ -74,7 +74,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
                 override fun onCreated(application: ISingleAccountPublicClientApplication?) {
                     mSingleAccountApp = application
-                    loadAccount()
                 }
                 override fun onError(exception: MsalException) {
                     Log.e("LoginActivity", exception.message.toString())
@@ -82,34 +81,8 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
             })
     }
 
-    private fun loadAccount() {
-        if (mSingleAccountApp == null) {
-            return
-        }
-
-        mSingleAccountApp!!.getCurrentAccountAsync(object : CurrentAccountCallback {
-            override fun onAccountLoaded(activeAccount: IAccount?) {
-                // You can use the account data to update your UI or your app database.
-                Log.i("LoginActivity", "Loading Azure AD account")
-            }
-
-            override fun onAccountChanged(
-                priorAccount: IAccount?,
-                currentAccount: IAccount?,
-            ) {
-                if (currentAccount == null) {
-                    Log.e("LoginActivity" , "Current account = null")
-                }
-            }
-
-            override fun onError(exception: MsalException) {
-                Log.e("LoginActivity", exception.message.toString())
-            }
-        })
-    }
-
-    private fun getAuthInteractiveCallback(): com.microsoft.identity.client.AuthenticationCallback {
-        return object : com.microsoft.identity.client.AuthenticationCallback {
+    private fun getAuthInteractiveCallback(): AuthenticationCallback {
+        return object : AuthenticationCallback {
             override fun onSuccess(authenticationResult: IAuthenticationResult) {
                 Log.d("LoginActivity", "Successfully authenticated")
 
@@ -167,7 +140,6 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
         mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
             override fun onSignOut() {
                 Log.e("LoginActivity" , "Successfully signed out of Azure AD")
-                loadAccount()
             }
 
             override fun onError(exception: MsalException) {

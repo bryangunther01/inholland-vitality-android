@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/tutorial_register_button"
+        android:id="@+id/tutorial_login_button"
         style="@style/ButtonSecondary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -73,20 +73,6 @@
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
-        app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintEnd_toEndOf="@id/guideline_right"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"/>
-
-    <TextView
-        android:id="@+id/tutorial_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/avenir_lt_pro_heavy"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:text="@string/tutorial_login"
-        android:paddingTop="@dimen/margin_small_medium"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"/>
