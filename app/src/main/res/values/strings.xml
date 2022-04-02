@@ -48,7 +48,7 @@
     <string name="tutorial_button_signup">Log nu in</string>
 
     <!-- Login Strings -->
-    <string name="login_subtitle">Log in met uw Inholland account om verder te gaan</string>
+    <string name="login_subtitle">Log in met je Inholland account om verder te gaan</string>
     <string name="login_hint_email">a.voorbeeld@inholland.nl</string>
     <string name="login_hint_password">Wachtwoord</string>
     <string name="login_button_text">Inloggen</string>
