@@ -113,8 +113,15 @@
             app:barrierMargin="@dimen/margin_big"
             app:constraint_referenced_ids="profile_image, profile_points, profile_button, profile_fullname, profile_description, profile_details" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_current_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="profile_current_activities_title, profile_current_activities_recyclerview"/>
+
         <TextView
-            android:id="@+id/profile_curr_chl_title"
+            android:id="@+id/profile_current_activities_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_book"
@@ -126,14 +133,14 @@
             app:layout_constraintTop_toBottomOf="@id/profile_header_barrier"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profile_curr_chl_recyclerview"
+            android:id="@+id/profile_current_activities_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/profile_curr_chl_title"/>
+            app:layout_constraintTop_toBottomOf="@id/profile_current_activities_title"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/profile_curr_chl_barrier"
@@ -141,10 +148,17 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_big"
-            app:constraint_referenced_ids="profile_curr_chl_title, profile_curr_chl_recyclerview" />
+            app:constraint_referenced_ids="profile_current_activities_title, profile_current_activities_recyclerview" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_personal_scoreboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="profile_personal_scoreboard_title, profile_personal_scoreboard_recyclerview"/>
 
         <TextView
-            android:id="@+id/profile_finn_chl_title"
+            android:id="@+id/profile_personal_scoreboard_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_book"
@@ -155,15 +169,16 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/profile_curr_chl_barrier"/>
 
+
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/profile_finn_chl_recyclerview"
+            android:id="@+id/profile_personal_scoreboard_recyclerview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/profile_finn_chl_title"/>
+            app:layout_constraintTop_toBottomOf="@id/profile_personal_scoreboard_title"/>
 
 
         <androidx.constraintlayout.widget.Guideline

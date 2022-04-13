@@ -77,7 +77,7 @@ class ActivityViewModel constructor(
         sharedPrefs.accessToken?.let {
             apiClient.getActivities(
                 "Bearer $it",
-                currentActivity.value!!.category.categoryId,
+                categoryId = currentActivity.value!!.category.categoryId,
                 state = ActivityState.RECOMMENDED.id
             ).enqueue(object : Callback<List<Activity>> {
                 override fun onResponse(

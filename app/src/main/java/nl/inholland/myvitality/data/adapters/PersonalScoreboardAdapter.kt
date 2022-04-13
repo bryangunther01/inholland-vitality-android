@@ -9,15 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import jp.wasabeef.glide.transformations.BlurTransformation
 import nl.inholland.myvitality.R
-import nl.inholland.myvitality.data.entities.Activity
+import nl.inholland.myvitality.data.entities.PersonalScoreboardResult
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.util.DateUtils
 
-class ActivityAdapter(context: Context) :
-    BaseRecyclerAdapter<Activity, ActivityAdapter.ViewHolder>(context) {
+class PersonalScoreboardAdapter(context: Context) :
+    BaseRecyclerAdapter<PersonalScoreboardResult, PersonalScoreboardAdapter.ViewHolder>(context) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -30,26 +28,13 @@ class ActivityAdapter(context: Context) :
         val currentItem = items[position]
 
         // Load the challenge image with a fallback image
-        if(currentItem.hasStarted) {
-            Glide.with(context)
-                .load(currentItem.imageLink)
-                .placeholder(R.drawable.activity_placeholder)
-                .into(holder.activityImage)
-        } else {
-            Glide.with(context)
-                .load(currentItem.imageLink)
-                .placeholder(R.drawable.activity_placeholder)
-                .apply(RequestOptions.bitmapTransform(BlurTransformation(22)))
-                .into(holder.activityImage)
-        }
+        Glide.with(context)
+            .load(currentItem.imageLink)
+            .placeholder(R.drawable.activity_placeholder)
+            .into(holder.activityImage)
 
         holder.activityTitle.text = currentItem.title
-
-        if(!currentItem.hasStarted){
-            holder.activityDate.text = context.getString(R.string.activity_start_date_text, DateUtils.formatDate(currentItem.startDate, "dd-MM-yyyy"))
-        } else {
-            holder.activityDate.text = context.getString(R.string.activity_end_date_text, DateUtils.formatDate(currentItem.endDate, "dd-MM-yyyy"))
-        }
+        holder.activitySubtitle.text = context.getString(R.string.scoreboard_personal_points, currentItem.points)
 
         holder.itemView.setOnClickListener { view ->
             val intent = Intent(view.context, ActivityDetailActivity::class.java)
@@ -65,6 +50,6 @@ class ActivityAdapter(context: Context) :
         RecyclerView.ViewHolder(itemView) {
         internal val activityImage: ImageView = itemView.findViewById(R.id.activity_image)
         internal val activityTitle: TextView = itemView.findViewById(R.id.activity_title)
-        internal val activityDate: TextView = itemView.findViewById(R.id.activity_subtitle)
+        internal val activitySubtitle: TextView = itemView.findViewById(R.id.activity_subtitle)
     }
 }

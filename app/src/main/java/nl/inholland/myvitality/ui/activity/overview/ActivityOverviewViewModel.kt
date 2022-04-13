@@ -47,7 +47,7 @@ class ActivityOverviewViewModel constructor(
         }
 
         sharedPrefs.accessToken?.let {
-            apiClient.getActivities("Bearer $it", categoryId, limit, offset, activityState.id).enqueue(object : Callback<List<Activity>> {
+            apiClient.getActivities("Bearer $it", limit, offset, categoryId = categoryId, state = activityState.id).enqueue(object : Callback<List<Activity>> {
                 override fun onResponse(call: Call<List<Activity>>, response: Response<List<Activity>>) {
                     if(response.isSuccessful && response.body() != null){
                         response.body()?.let { activities ->

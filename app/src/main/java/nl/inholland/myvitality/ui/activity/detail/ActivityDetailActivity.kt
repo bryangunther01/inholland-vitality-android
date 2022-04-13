@@ -1,8 +1,6 @@
 package nl.inholland.myvitality.ui.activity.detail
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,8 +32,6 @@ import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActi
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.TextViewUtils
-import java.lang.Exception
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -47,7 +43,7 @@ class ActivityDetailActivity : BaseActivity() {
     lateinit var image: ImageView
     @BindView(R.id.activity_type)
     lateinit var type: TextView
-    @BindView(R.id.activity_date)
+    @BindView(R.id.activity_subtitle)
     lateinit var date: TextView
     @BindView(R.id.activity_title)
     lateinit var title: TextView
@@ -266,24 +262,26 @@ class ActivityDetailActivity : BaseActivity() {
                 videoView.start()
             }
 
-            points.append(
-                TextViewUtils.getColoredString(
-                    getString(R.string.activity_points_message_1),
-                    getColor(R.color.black)
+            if(points.text.isEmpty()) {
+                points.append(
+                    TextViewUtils.getColoredString(
+                        getString(R.string.activity_points_message_1),
+                        getColor(R.color.black)
+                    )
                 )
-            )
-            points.append(
-                TextViewUtils.getColoredString(
-                    " ${activity.points} ",
-                    getColor(R.color.primary)
+                points.append(
+                    TextViewUtils.getColoredString(
+                        " ${activity.points} ",
+                        getColor(R.color.primary)
+                    )
                 )
-            )
-            points.append(
-                TextViewUtils.getColoredString(
-                    getString(R.string.activity_points_message_2),
-                    getColor(R.color.black)
+                points.append(
+                    TextViewUtils.getColoredString(
+                        getString(R.string.activity_points_message_2),
+                        getColor(R.color.black)
+                    )
                 )
-            )
+            }
 
             description.text = Html.fromHtml(activity.description, Html.FROM_HTML_MODE_LEGACY)
             if (activity.signUpOpen) {

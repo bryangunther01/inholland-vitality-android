@@ -71,7 +71,7 @@
             app:layout_constraintBottom_toTopOf="@+id/activity_title"/>
 
         <TextView
-            android:id="@+id/activity_date"
+            android:id="@+id/activity_subtitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_roman"
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="activity_image, activity_type, activity_date, activity_title"/>
+            app:constraint_referenced_ids="activity_image, activity_type, activity_subtitle, activity_title"/>
 
         <TextView
             android:id="@+id/activity_points"
