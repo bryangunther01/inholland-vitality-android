@@ -57,7 +57,7 @@ interface ApiClient {
         @Query("following") following: Boolean,
     ): Call<Void>
 
-    @GET("user/scoreboard")
+    @GET("scoreboard")
     fun getScoreboard(
         @Header("Authorization") token: String,
         @Query("limit") limit: Int,
@@ -177,7 +177,7 @@ interface ApiClient {
         @Query("offset") offset: Int,
     ): Call<List<SimpleUser>>
 
-    @PUT("timelinepost/{timelinePostId}/like")
+    @POST("timelinepost/{timelinePostId}/like")
     fun likePost(
         @Header("Authorization") token: String,
         @Path("timelinePostId") timelinePostId: String,
