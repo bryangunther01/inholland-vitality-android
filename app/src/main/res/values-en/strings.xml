@@ -149,6 +149,7 @@
     <string name="activity_share_message">Join me in the \'%1$s\' activity</string>
 
 
+
     <!-- Bottom naviagtion -->
     <string name="navigation_timeline">Timeline</string>
     <string name="navigation_post">Post</string>
@@ -216,5 +217,7 @@
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>
+    <string name="scoreboard_personal_points">%01d points</string>
+
 
 </resources>

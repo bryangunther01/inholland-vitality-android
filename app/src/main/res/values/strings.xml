@@ -216,4 +216,5 @@
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>
+    <string name="scoreboard_personal_points">%01d punten</string>
 </resources>

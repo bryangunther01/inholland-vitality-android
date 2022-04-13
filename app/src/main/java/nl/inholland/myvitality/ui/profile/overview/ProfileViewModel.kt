@@ -1,5 +1,6 @@
 package nl.inholland.myvitality.ui.profile.overview
 
+import android.app.Person
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
     private val _currentUser = MutableLiveData<User>()
     private val _isFollowing = MutableLiveData<Boolean>()
     private val _currentChallenges = MutableLiveData<List<Activity>>()
+    private val _personalScoreboard = MutableLiveData<List<PersonalScoreboardResult>>()
     private val _responseError = MutableLiveData<ApiResponse>()
 
     val currentUser: LiveData<User>
@@ -27,6 +29,9 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
 
     val currentActivities: LiveData<List<Activity>>
         get() = _currentChallenges
+
+    val personalScoreboard: LiveData<List<PersonalScoreboardResult>>
+        get() = _personalScoreboard
 
     val apiResponse: LiveData<ApiResponse>
         get() = _responseError
@@ -56,28 +61,51 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
         }
     }
 
-    fun getChallenges(userId: String?){
-//        sharedPrefs.accessToken?.let {
-//            apiClient.getActivities("Bearer $it", userId = userId, progress = ActivityProgress.IN_PROGRESS.id).enqueue(object : Callback<List<Activity>> {
-//                override fun onResponse(call: Call<List<Activity>>, response: Response<List<Activity>>) {
-//                    if(response.isSuccessful && response.body() != null){
-//                        response.body()?.let { activities ->
-//                            _currentChallenges.value = activities
-//                        }
-//                    } else if(response.code() == 401){
-//                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<List<Activity>>, t: Throwable) {
-//                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
-//                    Log.e("ProfileActivity", "onFailure: ", t)
-//                }
-//            })
-//        }
+    fun getActivities(userId: String?){
+        sharedPrefs.accessToken?.let {
+            apiClient.getActivities("Bearer $it", userId = userId, progress = ActivityProgress.IN_PROGRESS.id).enqueue(object : Callback<List<Activity>> {
+                override fun onResponse(call: Call<List<Activity>>, response: Response<List<Activity>>) {
+                    if(response.isSuccessful && response.body() != null){
+                        response.body()?.let { activities ->
+                            _currentChallenges.value = activities
+                        }
+                    } else if(response.code() == 401){
+                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Activity>>, t: Throwable) {
+                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+                    Log.e("ProfileActivity", "onFailure: ", t)
+                }
+            })
+        }
     }
 
+    fun getUserScoreboard(userId: String?){
+        sharedPrefs.accessToken?.let {
+            apiClient.getPersonalScoreboard("Bearer $it", userId = userId).enqueue(object : Callback<List<PersonalScoreboardResult>> {
+                override fun onResponse(call: Call<List<PersonalScoreboardResult>>, response: Response<List<PersonalScoreboardResult>>) {
+                    if(response.isSuccessful && response.body() != null){
+                        response.body()?.let { result ->
+                            _personalScoreboard.value = result
+                        }
+                    } else if(response.code() == 401){
+                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                }
+
+                override fun onFailure(call: Call<List<PersonalScoreboardResult>>, t: Throwable) {
+                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+                    Log.e("ProfileActivity", "onFailure: ", t)
+                }
+            })
+        }
+    }
+
+
     fun toggleUserFollow(userId: String, following: Boolean){
+        // TODO: Now separate calls for this
         if(isFollowing.value == null) _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
 
         sharedPrefs.accessToken?.let {

@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,7 @@ import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
+import nl.inholland.myvitality.data.adapters.PersonalScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
@@ -54,10 +56,9 @@ class ProfileActivity : BaseActivity() {
     @BindView(R.id.profile_description) lateinit var description: TextView
     @BindView(R.id.profile_points) lateinit var points: TextView
     @BindView(R.id.profile_button) lateinit var button: Button
-    @BindView(R.id.profile_curr_chl_recyclerview) lateinit var userActivitiesRecyclerView: RecyclerView
-    @BindView(R.id.profile_finn_chl_recyclerview) lateinit var finishedChallengesRecyclerView: RecyclerView
-    @BindView(R.id.profile_curr_chl_title) lateinit var currChlTitle: TextView
-    @BindView(R.id.profile_finn_chl_title) lateinit var finnChlTitle: TextView
+    @BindView(R.id.profile_current_activities_recyclerview) lateinit var userActivitiesRecyclerView: RecyclerView
+    @BindView(R.id.profile_personal_scoreboard_recyclerview) lateinit var personalScoreboardRecyclerView: RecyclerView
+    @BindView(R.id.profile_personal_scoreboard_title) lateinit var personalScoreboardTitle: TextView
 
     @Inject
     lateinit var factory: ProfileViewModelFactory
@@ -66,6 +67,7 @@ class ProfileActivity : BaseActivity() {
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     var userActivitiesSkeletonScreen: RecyclerViewSkeletonScreen? = null
     var userActivitiesAdapter: ActivityAdapter? = null
+    var personalScoreboardAdapter: PersonalScoreboardAdapter? = null
 
     var userId: String? = null
     var currentUser: User? = null
@@ -97,8 +99,13 @@ class ProfileActivity : BaseActivity() {
 
         initResponseHandler()
         initUser()
+
         Handler(Looper.getMainLooper()).postDelayed({
             initChallenges()
+        }, 1000)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            initScoreboard()
         }, 1000)
 
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
@@ -185,6 +192,12 @@ class ProfileActivity : BaseActivity() {
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        personalScoreboardAdapter = PersonalScoreboardAdapter(this)
+
+        personalScoreboardRecyclerView.let {
+            it.adapter = personalScoreboardAdapter
+            it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     private fun setupSkeletons() {
@@ -231,11 +244,11 @@ class ProfileActivity : BaseActivity() {
             )
 
             if (userId.isNullOrBlank()) {
-                finnChlTitle.text = getString(R.string.profile_your_prize_cabinet)
+                personalScoreboardTitle.text = getString(R.string.profile_your_prize_cabinet)
                 button.text = getString(R.string.profile_edit)
                 button.visibility = View.VISIBLE
             } else {
-                finnChlTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
+                personalScoreboardTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
             }
         }
 
@@ -253,17 +266,25 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun initChallenges(){
-        viewModel.getChallenges(userId)
+        viewModel.getActivities(userId)
 
         viewModel.currentActivities.observe(this) { activities ->
-            if (activities.isEmpty()) {
-                currChlTitle.visibility = View.GONE
-                userActivitiesRecyclerView.visibility = View.GONE
-            } else {
-                userActivitiesAdapter?.addItems(activities)
-            }
+            val visibility = if(activities.isEmpty()) View.GONE else View.VISIBLE
+            findViewById<Group>(R.id.profile_current_activities).visibility = visibility
 
+            userActivitiesAdapter?.addItems(activities)
             userActivitiesSkeletonScreen?.hide()
+        }
+    }
+
+    private fun initScoreboard(){
+        viewModel.getUserScoreboard(userId)
+
+        viewModel.personalScoreboard.observe(this) { results ->
+            val visibility = if(results.isEmpty()) View.GONE else View.VISIBLE
+            findViewById<Group>(R.id.profile_personal_scoreboard).visibility = visibility
+
+            personalScoreboardAdapter?.addItems(results)
         }
     }
 

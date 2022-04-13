@@ -91,9 +91,9 @@ interface ApiClient {
     @GET("activity")
     fun getActivities(
         @Header("Authorization") token: String,
-        @Query("categoryId") categoryId: String,
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Int = 0,
+        @Query("categoryId") categoryId: String? = null,
         @Query("activityState") state: Int? = null,
         @Query("progress") progress: Int? = null,
         @Query("userId") userId: String? = null,
@@ -114,17 +114,14 @@ interface ApiClient {
         @Query("activityProgress") progress: Int
     ): Call<Void>
 
-
-    /** Challenge calls **/
-    @GET("challenge")
-    fun getChallenges(
+    /** Scoreboard Calls **/
+    @GET("scoreboard/personal")
+    fun getPersonalScoreboard(
         @Header("Authorization") token: String,
-        @Query("limit") limit: Int = 20,
+        @Query("limit") limit: Int = 5,
         @Query("offset") offset: Int = 0,
-        @Query("challengeType") challengeType: Int? = null,
-        @Query("progress") progress: Int? = null,
-        @Query("userId") userId: String? = null
-    ): Call<List<Challenge>>
+        @Query("userId") userId: String? = null,
+    ): Call<List<PersonalScoreboardResult>>
 
     /** Timeline calls **/
     @GET("timelinepost")
