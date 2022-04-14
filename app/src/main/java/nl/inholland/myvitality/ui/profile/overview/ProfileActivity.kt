@@ -66,6 +66,7 @@ class ProfileActivity : BaseActivity() {
 
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
     var userActivitiesSkeletonScreen: RecyclerViewSkeletonScreen? = null
+    var personalScoreboardSkeletonScreen: RecyclerViewSkeletonScreen? = null
     var userActivitiesAdapter: ActivityAdapter? = null
     var personalScoreboardAdapter: PersonalScoreboardAdapter? = null
 
@@ -172,10 +173,10 @@ class ProfileActivity : BaseActivity() {
             userId?.let { id ->
                 if(viewModel.isFollowing.value == true){
                     Dialogs.showUnfollowDialog(this, currentUser?.firstName) {
-                        viewModel.toggleUserFollow(id, false)
+                        viewModel.unfollowUser(id)
                     }
                 } else {
-                    viewModel.toggleUserFollow(id, true)
+                    viewModel.followUser(id)
                 }
             }
         } else {
@@ -206,7 +207,15 @@ class ProfileActivity : BaseActivity() {
             .frozen(true)
             .duration(2400)
             .count(10)
-            .load(R.layout.challenge_skeleton_view_item)
+            .load(R.layout.activity_skeleton_view_item)
+            .show()
+
+        personalScoreboardSkeletonScreen = Skeleton.bind(personalScoreboardRecyclerView)
+            .adapter(personalScoreboardAdapter)
+            .frozen(true)
+            .duration(2400)
+            .count(10)
+            .load(R.layout.activity_skeleton_view_item)
             .show()
     }
 
@@ -285,6 +294,7 @@ class ProfileActivity : BaseActivity() {
             findViewById<Group>(R.id.profile_personal_scoreboard).visibility = visibility
 
             personalScoreboardAdapter?.addItems(results)
+            personalScoreboardSkeletonScreen?.hide()
         }
     }
 

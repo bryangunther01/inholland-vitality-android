@@ -193,13 +193,6 @@ class ActivityDetailActivity : BaseActivity() {
                         updateActivityProgress(ActivityProgress.DONE)
                     }
                 }
-                ActivityProgress.DONE -> {
-                    startActivity(
-                        Intent(this@ActivityDetailActivity, ActivityOverviewActivity::class.java)
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            .putExtra("CATEGORY_ID", currentActivity?.category?.categoryId))
-                    finish()
-                }
                 else -> {}
             }
         }
@@ -241,16 +234,25 @@ class ActivityDetailActivity : BaseActivity() {
             }
 
             // Set the date
-            if (DateUtils.isInPast(activity.startDate)) {
-                date.text = getString(
-                    R.string.activity_end_date_text,
-                    DateUtils.formatDate(activity.endDate, "dd MMMM yyyy HH:mm")
-                )
-            } else {
-                date.text = getString(
-                    R.string.activity_start_date_text,
-                    DateUtils.formatDate(activity.startDate, "dd MMMM yyyy HH:mm")
-                )
+            when {
+                DateUtils.isInPast(activity.endDate) -> {
+                    date.text = getString(
+                        R.string.activity_ended_text,
+                        DateUtils.formatDate(activity.endDate, "dd MMMM yyyy")
+                    )
+                }
+                DateUtils.isInPast(activity.startDate) -> {
+                    date.text = getString(
+                        R.string.activity_end_date_text,
+                        DateUtils.formatDate(activity.endDate, "dd MMMM yyyy HH:mm")
+                    )
+                }
+                else -> {
+                    date.text = getString(
+                        R.string.activity_start_date_text,
+                        DateUtils.formatDate(activity.startDate, "dd MMMM yyyy HH:mm")
+                    )
+                }
             }
 
             // Set the title of the activity

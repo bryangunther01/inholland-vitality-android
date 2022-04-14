@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.base.BaseRecyclerAdapter
 
 class AdvantageAdapter(context: Context) :
     BaseRecyclerAdapter<String, AdvantageAdapter.ViewHolder>(context) {

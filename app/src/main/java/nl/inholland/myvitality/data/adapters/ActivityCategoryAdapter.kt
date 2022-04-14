@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.base.BaseRecyclerAdapter
 import nl.inholland.myvitality.data.entities.ActivityCategory
 import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity

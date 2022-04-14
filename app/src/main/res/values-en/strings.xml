@@ -8,6 +8,7 @@
     <string name="api_error_image">Could not upload image</string>
     <string name="content_desc_vitality_logo">Vitality Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
+    <string name="cancel_text">Cancel</string>
 
     <string name="activity_type_exercise">Exercise</string>
     <string name="activity_type_diet">Diet</string>
@@ -134,6 +135,7 @@
     <string name="activity_points_message_2">points with this activity</string>
     <string name="activity_start_date_text">Starts %1$s</string>
     <string name="activity_end_date_text">Ends %1$s</string>
+    <string name="activity_ended_text">Ended on %1$s</string>
     <string name="activity_participating_text">%01d colleague(s) are already participating</string>
     <string name="activity_starting_soon">Starting soon</string>
     <string name="activity_recommended_activity_text">Recommended activities</string>

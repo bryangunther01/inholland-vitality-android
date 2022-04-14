@@ -117,7 +117,6 @@
             android:id="@+id/profile_current_activities"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:constraint_referenced_ids="profile_current_activities_title, profile_current_activities_recyclerview"/>
 
         <TextView
@@ -154,7 +153,6 @@
             android:id="@+id/profile_personal_scoreboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             app:constraint_referenced_ids="profile_personal_scoreboard_title, profile_personal_scoreboard_recyclerview"/>
 
         <TextView

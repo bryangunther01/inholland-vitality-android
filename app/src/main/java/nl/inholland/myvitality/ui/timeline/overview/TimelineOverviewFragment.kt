@@ -81,11 +81,10 @@ class TimelineOverviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initResponseHandler()
-
         setupRecyclerViews()
         setupSkeleton()
 
+        initResponseHandler()
         initUser()
     }
 
@@ -187,7 +186,7 @@ class TimelineOverviewFragment : BaseFragment() {
         if(view == null) return
 
         viewModel.getLoggedInUser()
-        viewModel.currentUser.observe(viewLifecycleOwner, { user ->
+        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             initTimelinePosts()
 
             // Set greeting message
@@ -199,15 +198,15 @@ class TimelineOverviewFragment : BaseFragment() {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(profileImage)
             }
-        })
+        }
     }
 
     private fun initTimelinePosts() {
         if(view == null) return
 
         tryLoadTimelinePosts()
-        viewModel.posts.observe(viewLifecycleOwner, {
-            if(page == 0 && it.isEmpty()){
+        viewModel.posts.observe(viewLifecycleOwner) {
+            if (page == 0 && it.isEmpty()) {
                 timelineEmptyIcon.visibility = View.VISIBLE
                 timelineEmptyText.visibility = View.VISIBLE
                 recyclerView.visibility = View.INVISIBLE
@@ -224,7 +223,7 @@ class TimelineOverviewFragment : BaseFragment() {
 
             refreshLayout.isRefreshing = false
             isCalling = false
-        })
+        }
     }
 
     private fun tryLoadTimelinePosts(refresh: Boolean = false) {
@@ -238,15 +237,16 @@ class TimelineOverviewFragment : BaseFragment() {
     private fun initResponseHandler() {
         if(view == null) return
 
-        viewModel.apiResponse.observe(viewLifecycleOwner, { response ->
+        viewModel.apiResponse.observe(viewLifecycleOwner) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     requireContext(),
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                }
             }
-        })
+        }
     }
 }

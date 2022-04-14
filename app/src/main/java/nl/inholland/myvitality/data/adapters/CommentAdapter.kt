@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.base.BaseRecyclerAdapter
 import nl.inholland.myvitality.data.entities.Comment
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.util.DateUtils
@@ -29,7 +30,9 @@ class CommentAdapter(context: Context) :
 
         Glide.with(context)
             .load(currentItem.imageUrl)
+            .placeholder(R.drawable.person_placeholder)
             .into(holder.profileImage)
+
         holder.userName.text = currentItem.fullName
         holder.postDate.text = DateUtils.formatDateToTimeAgo(currentItem.timestamp)
         holder.content.text = currentItem.text
