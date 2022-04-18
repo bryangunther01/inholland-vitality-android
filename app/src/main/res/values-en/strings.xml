@@ -37,6 +37,8 @@
     <string name="tutorial_description_mind">Have you found a way to clear your mind? Rest brings many benefits!</string>
     <string name="tutorial_description_diet">Become aware of your nutrition through nutrition-oriented activities.</string>
     <string name="tutorial_description_exercise">Nothing is more important than every now and then stretching the legs during long working days, are you doing this enough already?</string>
+    <string name="tutorial_description_community">Choose your community and take part in various activities with your colleagues!</string>
+    <string name="tutorial_description_timeline">Share your achievements with colleagues on the timeline or challenge each other to train together for upcoming activities.</string>
 
     <string name="tutorial_last_title">Are you as excited as we are?</string>
     <string name="tutorial_last_subtitle">Login now and get access to the benefits below!</string>
@@ -140,6 +142,7 @@
     <string name="activity_starting_soon">Starting soon</string>
     <string name="activity_recommended_activity_text">Recommended activities</string>
     <string name="activity_open_url_button">Open Link</string>
+    <string name="activity_location_text"><![CDATA[<b>Location:</b>]]> %1$s</string>
     <string name="dialog_activity_title">Stop the activity</string>
     <string name="dialog_activity_body">You are about to quit this activity, are you sure?</string>
     <string name="dialog_activity_button_confirm_text">I\'m sure</string>

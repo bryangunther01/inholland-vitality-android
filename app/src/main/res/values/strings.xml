@@ -37,6 +37,8 @@
     <string name="tutorial_description_mind">Heb jij al een manier gevonden om je hoofd leeg te maken? Rust brengt namelijk een hoop voordelen met zich mee!</string>
     <string name="tutorial_description_diet">Wordt bewuster van je voeding doormiddel van voedingsgerichte activiteiten.</string>
     <string name="tutorial_description_exercise">Niets is belangrijker dan af en toe de benen strekken tijdens lange werkdagen, doe jij dit al genoeg?</string>
+    <string name="tutorial_description_community">Kies jouw community en neem samen met jouw collega’s deel aan de leukste activiteiten!</string>
+    <string name="tutorial_description_timeline">Deel jouw prestaties met collega’s op de tijdlijn of daag elkaar uit om samen te trainen voor komende activiteiten.</string>
 
     <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
     <string name="tutorial_last_subtitle">Log nu in en krijg toegang tot de onderstaande voordelen!</string>
@@ -141,6 +143,7 @@
     <string name="activity_starting_soon">Start binnenkort</string>
     <string name="activity_recommended_activity_text">Voorgestelde activiteiten</string>
     <string name="activity_open_url_button">Open Link</string>
+    <string name="activity_location_text"><![CDATA[<b>Locatie:</b>]]> %1$s</string>
     <string name="dialog_activity_title">Stop de activiteit</string>
     <string name="dialog_activity_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
     <string name="dialog_activity_button_confirm_text">Ik weet het zeker</string>

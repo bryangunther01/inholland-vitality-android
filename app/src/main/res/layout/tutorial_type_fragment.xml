@@ -5,25 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/primary">
 
-    <TextView
-        android:id="@+id/tutorial_challenge_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/avenir_lt_pro_black"
-        android:textSize="30sp"
-        android:textAllCaps="true"
-        android:textColor="@color/secondary"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/tutorial_image"
-        app:layout_constraintStart_toStartOf="@id/guideline_left"
-        app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
-
     <ImageView
-        android:id="@+id/tutorial_image"
-        android:layout_width="225dp"
-        android:layout_height="225dp"
+        android:id="@+id/tutorial_detail_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@drawable/mind_icon"
-        android:layout_margin="@dimen/margin_less_huge"
+        android:layout_margin="@dimen/margin_big"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tutorial_description"
         app:layout_constraintStart_toStartOf="@id/guideline_left"

@@ -31,6 +31,7 @@ import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
+import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 import nl.inholland.myvitality.util.TextViewUtils
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -51,6 +52,8 @@ class ActivityDetailActivity : BaseActivity() {
     lateinit var points: TextView
     @BindView(R.id.activity_description)
     lateinit var description: TextView
+    @BindView(R.id.activity_location)
+    lateinit var location: TextView
     @BindView(R.id.activity_video_container)
     lateinit var videoContainer: FrameLayout
     @BindView(R.id.activity_video)
@@ -285,7 +288,9 @@ class ActivityDetailActivity : BaseActivity() {
                 )
             }
 
-            description.text = Html.fromHtml(activity.description, Html.FROM_HTML_MODE_LEGACY)
+            description.text = activity.description.toHtmlSpan()
+            location.text = getString(R.string.activity_location_text, activity.location).toHtmlSpan()
+
             if (activity.signUpOpen) {
                 if (activity.totalSubscribers ?: 0 >= 1) {
                     participantsCount.text = null

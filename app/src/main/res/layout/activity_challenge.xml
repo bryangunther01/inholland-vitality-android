@@ -44,9 +44,6 @@
             app:layout_constraintTop_toTopOf="@+id/back_button"
             app:layout_constraintBottom_toBottomOf="@+id/back_button"/>
 
-
-
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/activity_image"
             android:layout_width="match_parent"
@@ -123,6 +120,20 @@
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"/>
 
+
+        <TextView
+            android:id="@+id/activity_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:text="@string/activity_location_text"
+            android:layout_marginTop="@dimen/margin_tiny"
+            app:layout_constraintTop_toBottomOf="@id/activity_description"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
+
         <FrameLayout
             android:id="@+id/activity_video_container"
             android:layout_width="0dp"
@@ -131,7 +142,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/guideline_right"
             app:layout_constraintStart_toEndOf="@+id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/activity_description" >
+            app:layout_constraintTop_toBottomOf="@+id/activity_location" >
             <VideoView
                 android:id="@+id/activity_video"
                 android:layout_width="match_parent"
@@ -146,7 +157,7 @@
             android:background="@drawable/button_primary"
             android:text="@string/activity_open_url_button"
             android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintTop_toBottomOf="@id/activity_description"
+            app:layout_constraintTop_toBottomOf="@id/activity_location"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             android:visibility="gone"/>

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import nl.inholland.myvitality.R
-import nl.inholland.myvitality.data.entities.ActivityType
+import nl.inholland.myvitality.data.entities.TutorialType
 
-class TutorialTypeFragment(val type: ActivityType) : Fragment() {
+class TutorialTypeFragment(val type: TutorialType) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,22 +20,18 @@ class TutorialTypeFragment(val type: ActivityType) : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.tutorial_type_fragment, container, false)
 
-        val challengeType = view.findViewById<TextView>(R.id.tutorial_challenge_type)
+        val image = view.findViewById<ImageView>(R.id.tutorial_detail_image)
         val description = view.findViewById<TextView>(R.id.tutorial_description)
 
         // Set the challenge type
         when (type) {
-            ActivityType.EXERCISE -> {
-                challengeType.text = getString(R.string.activity_type_exercise)
-                description.text = getString(R.string.tutorial_description_exercise)
+            TutorialType.COMMUNITY -> {
+                image.setImageResource(R.drawable.activity_category_group)
+                description.text = getString(R.string.tutorial_description_community)
             }
-            ActivityType.DIET -> {
-                challengeType.text = getString(R.string.activity_type_diet)
-                description.text = getString(R.string.tutorial_description_diet)
-            }
-            ActivityType.MIND -> {
-                challengeType.text = getString(R.string.activity_type_mind)
-                description.text = getString(R.string.tutorial_description_mind)
+            TutorialType.TIMELINE -> {
+                image.setImageResource(R.drawable.timeline_group)
+                description.text = getString(R.string.tutorial_description_timeline)
             }
         }
 
