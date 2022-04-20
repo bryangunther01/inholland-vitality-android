@@ -6,17 +6,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
+import com.google.android.material.imageview.ShapeableImageView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
@@ -29,7 +31,9 @@ import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
     @BindView(R.id.activity_recyclerview)
-    lateinit var currentChallengesRecyclerView: RecyclerView
+    lateinit var recyclerView: RecyclerView
+    @BindView(R.id.home_header_profile_image)
+    lateinit var profileImage: ShapeableImageView
 
     @Inject
     lateinit var factory: HomeViewModelFactory
@@ -37,8 +41,6 @@ class HomeFragment : BaseFragment() {
 
     private var layoutManager: StaggeredGridLayoutManager? = null
     private var adapter: ActivityCategoryAdapter? = null
-
-    // TODO: Fix this in new layout
     private var skeletonScreen: RecyclerViewSkeletonScreen? = null
 
     override fun layoutResourceId(): Int {
@@ -66,9 +68,7 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerViews()
-
-        // TODO: Fix this in new layout
-//        setupSkeleton()
+        setupSkeleton()
 
         initResponseHandler()
         initUser()
@@ -79,23 +79,24 @@ class HomeFragment : BaseFragment() {
         startActivity(Intent(requireContext(), ScoreboardActivity::class.java))
     }
 
-    // TODO: Fix this in new layout
-//    private fun setupSkeleton() {
-//        skeletonScreen = Skeleton.bind(exploreChallengesRecyclerView)
-//            .adapter(expChlAdapter)
-//            .frozen(true)
-//            .duration(2400)
-//            .count(10)
-//            .load(R.layout.challenge_skeleton_view_item)
-//            .show()
-//    }
+    private fun setupSkeleton() {
+        skeletonScreen = Skeleton.bind(recyclerView)
+            .adapter(adapter)
+            .frozen(true)
+            .duration(2400)
+            .count(10)
+            .load(R.layout.activity_skeleton_view_item)
+            .show()
+
+        skeletonScreen?.hide()
+    }
 
     private fun setupRecyclerViews() {
         layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         adapter = ActivityCategoryAdapter(requireActivity())
 
-        currentChallengesRecyclerView.let {
+        recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
@@ -112,20 +113,17 @@ class HomeFragment : BaseFragment() {
             nameTextView?.text = ""
             nameTextView?.append("${user.firstName} ${user.lastName}")
 
-            // Set greeting message
-            val profileImage = view?.findViewById<ImageView>(R.id.home_header_profile_image)
-
-            profileImage?.let {
-                Glide.with(this)
-                    .load(user.profilePicture)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(profileImage)
-            }
+            Glide.with(this)
+                .load(user.profilePicture)
+                .placeholder(R.drawable.person_placeholder)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(profileImage)
 
             // Set greeting message
             val points = view?.findViewById<TextView>(R.id.home_header_points)
             points?.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
+
         }
     }
 
@@ -133,14 +131,17 @@ class HomeFragment : BaseFragment() {
         if(view == null) return
 
         adapter?.addItem(ActivityCategory("", getString(R.string.home_my_activities_text), "", "", true))
-
         viewModel.getActivityCategories()
-        viewModel.categories.observe(viewLifecycleOwner) { categories ->
-            adapter?.addItems(categories)
-        }
     }
 
     private fun initResponseHandler(){
+        viewModel.categories.observe(viewLifecycleOwner) { categories ->
+            adapter?.addItems(categories)
+
+            recyclerView.visibility = View.VISIBLE
+            skeletonScreen?.hide()
+        }
+
         if(view == null) return
 
         viewModel.apiResponse.observe(viewLifecycleOwner) { response ->

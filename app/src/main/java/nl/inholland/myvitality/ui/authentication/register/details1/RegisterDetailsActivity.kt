@@ -31,23 +31,12 @@ class RegisterDetailsActivity : BaseActivity(), Callback<Void> {
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
 
-    @BindView(R.id.register_details_error)
-    lateinit var error: TextView
-
-    @BindView(R.id.register_details_edit_text_first_name)
-    lateinit var firstName: EditText
-
-    @BindView(R.id.register_details_edit_text_last_name)
-    lateinit var lastName: EditText
-
-    @BindView(R.id.register_details_edit_text_jobtitle)
-    lateinit var jobTitle: EditText
-
-    @BindView(R.id.register_details_edit_text_location)
-    lateinit var location: EditText
-
-    @BindView(R.id.register_details_1_button)
-    lateinit var button: Button
+    @BindView(R.id.register_details_error) lateinit var error: TextView
+    @BindView(R.id.register_details_edit_text_first_name) lateinit var firstName: EditText
+    @BindView(R.id.register_details_edit_text_last_name) lateinit var lastName: EditText
+    @BindView(R.id.register_details_edit_text_jobtitle) lateinit var jobTitle: EditText
+    @BindView(R.id.register_details_edit_text_location) lateinit var location: EditText
+    @BindView(R.id.register_details_1_button) lateinit var button: Button
 
     override fun layoutResourceId(): Int {
         return R.layout.activity_register_details_1

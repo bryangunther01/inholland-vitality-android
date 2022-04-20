@@ -54,8 +54,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
     @BindView(R.id.login_error) lateinit var errorField: TextView
     @BindView(R.id.login_button) lateinit var loginButton: Button
 
-    private final val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
-    val AUTHORITY: kotlin.String? = "https://login.microsoftonline.com/common"
+    private  val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
 
     override fun layoutResourceId(): Int {

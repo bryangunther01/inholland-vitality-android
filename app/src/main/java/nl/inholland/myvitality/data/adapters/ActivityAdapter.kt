@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import jp.wasabeef.glide.transformations.BlurTransformation
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.base.BaseRecyclerAdapter
 import nl.inholland.myvitality.data.entities.Activity
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.util.DateUtils

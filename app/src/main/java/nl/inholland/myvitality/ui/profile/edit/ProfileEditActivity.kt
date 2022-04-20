@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -113,6 +114,8 @@ class ProfileEditActivity : BaseActivity() {
             selectedImage = data?.data
             filePath = selectedImage?.path
 
+            Log.d("CHOSEN IMAGE", selectedImage.toString())
+
             image.setImageURI(selectedImage)
         }
     }
@@ -137,16 +140,15 @@ class ProfileEditActivity : BaseActivity() {
 
     @OnClick(value = [R.id.profile_edit_image, R.id.profile_edit_image_modify])
     fun onClickImage(){
-        val photoPickerIntent = Intent(Intent.ACTION_PICK)
-        photoPickerIntent.type = "image/*"
+        val photoPickerIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(photoPickerIntent, PICK_IMAGE)
     }
 
     @OnClick(R.id.profile_delete_button)
     fun onClickProfileDelete() {
-        Dialogs.showAccountDeletionDialog(this, View.OnClickListener {
+        Dialogs.showAccountDeletionDialog(this) {
             viewModel.deleteAccount()
-        })
+        }
 
         // sign out of Azure AD after deleting account
         mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
@@ -197,11 +199,15 @@ class ProfileEditActivity : BaseActivity() {
     private fun initUser() {
         viewModel.getLoggedInUser()
         viewModel.currentUser.observe(this) { user ->
-            Glide.with(this)
-                .load(user.profilePicture)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(image)
+            user.profilePicture?.let {
+                Glide.with(this)
+                    .load(user.profilePicture)
+                    .placeholder(R.drawable.person_placeholder)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(image)
+            }
+
             firstName.setText(user.firstName)
             lastName.setText(user.lastName)
             jobTitle.setText(user.jobTitle)

@@ -5,16 +5,11 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
-import android.provider.CalendarContract
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.TextView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 
 object Dialogs  {
 
@@ -80,29 +75,17 @@ object Dialogs  {
     }
 
     fun showCalendarEventDialog(activity: Activity, onClickListener: View.OnClickListener) {
-        val dialog = setupSimpleDialog(activity)
+        val dialog = setupSimpleDialog(activity, withCancelButton = true)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
         val body = dialog.findViewById<TextView>(R.id.dialog_body)
         val buttonConfirm = dialog.findViewById<TextView>(R.id.dialog_button)
-        val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
-
-        buttonCancel.visibility = View.VISIBLE
-        buttonCancel.setBackgroundResource(R.drawable.button_secondary)
-        buttonCancel.stateListAnimator = null
-        buttonCancel.setTextColor(activity.getColor(R.color.primary))
 
         title.text = activity.getString(R.string.dialog_activity_calendar_title)
         body.text = activity.getString(R.string.dialog_activity_calendar_body)
         buttonConfirm.text = activity.getString(R.string.dialog_activity_calendar_button_confirm)
-        buttonCancel.text = activity.getString(R.string.dialog_activity_calendar_button_cancel)
-
 
         buttonConfirm.setOnClickListener(onClickListener)
-
-        buttonCancel.setOnClickListener {
-            dialog.dismiss()
-        }
 
         dialog.show()
     }
@@ -130,40 +113,27 @@ object Dialogs  {
     }
 
     fun showCancelChallengeDialog(activity: Activity, onClickListener: View.OnClickListener) {
-        val dialog = setupSimpleDialog(activity)
+        val dialog = setupSimpleDialog(activity, withCancelButton = true)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
         val body = dialog.findViewById<TextView>(R.id.dialog_body)
         val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
-        val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
-
-        buttonBack.visibility = View.VISIBLE
-        buttonBack.setBackgroundResource(R.drawable.button_secondary)
-        buttonBack.stateListAnimator = null
-        buttonBack.setTextColor(activity.getColor(R.color.primary))
 
         title.text = activity.getString(R.string.dialog_activity_title)
         body.text = activity.getString(R.string.dialog_activity_body)
         buttonContinue.text = activity.getString(R.string.dialog_activity_button_confirm_text)
-        buttonBack.text = activity.getString(R.string.dialog_activity_button_cancel_text)
 
         buttonContinue.setOnClickListener(onClickListener)
-        buttonBack.setOnClickListener {
-            dialog.dismiss()
-        }
 
         dialog.show()
     }
 
     fun showUnfollowDialog(activity: Activity, name: String?, onClickListener: View.OnClickListener) {
-        val dialog = setupSimpleDialog(activity)
+        val dialog = setupSimpleDialog(activity, withCancelButton = true)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
         val body = dialog.findViewById<TextView>(R.id.dialog_body)
         val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
-        val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
-
-        buttonBack.visibility = View.VISIBLE
 
         if(name == null){
             title.text = activity.getString(R.string.profile_dialog_title_2)
@@ -173,49 +143,48 @@ object Dialogs  {
 
         body.text = activity.getString(R.string.profile_dialog_body)
         buttonContinue.text = activity.getString(R.string.profile_dialog_button_confirm_text)
-        buttonBack.text = activity.getString(R.string.profile_dialog_button_cancel_text)
 
         buttonContinue.setOnClickListener(onClickListener)
-        buttonBack.setOnClickListener {
-            dialog.dismiss()
-        }
 
         dialog.show()
     }
 
     fun showDeletePostDialog(activity: Activity, onClickListener: View.OnClickListener) {
-        val dialog = setupSimpleDialog(activity)
+        val dialog = setupSimpleDialog(activity, withCancelButton = true)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
         val body = dialog.findViewById<TextView>(R.id.dialog_body)
         val buttonContinue = dialog.findViewById<TextView>(R.id.dialog_button)
-        val buttonBack = dialog.findViewById<TextView>(R.id.dialog_button_2)
-
-        buttonBack.visibility = View.VISIBLE
-        buttonBack.setBackgroundResource(R.drawable.button_secondary)
-        buttonBack.stateListAnimator = null
-        buttonBack.setTextColor(activity.getColor(R.color.primary))
-
 
         title.text = activity.getString(R.string.post_dialog_title)
         body.text = activity.getString(R.string.post_dialog_body)
         buttonContinue.text = activity.getString(R.string.post_dialog_button_confirm_text)
-        buttonBack.text = activity.getString(R.string.post_dialog_button_cancel_text)
 
         buttonContinue.setOnClickListener(onClickListener)
-        buttonBack.setOnClickListener {
-            dialog.dismiss()
-        }
 
         dialog.show()
     }
 
-    private fun setupSimpleDialog(activity: Activity): Dialog{
+    private fun setupSimpleDialog(activity: Activity, withCancelButton: Boolean? = false): Dialog{
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.simple_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        if(withCancelButton == true){
+            val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+            buttonCancel.visibility = View.VISIBLE
+            buttonCancel.setBackgroundResource(R.drawable.button_secondary)
+            buttonCancel.stateListAnimator = null
+            buttonCancel.setTextColor(activity.getColor(R.color.primary))
+            buttonCancel.text = activity.getString(R.string.cancel_text)
+
+            buttonCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
 
         currentDialog = dialog
         return dialog

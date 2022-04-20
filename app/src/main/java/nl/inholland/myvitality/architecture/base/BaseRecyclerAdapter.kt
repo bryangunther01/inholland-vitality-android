@@ -1,4 +1,4 @@
-package nl.inholland.myvitality.data.adapters
+package nl.inholland.myvitality.architecture.base
 
 import android.content.Context
 import android.view.View

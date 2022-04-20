@@ -15,6 +15,7 @@ import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragmentActivity
 import nl.inholland.myvitality.data.adapters.TutorialViewPagerAdapter
 import nl.inholland.myvitality.data.entities.ActivityType
+import nl.inholland.myvitality.data.entities.TutorialType
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
 import javax.inject.Inject
@@ -50,9 +51,8 @@ class TutorialActivity : BaseFragmentActivity() {
         (application as VitalityApplication).appComponent.inject(this)
         val adapter = TutorialViewPagerAdapter(this,
             listOf(TutorialStartFragment(),
-                TutorialTypeFragment(ActivityType.MIND),
-                TutorialTypeFragment(ActivityType.DIET),
-                TutorialTypeFragment(ActivityType.EXERCISE),
+                TutorialTypeFragment(TutorialType.COMMUNITY),
+                TutorialTypeFragment(TutorialType.TIMELINE),
                 TutorialEndFragment(),
             ))
 

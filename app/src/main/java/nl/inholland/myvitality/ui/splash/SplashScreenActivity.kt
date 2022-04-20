@@ -52,20 +52,20 @@ class SplashScreenActivity : BaseActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             // Start your app main activity
-            var intent = Intent(this, LoginActivity::class.java)
+            var intent = Intent(this, TutorialActivity::class.java)
 
-            if(sharedPrefs.isFirstAppUse) {
-                intent = Intent(this, TutorialActivity::class.java)
-            } else {
-                if(sharedPrefs.isLoggedIn()){
-                    if(sharedPrefs.recentlyRegistered){
-                        intent = Intent(this, RegisterDetailsActivity::class.java)
-                    } else {
-                        intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    }
-                }
-            }
+//            if(sharedPrefs.isFirstAppUse) {
+//                intent = Intent(this, TutorialActivity::class.java)
+//            } else {
+//                if(sharedPrefs.isLoggedIn()){
+//                    if(sharedPrefs.recentlyRegistered){
+//                        intent = Intent(this, RegisterDetailsActivity::class.java)
+//                    } else {
+//                        intent = Intent(this, MainActivity::class.java)
+//                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                    }
+//                }
+//            }
 
             startActivity(intent)
             finish()

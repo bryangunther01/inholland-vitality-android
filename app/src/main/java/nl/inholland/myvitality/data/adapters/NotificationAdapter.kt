@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.architecture.base.BaseRecyclerAdapter
 import nl.inholland.myvitality.data.entities.Notification
 import nl.inholland.myvitality.data.entities.NotificationType
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.DateUtils
+import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 
 class NotificationAdapter(context: Context) :
     BaseRecyclerAdapter<Notification, NotificationAdapter.ViewHolder>(context) {
@@ -38,7 +40,7 @@ class NotificationAdapter(context: Context) :
                 Glide.with(context)
                     .load(currentItem.profileImage)
                     .into(holder.image)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_liked, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
+                holder.title.text = context.getString(R.string.notification_liked, currentItem.fullName).toHtmlSpan()
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
@@ -55,7 +57,7 @@ class NotificationAdapter(context: Context) :
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(holder.image)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_comment, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
+                holder.title.text = context.getString(R.string.notification_comment, currentItem.fullName).toHtmlSpan()
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 
@@ -70,7 +72,7 @@ class NotificationAdapter(context: Context) :
                 Glide.with(context)
                     .load(currentItem.profileImage)
                     .into(holder.image)
-                holder.title.text = Html.fromHtml(context.getString(R.string.notification_follow, currentItem.fullName), Html.FROM_HTML_MODE_LEGACY)
+                holder.title.text = context.getString(R.string.notification_follow, currentItem.fullName).toHtmlSpan()
                 holder.subtitle.text = DateUtils.formatDateToTimeAgo(currentItem.date)
                 holder.subtitle.setTextColor(context.getColor(R.color.dark_grey))
 

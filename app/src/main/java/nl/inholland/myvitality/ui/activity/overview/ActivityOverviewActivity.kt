@@ -2,7 +2,6 @@ package nl.inholland.myvitality.ui.activity.overview
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.ViewModelProviders
@@ -37,6 +36,8 @@ class ActivityOverviewActivity : BaseActivity() {
     private var availableActivitiesAdapter: ActivityAdapter? = null
     private var upcomingActivitiesAdapter: ActivityAdapter? = null
 
+    private var categoryId: String? = null
+
     override fun layoutResourceId(): Int {
         return R.layout.activity_overview_activities
     }
@@ -50,12 +51,12 @@ class ActivityOverviewActivity : BaseActivity() {
         (application as VitalityApplication).appComponent.inject(this)
         viewModel = ViewModelProviders.of(this, factory).get(ActivityOverviewViewModel::class.java)
 
-        val categoryId = intent.getStringExtra("CATEGORY_ID")
+        categoryId = intent.getStringExtra("CATEGORY_ID")
         if(categoryId == null) finish()
 
         setupRecyclerViews()
         initResponseHandler()
-        initActivities(categoryId!!)
+        loadActivities()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -83,31 +84,33 @@ class ActivityOverviewActivity : BaseActivity() {
         }
     }
 
-    private fun initActivities(categoryId: String){
-        viewModel.getActivities(categoryId, ActivityState.USER)
+    private fun loadActivities(){
+        categoryId?.let { categoryId ->
+            viewModel.getActivities(categoryId, ActivityState.USER)
 
-        viewModel.userActivities.observe(this) {
-            userActivitiesAdapter?.addItems(it)
-            viewModel.getActivities(categoryId, ActivityState.AVAILABLE)
+            viewModel.userActivities.observe(this) {
+                userActivitiesAdapter?.addItems(it)
+                viewModel.getActivities(categoryId, ActivityState.AVAILABLE)
 
-            userActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-            findViewById<Group>(R.id.act_overview_user_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                userActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                findViewById<Group>(R.id.act_overview_user_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+0
+            }
 
-        }
+            viewModel.availableActivities.observe(this) {
+                availableActivitiesAdapter?.addItems(it)
+                viewModel.getActivities(categoryId, ActivityState.UPCOMING)
 
-        viewModel.availableActivities.observe(this) {
-            availableActivitiesAdapter?.addItems(it)
-            viewModel.getActivities(categoryId, ActivityState.UPCOMING)
+                availableActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                findViewById<Group>(R.id.act_overview_available_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+            }
 
-            availableActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-            findViewById<Group>(R.id.act_overview_available_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
-        }
+            viewModel.upcomingActivities.observe(this) {
+                upcomingActivitiesAdapter?.addItems(it)
 
-        viewModel.upcomingActivities.observe(this) {
-            upcomingActivitiesAdapter?.addItems(it)
-
-            upcomingActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-            findViewById<Group>(R.id.act_overview_upcoming_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                upcomingActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                findViewById<Group>(R.id.act_overview_upcoming_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+            }
         }
     }
 

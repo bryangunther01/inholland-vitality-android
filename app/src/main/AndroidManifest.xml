@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="nl.inholland.myvitality">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".VitalityApplication"
@@ -125,9 +126,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

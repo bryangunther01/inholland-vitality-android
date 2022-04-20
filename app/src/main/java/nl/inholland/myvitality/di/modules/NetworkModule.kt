@@ -5,6 +5,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
+import io.reactivex.schedulers.Schedulers
 import nl.inholland.myvitality.BuildConfig
 import nl.inholland.myvitality.architecture.enumadapter.EnumJsonAdapterFactory
 import nl.inholland.myvitality.data.ApiClient
@@ -13,6 +14,7 @@ import nl.inholland.myvitality.data.TokenApiClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -28,6 +30,7 @@ class NetworkModule(val context: Context) {
             .baseUrl(BASE_URL)
             .client(getHttpClient())
             .addConverterFactory(getMoshiConverter())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
             .create(ApiClient::class.java)
     }

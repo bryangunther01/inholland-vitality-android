@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.profile.overview
 
-import android.app.Person
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +10,6 @@ import nl.inholland.myvitality.data.entities.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.stream.Collectors
 
 class ProfileViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
@@ -104,15 +102,35 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
     }
 
 
-    fun toggleUserFollow(userId: String, following: Boolean){
-        // TODO: Now separate calls for this
+    fun followUser(userId: String){
         if(isFollowing.value == null) _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
 
         sharedPrefs.accessToken?.let {
-            apiClient.toggleUserFollow("Bearer $it", userId, following).enqueue(object : Callback<Void> {
+            apiClient.followUser("Bearer $it", userId).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if(response.isSuccessful){
-                        _isFollowing.value = !isFollowing.value!!
+                        _isFollowing.value = true
+                    } else if(response.code() == 401){
+                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+                    Log.e("ProfileActivity", "onFailure: ", t)
+                }
+            })
+        }
+    }
+
+    fun unfollowUser(userId: String){
+        if(isFollowing.value == null) _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
+
+        sharedPrefs.accessToken?.let {
+            apiClient.unfollowUser("Bearer $it", userId).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if(response.isSuccessful){
+                        _isFollowing.value = false
                     } else if(response.code() == 401){
                         _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }

@@ -28,7 +28,7 @@
             android:id="@+id/profile_edit_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@color/dark_grey"
+            android:background="@drawable/person_placeholder"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
@@ -189,6 +189,7 @@
             android:enabled="false"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_description"
             app:layout_constraintBottom_toTopOf="@id/profile_delete_button"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -200,7 +201,7 @@
             android:text="@string/profile_edit_delete"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_top"

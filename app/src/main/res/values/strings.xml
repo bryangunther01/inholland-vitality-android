@@ -8,6 +8,7 @@
     <string name="api_error_image">Kan afbeelding niet uploaden</string>
     <string name="content_desc_vitality_logo">Vitaliteits Logo</string>
     <string name="content_desc_inholland_logo">InHolland Logo</string>
+    <string name="cancel_text">Annuleren</string>
 
     <string name="activity_type_exercise">Bewegen</string>
     <string name="activity_type_diet">Voeding</string>
@@ -30,12 +31,14 @@
     <!-- Tutorial Strings -->
     <string name="tutorial_skip">Overslaan</string>
     <string name="tutorial_continue">Ga verder</string>
-    <string name="tutorial_first_title">Welkom bij het vitaliteitsprogramma, voor docenten van Inholland!</string>
+    <string name="tutorial_first_title">Welkom bij het vitaliteitsprogramma, voor medewerkers van Inholland!</string>
     <string name="tutorial_first_description">Samen vechten we voor vitaliteit, doe jij met ons mee? Alleen zo wordt jij de beste versie van jezelf!</string>
 
     <string name="tutorial_description_mind">Heb jij al een manier gevonden om je hoofd leeg te maken? Rust brengt namelijk een hoop voordelen met zich mee!</string>
     <string name="tutorial_description_diet">Wordt bewuster van je voeding doormiddel van voedingsgerichte activiteiten.</string>
     <string name="tutorial_description_exercise">Niets is belangrijker dan af en toe de benen strekken tijdens lange werkdagen, doe jij dit al genoeg?</string>
+    <string name="tutorial_description_community">Kies jouw community en neem samen met jouw collega’s deel aan de leukste activiteiten!</string>
+    <string name="tutorial_description_timeline">Deel jouw prestaties met collega’s op de tijdlijn of daag elkaar uit om samen te trainen voor komende activiteiten.</string>
 
     <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
     <string name="tutorial_last_subtitle">Log nu in en krijg toegang tot de onderstaande voordelen!</string>
@@ -135,10 +138,12 @@
     <string name="activity_points_message_2">punten met deze activiteit</string>
     <string name="activity_start_date_text">Start %1$s</string>
     <string name="activity_end_date_text">Eindigt %1$s</string>
+    <string name="activity_ended_text">Geëindigd op %1$s</string>
     <string name="activity_participating_text">%01d collega(\'s) doen al mee</string>
     <string name="activity_starting_soon">Start binnenkort</string>
     <string name="activity_recommended_activity_text">Voorgestelde activiteiten</string>
     <string name="activity_open_url_button">Open Link</string>
+    <string name="activity_location_text"><![CDATA[<b>Locatie:</b>]]> %1$s</string>
     <string name="dialog_activity_title">Stop de activiteit</string>
     <string name="dialog_activity_body">Je staat op het punt om te stoppen met deze activiteit, weet je dat zeker?</string>
     <string name="dialog_activity_button_confirm_text">Ik weet het zeker</string>

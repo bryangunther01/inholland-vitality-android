@@ -51,18 +51,16 @@ interface ApiClient {
     ): Call<Void>
 
     @POST("user/follow")
-    fun toggleUserFollow(
+    fun followUser(
         @Header("Authorization") token: String,
         @Query("userId") userId: String,
-        @Query("following") following: Boolean,
     ): Call<Void>
 
-    @GET("scoreboard")
-    fun getScoreboard(
+    @DELETE("user/follow")
+    fun unfollowUser(
         @Header("Authorization") token: String,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
-    ): Call<List<ScoreboardUser>>
+        @Query("userId") userId: String,
+    ): Call<Void>
 
     @DELETE("user")
     fun deleteUser(
@@ -122,6 +120,13 @@ interface ApiClient {
         @Query("offset") offset: Int = 0,
         @Query("userId") userId: String? = null,
     ): Call<List<PersonalScoreboardResult>>
+
+    @GET("scoreboard")
+    fun getScoreboard(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int,
+    ): Call<List<ScoreboardUser>>
 
     /** Timeline calls **/
     @GET("timelinepost")
