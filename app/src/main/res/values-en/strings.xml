@@ -211,6 +211,9 @@
     <string name="profile_delete_dialog_body">You are about to delete your account permanently. We delete all your data, this cannot be reversed.</string>
     <string name="profile_delete_dialog_confirm">Delete account</string>
     <string name="profile_delete_dialog_cancel">Cancel</string>
+    <string name="hint_interests">Interests (optional)</string>
+    <string name="profile_edit_interest_title">Choose interests</string>
+    <string name="profile_edit_interest_button">Done</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> liked your post</string>

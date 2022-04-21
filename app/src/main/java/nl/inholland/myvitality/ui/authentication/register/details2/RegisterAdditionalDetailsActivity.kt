@@ -8,7 +8,6 @@ import android.widget.*
 import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -17,6 +16,7 @@ import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
 import nl.inholland.myvitality.util.RequestUtils
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
