@@ -21,8 +21,6 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule(val context: Context) {
-    private val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
-
     @Provides
     @Singleton
     fun provideApiService(): ApiClient{
@@ -75,5 +73,9 @@ class NetworkModule(val context: Context) {
                 .add(KotlinJsonAdapterFactory())
                 .add(EnumJsonAdapterFactory)
                 .build())
+    }
+
+    companion object {
+        private const val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
     }
 }
