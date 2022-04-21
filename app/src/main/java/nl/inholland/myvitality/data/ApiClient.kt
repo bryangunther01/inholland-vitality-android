@@ -1,6 +1,7 @@
 package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
 import nl.inholland.myvitality.data.entities.requestbody.RegisterRequest
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import okhttp3.MultipartBody
@@ -17,6 +18,7 @@ interface ApiClient {
     ): Call<Void>
 
     /** User calls **/
+
     @GET("user")
     fun getUser(
         @Header("Authorization") token: String,
@@ -45,7 +47,6 @@ interface ApiClient {
         @Part("jobTitle") jobTitle: RequestBody? = null,
         @Part("location") location: RequestBody? = null,
         @Part("description") description: RequestBody? = null,
-        @Part("interests") interest: RequestBody? = null,
         @Part file: MultipartBody.Part? = null
     ): Call<Void>
 
@@ -126,14 +127,6 @@ interface ApiClient {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Call<List<ScoreboardUser>>
-
-    /** Interest calls **/
-    @GET("interest")
-    fun getInterests(
-        @Header("Authorization") token: String,
-        @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0,
-    ): Call<List<Interest>>
 
     /** Timeline calls **/
     @GET("timelinepost")

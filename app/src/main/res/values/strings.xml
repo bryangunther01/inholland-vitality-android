@@ -210,10 +210,6 @@
     <string name="profile_delete_dialog_body">Je staat op het punt om jouw account permanent te verwijderen. Wij verwijderen al jouw gegevens, dit kan niet terug gedraaid worden.</string>
     <string name="profile_delete_dialog_confirm">Ik weet het zeker</string>
     <string name="profile_delete_dialog_cancel">Annuleer</string>
-    <string name="hint_interests">Interesses (optioneel)</string>
-    <string name="profile_edit_interest_title">Kies jouw interesses</string>
-    <string name="profile_edit_interest_button">Klaar</string>
-
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>

@@ -3,8 +3,8 @@ package nl.inholland.myvitality.di.modules
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.util.SharedPreferenceHelper
+import nl.inholland.myvitality.VitalityApplication
 import javax.inject.Singleton
 
 @Module

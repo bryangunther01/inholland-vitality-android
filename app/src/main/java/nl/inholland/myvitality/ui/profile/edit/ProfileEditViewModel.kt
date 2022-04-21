@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.ApiResponse
-import nl.inholland.myvitality.data.entities.Interest
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.util.RequestUtils
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,21 +22,14 @@ class ProfileEditViewModel constructor(
     private val sharedPrefs: SharedPreferenceHelper
 ) : ViewModel() {
 
-    val currentUser: MutableLiveData<User> by lazy {
-        MutableLiveData<User>()
-    }
+    private val _currentUser = MutableLiveData<User>()
+    private val _response = MutableLiveData<ApiResponse>()
 
-    val interests: MutableLiveData<List<Interest>> by lazy {
-        MutableLiveData<List<Interest>>()
-    }
+    val currentUser: LiveData<User>
+        get() = _currentUser
 
-    val selectedInterests: MutableLiveData<List<Interest>> by lazy {
-        MutableLiveData<List<Interest>>()
-    }
-
-    val apiResponse: MutableLiveData<ApiResponse> by lazy {
-        MutableLiveData<ApiResponse>()
-    }
+    val apiResponse: LiveData<ApiResponse>
+        get() = _response
 
     fun getLoggedInUser() {
         sharedPrefs.accessToken?.let {
@@ -45,18 +37,16 @@ class ProfileEditViewModel constructor(
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { user ->
-                            selectedInterests.value = user.interests
-                            currentUser.value = user
-
+                            _currentUser.value = user
                             sharedPrefs.currentUserId = user.userId
                         }
                     } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileEditActivity", "onFailure: ", t)
                 }
             })
@@ -80,15 +70,15 @@ class ProfileEditViewModel constructor(
             apiClient.deleteUser("Bearer $it").enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        apiResponse.value = ApiResponse(ResponseStatus.DELETED)
+                        _response.value = ApiResponse(ResponseStatus.DELETED)
                         sharedPrefs.logoutUser()
                     } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileEditActivity", "onFailure: ", t)
                 }
             })
@@ -101,59 +91,31 @@ class ProfileEditViewModel constructor(
         jobTitle: String,
         location: String,
         description: String,
-        interests: String? = null,
         filePart: MultipartBody.Part? = null
     ) {
         sharedPrefs.accessToken?.let {
             apiClient.updateUserProfile(
                 "Bearer $it",
-                RequestUtils.createPartFromOptionalString(firstName),
-                RequestUtils.createPartFromOptionalString(lastName),
-                RequestUtils.createPartFromOptionalString(jobTitle),
-                RequestUtils.createPartFromOptionalString(location),
-                RequestUtils.createPartFromOptionalString(description),
-                RequestUtils.createPartFromOptionalString(interests),
+                RequestUtils.createPartFromString(firstName),
+                RequestUtils.createPartFromString(lastName),
+                RequestUtils.createPartFromString(jobTitle),
+                RequestUtils.createPartFromString(location),
+                RequestUtils.createPartFromString(description),
                 filePart
             ).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                        _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
                     } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileEditActivity", "onFailure: ", t)
                 }
             })
         }
-    }
-
-    fun getInterests() {
-        sharedPrefs.accessToken?.let {
-            apiClient.getInterests("Bearer $it").enqueue(object : Callback<List<Interest>> {
-                override fun onResponse(call: Call<List<Interest>>, response: Response<List<Interest>>) {
-                    if (response.isSuccessful && response.body() != null) {
-                        response.body()?.let { it ->
-                            interests.value = it
-                        }
-                    } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Interest>>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
-                    Log.e("ProfileEditActivity", "onFailure: ", t)
-                }
-            })
-        }
-    }
-
-    fun setSelectedInterests(interestIds: List<String>){
-        val selectedInterestIds = interests.value?.filter { interestIds.contains(it.interestId) }
-        selectedInterests.value = selectedInterestIds
     }
 }
