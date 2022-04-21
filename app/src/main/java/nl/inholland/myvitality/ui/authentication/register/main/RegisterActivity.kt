@@ -12,14 +12,13 @@ import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.gunther.bryan.newsreader.utils.FieldValidationUtil
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback

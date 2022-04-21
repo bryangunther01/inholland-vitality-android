@@ -1,8 +1,10 @@
 package nl.inholland.myvitality.architecture.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
+import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 
 

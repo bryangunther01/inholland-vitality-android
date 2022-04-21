@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -27,7 +26,6 @@ import nl.inholland.myvitality.data.entities.Activity
 import nl.inholland.myvitality.data.entities.ActivityProgress
 import nl.inholland.myvitality.data.entities.ActivityType
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
@@ -35,7 +33,6 @@ import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 import nl.inholland.myvitality.util.TextViewUtils
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 import javax.inject.Inject
 
 class ActivityDetailActivity : BaseActivity() {

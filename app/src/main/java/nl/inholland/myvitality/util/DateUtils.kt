@@ -1,16 +1,7 @@
 package nl.inholland.myvitality.util
 
-import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.text.format.DateUtils
-import android.util.Log
-import android.widget.Toast
-import nl.inholland.myvitality.R
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
 import java.util.*
 
 object DateUtils {

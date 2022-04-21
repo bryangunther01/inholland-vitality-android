@@ -12,7 +12,6 @@ import butterknife.OnClick
 import butterknife.OnTextChanged
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
@@ -23,6 +22,7 @@ import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
