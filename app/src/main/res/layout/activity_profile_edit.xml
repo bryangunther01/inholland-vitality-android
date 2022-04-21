@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/profile_image_title"
+            android:id="@+id/profile_edit_profile_image_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/profile_edit_profile_image_title"
@@ -25,18 +25,18 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profilePicture"
+            android:id="@+id/profile_edit_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/person_placeholder"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/profile_image_title"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_profile_image_title"
             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
         <TextView
-            android:id="@+id/modify"
+            android:id="@+id/profile_edit_image_modify"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/profile_edit_modify"
@@ -45,7 +45,7 @@
             android:fontFamily="@font/avenir_lt_pro_book"
             android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_tiny"
-            app:layout_constraintTop_toBottomOf="@id/profilePicture"
+            app:layout_constraintTop_toBottomOf="@id/profile_edit_image"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_small_medium"
-            app:constraint_referenced_ids="modify, profilePicture, profile_image_title" />
+            app:constraint_referenced_ids="profile_edit_image_modify, profile_edit_image, profile_edit_profile_image_title" />
 
         <View
             android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             app:layout_constraintTop_toTopOf="@+id/profile_edit_header_image_barrier" />
 
         <TextView
-            android:id="@+id/personal_details_title"
+            android:id="@+id/profile_edit_personal_details_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/profile_edit_personal_details_title"
@@ -77,7 +77,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
         <EditText
-            android:id="@+id/firstName"
+            android:id="@+id/profile_edit_text_first_name"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -87,12 +87,12 @@
             android:minHeight="48dp"
             android:inputType="textPersonName|textCapSentences"
             android:layout_marginTop="@dimen/margin_small_medium"
-            app:layout_constraintTop_toBottomOf="@+id/personal_details_title"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_personal_details_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintEnd_toStartOf="@id/guideline_right" />
 
         <EditText
-            android:id="@+id/lastName"
+            android:id="@+id/profile_edit_text_last_name"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -102,12 +102,12 @@
             android:inputType="textPersonName|textCapSentences"
             android:minHeight="48dp"
             android:layout_marginTop="@dimen/margin_small_medium"
-            app:layout_constraintTop_toBottomOf="@+id/firstName"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_first_name"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
 
         <EditText
-            android:id="@+id/jobTitle"
+            android:id="@+id/profile_edit_text_jobtitle"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -117,12 +117,12 @@
             android:inputType="textCapWords"
             android:minHeight="48dp"
             android:layout_marginTop="@dimen/margin_small_medium"
-            app:layout_constraintTop_toBottomOf="@+id/lastName"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_last_name"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
 
         <EditText
-            android:id="@+id/location"
+            android:id="@+id/profile_edit_text_location"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -132,22 +132,7 @@
             android:inputType="textCapSentences"
             android:minHeight="48dp"
             android:layout_marginTop="@dimen/margin_small_medium"
-            app:layout_constraintTop_toBottomOf="@+id/jobTitle"
-            app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
-
-        <EditText
-            android:id="@+id/interests"
-            style="@style/EditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium_big"
-            android:drawableStart="@drawable/ic_interests"
-            android:hint="@string/hint_interests"
-            android:focusable="false"
-            android:minHeight="48dp"
-            android:layout_marginTop="@dimen/margin_small_medium"
-            app:layout_constraintTop_toBottomOf="@+id/location"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_jobtitle"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"/>
 
@@ -157,7 +142,7 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_small_medium"
-            app:constraint_referenced_ids="firstName, lastName, jobTitle, location, interests" />
+            app:constraint_referenced_ids="profile_edit_text_first_name, profile_edit_text_last_name, profile_edit_text_jobtitle, profile_edit_text_location" />
 
         <View
             android:layout_width="match_parent"
@@ -166,7 +151,7 @@
             app:layout_constraintTop_toTopOf="@+id/profile_edit_personal_details_barrier" />
 
         <TextView
-            android:id="@+id/description_title"
+            android:id="@+id/profile_edit_description_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/profile_edit_description_title"
@@ -179,7 +164,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
         <EditText
-            android:id="@+id/description"
+            android:id="@+id/profile_edit_text_description"
             style="@style/EditText"
             android:layout_width="0dp"
             android:layout_height="150dp"
@@ -188,29 +173,27 @@
             android:minHeight="48dp"
             android:layout_marginTop="@dimen/margin_small_medium"
             android:maxLength="130"
-            app:layout_constraintTop_toBottomOf="@+id/description_title"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_description_title"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/profile_edit_button"
             style="@style/ButtonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/button_primary"
-            android:enabled="false"
             android:text="@string/profile_edit_save"
-            app:layout_constraintBottom_toTopOf="@id/deleteButton"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:enabled="false"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/description"
-            app:layout_constraintVertical_bias="0.514" />
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@+id/profile_edit_text_description"
+            app:layout_constraintBottom_toTopOf="@id/profile_delete_button"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/deleteButton"
+            android:id="@+id/profile_delete_button"
             style="@style/ButtonDelete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

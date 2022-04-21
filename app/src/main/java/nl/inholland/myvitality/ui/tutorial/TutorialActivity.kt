@@ -9,13 +9,15 @@ import butterknife.BindView
 import butterknife.OnClick
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragmentActivity
 import nl.inholland.myvitality.data.adapters.TutorialViewPagerAdapter
+import nl.inholland.myvitality.data.entities.ActivityType
 import nl.inholland.myvitality.data.entities.TutorialType
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.util.SharedPreferenceHelper
+import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
 import javax.inject.Inject
 
 
@@ -68,7 +70,7 @@ class TutorialActivity : BaseFragmentActivity() {
             }
         })
 
-        TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
+        TabLayoutMediator(tabLayout, viewPager) { tab, position -> }.attach()
     }
 
     override fun onBackPressed() {

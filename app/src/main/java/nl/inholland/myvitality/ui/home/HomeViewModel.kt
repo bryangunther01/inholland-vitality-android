@@ -4,29 +4,28 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.ActivityCategory
-import nl.inholland.myvitality.data.entities.ApiResponse
-import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.util.SharedPreferenceHelper
+import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.data.entities.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.stream.Collectors
 
 class HomeViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
-    val currentUser: MutableLiveData<User> by lazy {
-        MutableLiveData<User>()
-    }
+    private val _currentUser = MutableLiveData<User>()
+    private val _categories = MutableLiveData<List<ActivityCategory>>()
+    private val _responseError = MutableLiveData<ApiResponse>()
 
-    val categories: MutableLiveData<List<ActivityCategory>> by lazy {
-        MutableLiveData<List<ActivityCategory>>()
-    }
+    val currentUser: LiveData<User>
+        get() = _currentUser
 
-    val apiResponse: MutableLiveData<ApiResponse> by lazy {
-        MutableLiveData<ApiResponse>()
-    }
+    val categories: LiveData<List<ActivityCategory>>
+        get() = _categories
+
+    val apiResponse: LiveData<ApiResponse>
+        get() = _responseError
 
     fun getLoggedInUser(){
         sharedPrefs.accessToken?.let{
@@ -34,16 +33,16 @@ class HomeViewModel constructor(private val apiClient: ApiClient, private val sh
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if(response.isSuccessful && response.body() != null){
                         response.body()?.let { user ->
-                            currentUser.value = user
+                            _currentUser.value = user
                             sharedPrefs.currentUserId = user.userId
                         }
                     } else if(response.code() == 401){
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("HomeFragment", "onFailure: ", t)
                 }
             })
@@ -55,16 +54,16 @@ class HomeViewModel constructor(private val apiClient: ApiClient, private val sh
             apiClient.getActivityCategories("Bearer $it").enqueue(object : Callback<List<ActivityCategory>> {
                 override fun onResponse(call: Call<List<ActivityCategory>>, response: Response<List<ActivityCategory>>) {
                     if(response.isSuccessful && response.body() != null){
-                        response.body()?.let { foundCategories ->
-                            categories.value = foundCategories
+                        response.body()?.let { categories ->
+                            _categories.value = categories
                         }
                     } else if(response.code() == 401){
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _responseError.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<List<ActivityCategory>>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _responseError.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("HomeFragment", "onFailure: ", t)
                 }
             })

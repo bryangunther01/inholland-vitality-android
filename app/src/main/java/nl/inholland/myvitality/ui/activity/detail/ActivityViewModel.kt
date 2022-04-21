@@ -6,11 +6,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLink
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.dynamiclinks.ktx.shortLinkAsync
 import com.google.firebase.ktx.Firebase
+import io.reactivex.android.schedulers.AndroidSchedulers
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.*
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,46 +24,48 @@ class ActivityViewModel constructor(
     private val apiClient: ApiClient,
     private val sharedPrefs: SharedPreferenceHelper
 ) : ViewModel() {
-    val currentActivity: MutableLiveData<Activity> by lazy {
-        MutableLiveData<Activity>()
-    }
 
-    val activityProgress: MutableLiveData<ActivityProgress> by lazy {
-        MutableLiveData<ActivityProgress>()
-    }
+    private val _currentActivity = MutableLiveData<Activity>()
+    private val _activityProgress = MutableLiveData<ActivityProgress>()
+    private val _recommendedActivities = MutableLiveData<List<Activity>>()
+    private val _shareableLink = MutableLiveData<String>()
+    private val _response = MutableLiveData<ApiResponse>()
 
-    val recommendedActivities: MutableLiveData<List<Activity>> by lazy {
-        MutableLiveData<List<Activity>>()
-    }
+    val currentActivity: LiveData<Activity>
+        get() = _currentActivity
 
-    val shareableLink: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
+    val activityProgress: LiveData<ActivityProgress>
+        get() = _activityProgress
 
-    val apiResponse: MutableLiveData<ApiResponse> by lazy {
-        MutableLiveData<ApiResponse>()
-    }
+    val recommendedActivities: LiveData<List<Activity>>
+        get() = _recommendedActivities
+
+    val shareableLink: LiveData<String>
+        get() = _shareableLink
+
+    val apiResponse: LiveData<ApiResponse>
+        get() = _response
 
 
     fun getActivity(activityId: String) {
         sharedPrefs.accessToken?.let {
             apiClient.getActivity("Bearer $it", activityId).enqueue(object : Callback<Activity> {
                 override fun onResponse(call: Call<Activity>, response: Response<Activity>) {
-                    if (response.body() == null) apiResponse.value =
+                    if (response.body() == null) _response.value =
                         ApiResponse(ResponseStatus.NOT_FOUND)
 
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { activity ->
-                            currentActivity.value = activity
-                            activityProgress.value = activity.activityProgress
+                            _currentActivity.value = activity
+                            _activityProgress.value = activity.activityProgress
                         }
                     } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<Activity>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("HomeFragment", "onFailure: ", t)
                 }
             })
@@ -67,7 +73,7 @@ class ActivityViewModel constructor(
     }
 
     fun getRecommendedActivities() {
-        if (currentActivity.value == null) recommendedActivities.value = emptyList()
+        if (currentActivity.value == null) _recommendedActivities.value = emptyList()
 
         sharedPrefs.accessToken?.let {
             apiClient.getActivities(
@@ -85,36 +91,36 @@ class ActivityViewModel constructor(
                                 .filter { o -> o.activityId != currentActivity.value?.activityId }
                                 .collect(Collectors.toList())
 
-                            recommendedActivities.value = filtered
+                            _recommendedActivities.value = filtered
                         }
                     } else if (response.code() == 401) {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<List<Activity>>, t: Throwable) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("HomeFragment", "onFailure: ", t)
                 }
             })
         }
     }
 
-    fun updateActivityProgress(progress: ActivityProgress, activityId: String) {
+    fun updateActivityProgress(activityProgress: ActivityProgress, activityId: String) {
         sharedPrefs.accessToken?.let {
-            apiClient.updateActivityProgress("Bearer $it", activityId, progress.id)
+            apiClient.updateActivityProgress("Bearer $it", activityId, activityProgress.id)
                 .enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            activityProgress.value = progress
-                            apiResponse.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
+                            _activityProgress.value = activityProgress
+                            _response.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
                         } else if (response.code() == 401) {
-                            apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                            _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
-                        apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
                         Log.e("HomeFragment", "onFailure: ", t)
                     }
                 })
@@ -133,7 +139,7 @@ class ActivityViewModel constructor(
                     .setMinimumVersion(1)
                     .build()
             ).buildShortDynamicLink().addOnSuccessListener { result ->
-                shareableLink.value = result.shortLink.toString()
+                _shareableLink.value = result.shortLink.toString()
             }.addOnFailureListener {
                 Log.d("HomeFragment", "==> ${it.localizedMessage}", it)
             }

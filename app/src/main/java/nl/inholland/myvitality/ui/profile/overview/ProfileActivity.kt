@@ -5,13 +5,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
+import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
@@ -20,19 +26,18 @@ import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
 import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityTest
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
 import nl.inholland.myvitality.data.adapters.PersonalScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
-import nl.inholland.myvitality.databinding.ActivityProfileBinding
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,13 +45,20 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
-
-    override val bindingInflater: (LayoutInflater) -> ActivityProfileBinding
-            = ActivityProfileBinding::inflate
+class ProfileActivity : BaseActivity() {
 
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
     @Inject lateinit var apiClient: TokenApiClient
+
+    @BindView(R.id.profile_image) lateinit var profileImage: ImageView
+    @BindView(R.id.profile_fullname) lateinit var fullname: TextView
+    @BindView(R.id.profile_details) lateinit var details: TextView
+    @BindView(R.id.profile_description) lateinit var description: TextView
+    @BindView(R.id.profile_points) lateinit var points: TextView
+    @BindView(R.id.profile_button) lateinit var button: Button
+    @BindView(R.id.profile_current_activities_recyclerview) lateinit var userActivitiesRecyclerView: RecyclerView
+    @BindView(R.id.profile_personal_scoreboard_recyclerview) lateinit var personalScoreboardRecyclerView: RecyclerView
+    @BindView(R.id.profile_personal_scoreboard_title) lateinit var personalScoreboardTitle: TextView
 
     @Inject
     lateinit var factory: ProfileViewModelFactory
@@ -60,6 +72,10 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
 
     var userId: String? = null
     var currentUser: User? = null
+
+    override fun layoutResourceId(): Int {
+        return R.layout.activity_profile
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +95,6 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
             }
         }
 
-        setupButton()
         setupRecyclerViews()
         setupSkeletons()
 
@@ -87,7 +102,11 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
         initUser()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            initActivities()
+            initChallenges()
+        }, 1000)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            initScoreboard()
         }, 1000)
 
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
@@ -148,43 +167,42 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
         }
     }
 
+    @OnClick(R.id.profile_button)
+    fun onProfileButtonClicked(){
+        if(userId != null){
+            userId?.let { id ->
+                if(viewModel.isFollowing.value == true){
+                    Dialogs.showUnfollowDialog(this, currentUser?.firstName) {
+                        viewModel.unfollowUser(id)
+                    }
+                } else {
+                    viewModel.followUser(id)
+                }
+            }
+        } else {
+            startActivity(Intent(this, ProfileEditActivity::class.java))
+            finish()
+        }
+    }
+
     private fun setupRecyclerViews() {
         userActivitiesAdapter = ActivityAdapter(this)
 
-        binding.currentActivitiesRecyclerview.let {
+        userActivitiesRecyclerView.let {
             it.adapter = userActivitiesAdapter
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
         personalScoreboardAdapter = PersonalScoreboardAdapter(this)
 
-        binding.personalScoreboardRecyclerview.let {
+        personalScoreboardRecyclerView.let {
             it.adapter = personalScoreboardAdapter
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
-    private fun setupButton() {
-        binding.button.setOnClickListener {
-            if(userId != null){
-                userId?.let { id ->
-                    if(viewModel.isFollowing.value == true){
-                        Dialogs.showUnfollowDialog(this, currentUser?.firstName) {
-                            viewModel.unfollowUser(id)
-                        }
-                    } else {
-                        viewModel.followUser(id)
-                    }
-                }
-            } else {
-                startActivity(Intent(this, ProfileEditActivity::class.java))
-                finish()
-            }
-        }
-    }
-
     private fun setupSkeletons() {
-        userActivitiesSkeletonScreen = Skeleton.bind(binding.currentActivitiesRecyclerview)
+        userActivitiesSkeletonScreen = Skeleton.bind(userActivitiesRecyclerView)
             .adapter(userActivitiesAdapter)
             .frozen(true)
             .duration(2400)
@@ -192,7 +210,7 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
             .load(R.layout.activity_skeleton_view_item)
             .show()
 
-        personalScoreboardSkeletonScreen = Skeleton.bind(binding.personalScoreboardRecyclerview)
+        personalScoreboardSkeletonScreen = Skeleton.bind(personalScoreboardRecyclerView)
             .adapter(personalScoreboardAdapter)
             .frozen(true)
             .duration(2400)
@@ -211,23 +229,23 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
                 .load(user.profilePicture)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(binding.profilePicture)
+                .into(profileImage)
 
-            binding.fullName.text = null
-            binding.fullName.append("${user.firstName} ${user.lastName}")
+            fullname.text = null
+            fullname.append("${user.firstName} ${user.lastName}")
 
-            binding.details.text = null
-            binding.details.append("${user.jobTitle}, ${user.location}")
+            details.text = null
+            details.append("${user.jobTitle}, ${user.location}")
 
-            binding.description.text = user.description
+            description.text = user.description
 
-            binding.points.append(
+            points.append(
                 TextViewUtils.getColoredString(
                     user.points.toString() + " ",
                     getColor(R.color.primary)
                 )
             )
-            binding.points.append(
+            points.append(
                 TextViewUtils.getColoredString(
                     getString(R.string.profile_points),
                     getColor(R.color.black)
@@ -235,11 +253,11 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
             )
 
             if (userId.isNullOrBlank()) {
-                binding.personalScoreboardTitle.text = getString(R.string.profile_your_prize_cabinet)
-                binding.button.text = getString(R.string.profile_edit)
-                binding.button.visibility = View.VISIBLE
+                personalScoreboardTitle.text = getString(R.string.profile_your_prize_cabinet)
+                button.text = getString(R.string.profile_edit)
+                button.visibility = View.VISIBLE
             } else {
-                binding.personalScoreboardTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
+                personalScoreboardTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
             }
         }
 
@@ -247,23 +265,21 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
             Dialogs.hideCurrentDialog()
 
             if (isFollowing) {
-                binding.button.text = getString(R.string.profile_unfollow)
+                button.text = getString(R.string.profile_unfollow)
             } else {
-                binding.button.text = getString(R.string.profile_follow)
+                button.text = getString(R.string.profile_follow)
             }
 
-            binding.button.visibility = View.VISIBLE
+            button.visibility = View.VISIBLE
         }
     }
 
-    private fun initActivities(){
+    private fun initChallenges(){
         viewModel.getActivities(userId)
 
         viewModel.currentActivities.observe(this) { activities ->
-            initScoreboard()
-
             val visibility = if(activities.isEmpty()) View.GONE else View.VISIBLE
-            binding.currentActivities.visibility = visibility
+            findViewById<Group>(R.id.profile_current_activities).visibility = visibility
 
             userActivitiesAdapter?.addItems(activities)
             userActivitiesSkeletonScreen?.hide()
@@ -275,7 +291,7 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
 
         viewModel.personalScoreboard.observe(this) { results ->
             val visibility = if(results.isEmpty()) View.GONE else View.VISIBLE
-            binding.personalScoreboard.visibility = visibility
+            findViewById<Group>(R.id.profile_personal_scoreboard).visibility = visibility
 
             personalScoreboardAdapter?.addItems(results)
             personalScoreboardSkeletonScreen?.hide()

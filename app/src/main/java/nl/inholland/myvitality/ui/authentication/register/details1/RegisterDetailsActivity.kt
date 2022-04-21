@@ -10,6 +10,7 @@ import android.widget.Toast
 import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -17,7 +18,6 @@ import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.RequestUtils
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
