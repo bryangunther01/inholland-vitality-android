@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.push_notifications
 
-import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -16,7 +15,6 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
-import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call

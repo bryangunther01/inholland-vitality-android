@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.Activity
+import nl.inholland.myvitality.data.entities.ActivityState
+import nl.inholland.myvitality.data.entities.ApiResponse
+import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,23 +18,21 @@ class ActivityOverviewViewModel constructor(
     private val apiClient: ApiClient,
     private val sharedPrefs: SharedPreferenceHelper
 ) : ViewModel() {
+    val userActivities: MutableLiveData<List<Activity>> by lazy {
+        MutableLiveData<List<Activity>>()
+    }
 
-    private val _userActivities = MutableLiveData<List<Activity>>()
-    private val _availableActivities = MutableLiveData<List<Activity>>()
-    private val _upcomingActivities = MutableLiveData<List<Activity>>()
-    private val _response = MutableLiveData<ApiResponse>()
+    val availableActivities: MutableLiveData<List<Activity>> by lazy {
+        MutableLiveData<List<Activity>>()
+    }
 
-    val userActivities: LiveData<List<Activity>>
-        get() = _userActivities
+    val upcomingActivities: MutableLiveData<List<Activity>> by lazy {
+        MutableLiveData<List<Activity>>()
+    }
 
-    val availableActivities: LiveData<List<Activity>>
-        get() = _availableActivities
-
-    val upcomingActivities: LiveData<List<Activity>>
-        get() = _upcomingActivities
-
-    val apiResponse: LiveData<ApiResponse>
-        get() = _response
+    val apiResponse: MutableLiveData<ApiResponse> by lazy {
+        MutableLiveData<ApiResponse>()
+    }
 
     private val limit = 10
     private var userActivitiesOffset = 0
@@ -53,26 +54,26 @@ class ActivityOverviewViewModel constructor(
                         response.body()?.let { activities ->
                             when(activityState){
                                 ActivityState.USER -> {
-                                    _userActivities.value = activities
+                                    userActivities.value = activities
                                     userActivitiesOffset += activities.size
                                 }
                                 ActivityState.AVAILABLE -> {
-                                    _availableActivities.value = activities
+                                    availableActivities.value = activities
                                     availableActivitiesOffset += activities.size
                                 }
                                 ActivityState.UPCOMING -> {
-                                    _upcomingActivities.value = activities
+                                    upcomingActivities.value = activities
                                     upcomingActivitiesOffset += activities.size
                                 }
                             }
                         }
                     } else if(response.code() == 401){
-                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<List<Activity>>, t: Throwable) {
-                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ActivityOverviewActivity", "onFailure: ", t)
                 }
             })

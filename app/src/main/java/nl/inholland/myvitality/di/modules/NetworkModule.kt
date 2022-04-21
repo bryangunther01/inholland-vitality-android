@@ -9,8 +9,8 @@ import io.reactivex.schedulers.Schedulers
 import nl.inholland.myvitality.BuildConfig
 import nl.inholland.myvitality.architecture.enumadapter.EnumJsonAdapterFactory
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.TokenInterceptor
 import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
