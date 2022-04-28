@@ -15,7 +15,9 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
+import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -41,7 +43,7 @@ class PushService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, NotificationActivity::class.java)
+        var intent = Intent(this, NotificationActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = Random.nextInt()
 
@@ -52,7 +54,26 @@ class PushService : FirebaseMessagingService() {
         Log.d("TAG", message.data.toString())
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val activity = message.data["activity"]
+        val activityData = message.data["activityValue"]
+
+        when(activity){
+            "ACTIVITY_PROFILE" -> {
+                intent = Intent(this, ProfileActivity::class.java)
+                    .putExtra("USER_ID", activityData)
+            }
+            "ACTIVITY_TIMELINEPOST" -> {
+                intent = Intent(this, ProfileActivity::class.java)
+                    .putExtra("POST_ID", activityData)
+            }
+            "ACTIVITY_ACTIVITY" -> {
+                intent = Intent(this, ActivityDetailActivity::class.java)
+                    .putExtra("ACTIVITY_ID", activityData)
+            }
+        }
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["text"])
