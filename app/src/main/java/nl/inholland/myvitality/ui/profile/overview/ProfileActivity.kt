@@ -33,6 +33,7 @@ import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.SharedPreferenceHelper
+import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 import nl.inholland.myvitality.util.TextViewUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -234,11 +235,15 @@ class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
                 )
             )
 
+
             if (userId.isNullOrBlank()) {
+                binding.interests.text = getString(R.string.profile_your_interests, user.interests?.joinToString { it.name }).toHtmlSpan()
+
                 binding.personalScoreboardTitle.text = getString(R.string.profile_your_prize_cabinet)
                 binding.button.text = getString(R.string.profile_edit)
                 binding.button.visibility = View.VISIBLE
             } else {
+                binding.interests.text = getString(R.string.profile_interests, user.firstName, user.interests?.joinToString { it.name }).toHtmlSpan()
                 binding.personalScoreboardTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
             }
         }
