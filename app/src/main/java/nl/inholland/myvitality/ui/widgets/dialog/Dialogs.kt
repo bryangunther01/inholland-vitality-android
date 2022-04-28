@@ -16,7 +16,10 @@ object Dialogs  {
     private var currentDialog: Dialog? = null
 
     fun hideCurrentDialog(){
-        currentDialog?.dismiss()
+        if (currentDialog != null && currentDialog?.isShowing == true) {
+            currentDialog?.dismiss();
+        }
+
         currentDialog = null
     }
 

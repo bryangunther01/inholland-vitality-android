@@ -105,6 +105,18 @@
             app:layout_constraintEnd_toEndOf="@id/profile_picture"
             app:layout_constraintTop_toBottomOf="@id/points" />
 
+        <TextView
+            android:id="@+id/interests"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_lt_pro_book"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_small_medium"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/button"/>
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/profile_header_barrier"
             android:layout_width="wrap_content"
@@ -112,6 +124,7 @@
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_big"
             app:constraint_referenced_ids="profile_picture, points, button, fullName, description, details" />
+
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/current_activities"
@@ -127,9 +140,10 @@
             android:text="@string/profile_curr_challenges"
             android:textColor="@color/black"
             android:textSize="18sp"
+            android:layout_marginTop="@dimen/margin_medium_big"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/profile_header_barrier"/>
+            app:layout_constraintTop_toBottomOf="@id/interests"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/current_activities_recyclerview"

@@ -189,6 +189,8 @@
     <string name="profile_unfollow">Ontvolgen</string>
     <string name="profile_edit">Wijzig profiel</string>
     <string name="profile_points">punten</string>
+    <string name="profile_your_interests"><![CDATA[<b>Jouw interesses:</b>]]> %1$s</string>
+    <string name="profile_interests"><![CDATA[<b>%1$s\'s interesses:</b>]]> %2$s</string>
     <string name="profile_curr_challenges">Huidige activiteiten</string>
     <string name="profile_prize_cabinet">%1$s\'s Prijzenkast</string>
     <string name="profile_your_prize_cabinet">Jouw Prijzenkast</string>
