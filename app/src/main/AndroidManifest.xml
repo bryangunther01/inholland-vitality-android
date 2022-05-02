@@ -57,8 +57,7 @@
         <activity
             android:name=".ui.profile.overview.ProfileActivity"
             android:exported="true"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.profile.edit.ProfileEditActivity"
             android:exported="true"

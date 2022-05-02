@@ -18,35 +18,35 @@ class TokenInterceptor constructor(val context: Context, private val tokenApiCli
         val currentMillis = System.currentTimeMillis()
         var request = chain.request()
 
-//        if(sharedPrefs.tokenExpireTime < currentMillis){
-//            sharedPrefs.refreshToken?.let {
-//                tokenApiClient.refreshToken(it).enqueue(object : Callback<AuthSettings> {
-//                    override fun onResponse(call: Call<AuthSettings>, response: retrofit2.Response<AuthSettings>) {
-//                        if(response.isSuccessful && response.body() != null){
-//                            response.body()?.let { authSettings ->
-//
-//                                sharedPrefs.accessToken = authSettings.accessToken
-//                                sharedPrefs.refreshToken = authSettings.refreshToken
-//                                sharedPrefs.tokenExpireTime = authSettings.expiresIn
-//
-//                                request = request.newBuilder()
-//                                    .addHeader("Authorization", "Bearer ${authSettings.accessToken}")
-//                                    .build()
-//                            }
-//                        } else if(response.code() == 401){
-//                            context.startActivity(Intent(context, LoginActivity::class.java)
-//                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-//                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<AuthSettings>, t: Throwable) {
-//                        Log.e("TokenInterceptor", "onFailure: ", t)
-//                    }
-//                })
-//            }
-//        }
+        if(sharedPrefs.tokenExpireTime < currentMillis){
+            sharedPrefs.refreshToken?.let {
+                tokenApiClient.refreshToken(it).enqueue(object : Callback<AuthSettings> {
+                    override fun onResponse(call: Call<AuthSettings>, response: retrofit2.Response<AuthSettings>) {
+                        if(response.isSuccessful && response.body() != null){
+                            response.body()?.let { authSettings ->
+
+                                sharedPrefs.accessToken = authSettings.accessToken
+                                sharedPrefs.refreshToken = authSettings.refreshToken
+                                sharedPrefs.tokenExpireTime = authSettings.expiresIn
+
+                                request = request.newBuilder()
+                                    .addHeader("Authorization", "Bearer ${authSettings.accessToken}")
+                                    .build()
+                            }
+                        } else if(response.code() == 401){
+                            context.startActivity(Intent(context, LoginActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<AuthSettings>, t: Throwable) {
+                        Log.e("TokenInterceptor", "onFailure: ", t)
+                    }
+                })
+            }
+        }
 
 
 

@@ -18,6 +18,7 @@ import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,19 +56,19 @@ class PushService : FirebaseMessagingService() {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        val activity = message.data["activity"]
-        val activityData = message.data["activityValue"]
+        val activity = message.data["screen"]
+        val activityData = message.data["screenData"]
 
         when(activity){
-            "ACTIVITY_PROFILE" -> {
+            "SCREEN_PROFILE" -> {
                 intent = Intent(this, ProfileActivity::class.java)
                     .putExtra("USER_ID", activityData)
             }
-            "ACTIVITY_TIMELINEPOST" -> {
-                intent = Intent(this, ProfileActivity::class.java)
+            "SCREEN_TIMELINEPOST" -> {
+                intent = Intent(this, TimelinePostActivity::class.java)
                     .putExtra("POST_ID", activityData)
             }
-            "ACTIVITY_ACTIVITY" -> {
+            "SCREEN_ACTIVITY" -> {
                 intent = Intent(this, ActivityDetailActivity::class.java)
                     .putExtra("ACTIVITY_ID", activityData)
             }
