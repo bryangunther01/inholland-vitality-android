@@ -153,7 +153,7 @@ class LoginActivity : BaseActivity(), Callback<AuthSettings> {
 
             var intent = Intent(this, MainActivity::class.java)
 
-            tokenApiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
+            apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(sharedPrefs.pushToken!!)).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     Log.i("LoginActivity", "New pushtoken sent to API")
                 }

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 
 
-abstract class BaseActivityTest<VB : ViewBinding> : AppCompatActivity() {
+abstract class BaseActivityAdvanced<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater) -> VB

@@ -22,7 +22,8 @@ import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityTest
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
 import nl.inholland.myvitality.data.adapters.PersonalScoreboardAdapter
@@ -41,13 +42,13 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class ProfileActivity : BaseActivityTest<ActivityProfileBinding>() {
+class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityProfileBinding
             = ActivityProfileBinding::inflate
 
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
-    @Inject lateinit var apiClient: TokenApiClient
+    @Inject lateinit var apiClient: ApiClient
 
     @Inject
     lateinit var factory: ProfileViewModelFactory

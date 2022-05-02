@@ -7,7 +7,10 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.Window
+import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.SwitchCompat
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 
@@ -166,6 +169,20 @@ object Dialogs  {
         buttonContinue.setOnClickListener(onClickListener)
 
         dialog.show()
+    }
+
+    fun createNotificationSettingsDialog(activity: Activity, isEnabled: Boolean): Dialog {
+        val dialog = Dialog(activity)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.notification_settings_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val switch = dialog.findViewById<SwitchCompat>(R.id.notifications_general_switch)
+
+        switch.isChecked = isEnabled
+        currentDialog = dialog
+
+        return dialog
     }
 
     private fun setupSimpleDialog(activity: Activity, withCancelButton: Boolean? = false): Dialog{

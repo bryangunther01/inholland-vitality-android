@@ -17,16 +17,4 @@ interface TokenApiClient {
     fun refreshToken(
         @Query("refreshToken") token: String
     ): Call<AuthSettings>
-
-    @POST("notification/pushtoken")
-    fun createPushToken(
-        @Header("Authorization") token: String,
-        @Body body: PushToken
-    ): Call<Void>
-
-    @DELETE("notification/pushtoken")
-    fun deletePushToken(
-        @Header("Authorization") token: String,
-        @Query("pushToken") pushToken: String
-    ): Call<Void>
 }

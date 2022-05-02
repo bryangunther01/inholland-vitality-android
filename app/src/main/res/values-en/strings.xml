@@ -224,6 +224,10 @@
     <string name="notification_new_activity_title">A new activity is available</string>
     <string name="notification_new_activity_subtitle">Click to view</string>
     <string name="notifications_empty">No notifications</string>
+    <string name="dialog_notification_settings_title">With push notifications you are always up-to-date with the vitality program!</string>
+    <string name="dialog_notification_settings_setting1">General notifications</string>
+    <string name="dialog_notification_settings_save">Save</string>
+
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>

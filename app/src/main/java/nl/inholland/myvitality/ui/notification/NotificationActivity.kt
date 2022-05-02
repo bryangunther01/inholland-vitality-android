@@ -1,10 +1,17 @@
 package nl.inholland.myvitality.ui.notification
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,26 +19,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.adapters.NotificationAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivityNotificationBinding
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import javax.inject.Inject
 
 
-class NotificationActivity : BaseActivity() {
+class NotificationActivity : BaseActivityAdvanced<ActivityNotificationBinding>() {
 
-    @BindView(R.id.notification_empty_icon)
-    lateinit var notificationEmptyIcon: ImageView
-
-    @BindView(R.id.notification_empty_text)
-    lateinit var notificationEmptyText: TextView
-
-    @BindView(R.id.notifications_recyclerview)
-    lateinit var recyclerView: RecyclerView
-
-    @BindView(R.id.notifications_refresh_layout)
-    lateinit var refreshLayout: SwipeRefreshLayout
+    override val bindingInflater: (LayoutInflater) -> ActivityNotificationBinding
+            = ActivityNotificationBinding::inflate
 
     @Inject
     lateinit var factory: NotificationViewModelFactory
@@ -43,10 +42,6 @@ class NotificationActivity : BaseActivity() {
 
     private var page = 0
     private var limit = 10
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_notification
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +55,10 @@ class NotificationActivity : BaseActivity() {
         setupRecyclerViews()
         initResponseHandler()
         initNotifications()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            viewModel.validatePushToken()
+        }, 1000)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -67,23 +66,46 @@ class NotificationActivity : BaseActivity() {
         return true
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.notifications_nav_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.notification_settings){
+            val isEnabled = viewModel.notificationsEnabled.value ?: false
+
+            val dialog = Dialogs.createNotificationSettingsDialog(this, isEnabled)
+            val button = dialog.findViewById<AppCompatButton>(R.id.dialog_button)
+
+            button.setOnClickListener {
+                val isChecked = dialog.findViewById<SwitchCompat>(R.id.notifications_general_switch).isChecked
+                if(isChecked) { viewModel.savePushToken() } else { viewModel.deletePushToken() }
+            }
+
+            dialog.show()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setupRecyclerViews() {
         layoutManager = LinearLayoutManager(this)
         adapter = NotificationAdapter(this)
 
-        recyclerView.let {
+        binding.recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
         // Setup the refreshListener
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadNotifications(true)
             Dialogs.showGeneralLoadingDialog(this)
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -103,15 +125,15 @@ class NotificationActivity : BaseActivity() {
     private fun initNotifications() {
         tryLoadNotifications()
 
-        viewModel.notifications.observe(this, {
-            if(page == 0 && it.isEmpty()){
-                notificationEmptyIcon.visibility = View.VISIBLE
-                notificationEmptyText.visibility = View.VISIBLE
-                recyclerView.visibility = View.INVISIBLE
+        viewModel.notifications.observe(this) {
+            if (page == 0 && it.isEmpty()) {
+                binding.emptyIcon.visibility = View.VISIBLE
+                binding.emptyText.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.INVISIBLE
             } else {
-                notificationEmptyIcon.visibility = View.INVISIBLE
-                notificationEmptyText.visibility = View.INVISIBLE
-                recyclerView.visibility = View.VISIBLE
+                binding.emptyIcon.visibility = View.INVISIBLE
+                binding.emptyText.visibility = View.INVISIBLE
+                binding.recyclerView.visibility = View.VISIBLE
             }
 
             adapter?.addItems(it)
@@ -119,9 +141,9 @@ class NotificationActivity : BaseActivity() {
             Dialogs.hideCurrentDialog()
             if (it.isNotEmpty()) page += 1
 
-            refreshLayout.isRefreshing = false
+            binding.refreshLayout.isRefreshing = false
             isCalling = false
-        })
+        }
     }
 
     private fun tryLoadNotifications(refresh: Boolean = false) {
@@ -133,15 +155,19 @@ class NotificationActivity : BaseActivity() {
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                ResponseStatus.UPDATED_VALUE -> {
+                    Dialogs.hideCurrentDialog()
+                }
+                else -> {
+                }
             }
-        })
+        }
     }
 }
