@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
+import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
@@ -31,7 +32,7 @@ class PushService : FirebaseMessagingService() {
     lateinit var sharedPrefs: SharedPreferenceHelper
 
     @Inject
-    lateinit var apiClient: TokenApiClient
+    lateinit var apiClient: ApiClient
 
     private val CHANNEL_ID = "vitality_channel"
 

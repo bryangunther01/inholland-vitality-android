@@ -65,8 +65,8 @@ class ProfileEditViewModel constructor(
 
     fun deleteAccount() {
         sharedPrefs.accessToken?.let {
-            sharedPrefs.pushToken?.let {
-                tokenApiClient.deletePushToken("Bearer ${sharedPrefs.accessToken}", it).enqueue(object :
+            sharedPrefs.pushToken?.let { pushToken ->
+                apiClient.deletePushToken("Bearer $it", pushToken).enqueue(object :
                     Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         Log.i("ProfileEditActivity", "Push token deleted")

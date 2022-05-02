@@ -25,7 +25,7 @@ import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityTest
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityProfileEditBinding
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
@@ -38,7 +38,7 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 
-class ProfileEditActivity : BaseActivityTest<ActivityProfileEditBinding>() {
+class ProfileEditActivity : BaseActivityAdvanced<ActivityProfileEditBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityProfileEditBinding
             = ActivityProfileEditBinding::inflate

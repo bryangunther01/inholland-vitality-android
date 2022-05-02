@@ -1,6 +1,7 @@
 package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.data.entities.requestbody.RegisterRequest
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import okhttp3.MultipartBody
@@ -205,4 +206,24 @@ interface ApiClient {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Call<List<Notification>>
+
+    /** Push token calls **/
+
+    @POST("notification/pushtoken")
+    fun createPushToken(
+        @Header("Authorization") token: String,
+        @Body body: PushToken
+    ): Call<Void>
+
+    @DELETE("notification/pushtoken")
+    fun deletePushToken(
+        @Header("Authorization") token: String,
+        @Query("pushToken") pushToken: String
+    ): Call<Void>
+
+    @HEAD("notification/pushtoken/validate/{pushToken}")
+    fun validateToken(
+        @Header("Authorization") token: String,
+        @Path("pushToken") pushToken: String
+    ): Call<Void>
 }

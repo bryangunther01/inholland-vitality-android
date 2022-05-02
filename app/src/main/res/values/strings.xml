@@ -224,6 +224,9 @@
     <string name="notification_new_activity_title">Er is een nieuwe activiteit beschikbaar</string>
     <string name="notification_new_activity_subtitle">Klik om te bekijken</string>
     <string name="notifications_empty">Geen notificaties</string>
+    <string name="dialog_notification_settings_title">Door middel van push notificaties ben jij altijd up-to-date met het vitaliteitsprogramma!</string>
+    <string name="dialog_notification_settings_setting1">Algemene notificaties</string>
+    <string name="dialog_notification_settings_save">Opslaan</string>
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>
