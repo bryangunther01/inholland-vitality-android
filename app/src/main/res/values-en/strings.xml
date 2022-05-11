@@ -228,6 +228,12 @@
     <string name="dialog_notification_settings_setting1">General notifications</string>
     <string name="dialog_notification_settings_save">Save</string>
 
+    <!-- Achievement string -->
+    <string name="achievement_title">New achievement</string>
+    <string name="achievement_first_activity_text">You have completed your &lt;b>first&lt;/b> activity &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_points_text">You have earned &lt;b>%01d&lt;/b> points &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_activities_text">You have completed &lt;b>%01d&lt;/b> activities &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_button">Continue</string>
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>

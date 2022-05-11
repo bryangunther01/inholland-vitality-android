@@ -51,6 +51,9 @@
             android:exported="true" />
 
         <activity
+            android:name=".ui.achievement.AchievementActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.scoreboard.ScoreboardActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />

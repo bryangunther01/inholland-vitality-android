@@ -4,6 +4,7 @@ import nl.inholland.myvitality.data.entities.*
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.data.entities.requestbody.RegisterRequest
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
+import nl.inholland.myvitality.data.entities.responsebody.ActivityProgressResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -110,7 +111,7 @@ interface ApiClient {
         @Header("Authorization") token: String,
         @Path("activityId") activityId: String,
         @Query("activityProgress") progress: Int
-    ): Call<Void>
+    ): Call<ActivityProgressResponse>
 
     /** Scoreboard Calls **/
     @GET("scoreboard/personal")

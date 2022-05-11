@@ -11,8 +11,15 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import nl.inholland.myvitality.R
+import nl.inholland.myvitality.data.adapters.ViewPagerAdapter
+import nl.inholland.myvitality.data.entities.TutorialType
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.tutorial.TutorialEndFragment
+import nl.inholland.myvitality.ui.tutorial.TutorialStartFragment
+import nl.inholland.myvitality.ui.tutorial.TutorialTypeFragment
 
 object Dialogs  {
 

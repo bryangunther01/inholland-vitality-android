@@ -227,6 +227,13 @@
     <string name="dialog_notification_settings_title">Door middel van push notificaties ben jij altijd up-to-date met het vitaliteitsprogramma!</string>
     <string name="dialog_notification_settings_setting1">Algemene notificaties</string>
     <string name="dialog_notification_settings_save">Opslaan</string>
+    
+    <!-- Achievement string -->
+    <string name="achievement_title">Nieuwe medaille</string>
+    <string name="achievement_first_activity_text">Je hebt jouw &lt;b>eerste&lt;/b> activiteit afgerond &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
+    <string name="achievement_points_text">Je hebt &lt;b>%01d&lt;/b> punten behaald &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
+    <string name="achievement_activities_text">Je hebt &lt;b>%01d&lt;/b> activiteiten afgerond &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
+    <string name="achievement_button">Ga door</string>
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Lukt het jou om meer punten te scoren dan jouw collega’s? Wie is jouw volgende uitdager?</string>

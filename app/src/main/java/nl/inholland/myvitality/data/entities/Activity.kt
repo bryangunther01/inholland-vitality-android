@@ -19,5 +19,6 @@ data class Activity (
     @Json(name = "activityProgress") var activityProgress : ActivityProgress?,
     @Json(name = "totalSubscribers") var totalSubscribers : Int?,
     val hasStarted: Boolean = DateUtils.isInPast(startDate),
+    val hasEnded: Boolean = DateUtils.isInPast(endDate),
     val signUpOpen: Boolean = DateUtils.isWithinAWeek(startDate)
 )
