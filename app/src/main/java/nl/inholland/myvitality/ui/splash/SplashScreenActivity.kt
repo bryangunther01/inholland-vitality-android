@@ -1,10 +1,12 @@
 package nl.inholland.myvitality.ui.splash
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import com.microsoft.identity.client.IAccount
 import com.microsoft.identity.client.IPublicClientApplication
 import com.microsoft.identity.client.ISingleAccountPublicClientApplication
@@ -13,7 +15,10 @@ import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
+import nl.inholland.myvitality.databinding.ActivitySplashScreenBinding
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
@@ -25,15 +30,17 @@ import javax.inject.Inject
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class SplashScreenActivity : BaseActivity() {
+@SuppressLint("CustomSplashScreen")
+class SplashScreenActivity : BaseActivityAdvanced<ActivitySplashScreenBinding>() {
+
+    override val bindingInflater: (LayoutInflater) -> ActivitySplashScreenBinding
+            = ActivitySplashScreenBinding::inflate
+
+
     @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPrefs: SharedPreferenceHelper
 
     private var mSingleAccountApp: ISingleAccountPublicClientApplication? = null
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_splash_screen
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

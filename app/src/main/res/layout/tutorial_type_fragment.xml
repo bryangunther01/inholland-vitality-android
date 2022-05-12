@@ -12,12 +12,12 @@
         android:src="@drawable/mind_icon"
         android:layout_margin="@dimen/margin_big"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tutorial_description"
+        app:layout_constraintBottom_toTopOf="@+id/achievement_text"
         app:layout_constraintStart_toStartOf="@id/guideline_left"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
     <TextView
-        android:id="@+id/tutorial_description"
+        android:id="@+id/achievement_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/avenir_lt_pro_medium"

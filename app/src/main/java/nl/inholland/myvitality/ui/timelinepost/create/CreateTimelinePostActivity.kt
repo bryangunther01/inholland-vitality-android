@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.ViewModelProviders
@@ -16,8 +17,10 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivityCreatePostBinding
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
@@ -32,30 +35,10 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
-    @Inject lateinit var apiClient: ApiClient
-    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
+class CreateTimelinePostActivity : BaseActivityAdvanced<ActivityCreatePostBinding>(), Callback<Void> {
 
-    @BindView(R.id.create_post_profile_image)
-    lateinit var profileImage: ImageView
-
-    @BindView(R.id.create_post_user_name)
-    lateinit var userName: TextView
-
-    @BindView(R.id.create_post_message)
-    lateinit var message: EditText
-
-    @BindView(R.id.create_post_button)
-    lateinit var postButton: Button
-
-    @BindView(R.id.create_post_image_preview)
-    lateinit var imagePreview: ImageView
-
-    @BindView(R.id.create_post_image_preview_remove)
-    lateinit var imagePreviewRemoveButton: ImageView
-
-    @BindView(R.id.create_post_image_upload_button)
-    lateinit var imageUploadButton: MaterialButton
+    override val bindingInflater: (LayoutInflater) -> ActivityCreatePostBinding
+            = ActivityCreatePostBinding::inflate
 
     @Inject
     lateinit var factory: CreateTimelinePostViewModelFactory
@@ -69,10 +52,6 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
 
     var postId: String? = null
 
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_create_post
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,11 +63,11 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
 
         postId = intent.getStringExtra("POST_ID")
         if(postId != null){
-            findViewById<View>(R.id.create_post_hr_bottom).visibility = View.INVISIBLE
-            imageUploadButton.visibility = View.INVISIBLE
+            binding.hrBottom.visibility = View.INVISIBLE
+            binding.imageUploadButton.visibility = View.INVISIBLE
         }
 
-        imageUploadButton.setOnClickListener {
+        binding.imageUploadButton.setOnClickListener {
             requestImage()
         }
 
@@ -108,47 +87,47 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
             selectedImage = data?.data
             filePath = selectedImage?.path
 
-            imagePreview.setImageURI(selectedImage)
-            imagePreview.visibility = View.VISIBLE
-            imagePreviewRemoveButton.visibility = View.VISIBLE
+            binding.imagePreview.setImageURI(selectedImage)
+            binding.imagePreview.visibility = View.VISIBLE
+            binding.imagePreviewRemove.visibility = View.VISIBLE
         }
     }
 
-    @OnClick(R.id.create_post_image_preview_remove)
+    @OnClick(R.id.image_preview_remove)
     fun onClickRemoveImage(){
-        imagePreview.setImageDrawable(null)
-        imagePreview.visibility = View.GONE
-        imagePreviewRemoveButton.visibility = View.GONE
+        binding.imagePreview.setImageDrawable(null)
+        binding.imagePreview.visibility = View.GONE
+        binding.imagePreviewRemove.visibility = View.GONE
     }
 
-    @OnClick(R.id.create_post_button)
+    @OnClick(R.id.button)
     fun onClickPostButton() {
         if(postId != null){
-            viewModel.createComment(postId!!, message.text.toString())
+            viewModel.createComment(postId!!, binding.message.text.toString())
         } else {
-            if(imagePreview.drawable is BitmapDrawable) {
+            if(binding.imagePreview.drawable is BitmapDrawable) {
                 selectedImage?.let {
-                    val bitmap = (imagePreview.drawable as BitmapDrawable).bitmap
+                    val bitmap = (binding.imagePreview.drawable as BitmapDrawable).bitmap
                     val file = ImageUploadUtil.convertBitmapToFile(this,"post_image.png", bitmap)
                     val reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file)
 
                     val filePart = MultipartBody.Part.createFormData("file", file.name, reqFile)
 
-                    viewModel.createTimelinePost(message.text.toString(), filePart)
+                    viewModel.createTimelinePost(binding.message.text.toString(), filePart)
                     Dialogs.showGeneralLoadingDialog(this)
 
                     return
                 }
             }
 
-            viewModel.createTimelinePost(message.text.toString())
+            viewModel.createTimelinePost(binding.message.text.toString())
             Dialogs.showGeneralLoadingDialog(this)
         }
     }
 
-    @OnTextChanged(R.id.create_post_message)
+    @OnTextChanged(R.id.message)
     fun onTextChanged() {
-        postButton.isEnabled = message.text.isNotEmpty()
+        binding.button.isEnabled = binding.message.text.isNotEmpty()
     }
 
     private fun requestImage(){
@@ -160,12 +139,12 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     private fun initUser() {
         viewModel.getLoggedInUser()
 
-        viewModel.currentUser.observe(this, { user ->
+        viewModel.currentUser.observe(this) { user ->
             Glide.with(this)
                 .load(user.profilePicture)
-                .into(profileImage)
-            userName.text = user.fullName
-        })
+                .into(binding.profileImage)
+            binding.userName.text = user.fullName
+        }
     }
 
     override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -190,7 +169,7 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> {
                     Toast.makeText(
@@ -202,20 +181,26 @@ class CreateTimelinePostActivity : BaseActivity(), Callback<Void> {
                     Dialogs.hideCurrentDialog()
                 }
                 ResponseStatus.CREATED -> {
-                    if(postId != null){
+                    if (postId != null) {
                         startActivity(
                             Intent(this, TimelinePostActivity::class.java)
-                                .putExtra("POST_ID", postId))
+                                .putExtra("POST_ID", postId)
+                        )
                         finish()
                     } else {
                         startActivity(
                             Intent(this, MainActivity::class.java)
-                                .putExtra("FRAGMENT_TO_LOAD", ChosenFragment.FRAGMENT_TIMELINE.ordinal))
+                                .putExtra(
+                                    "FRAGMENT_TO_LOAD",
+                                    ChosenFragment.FRAGMENT_TIMELINE.ordinal
+                                )
+                        )
                         finish()
                     }
                 }
-                else -> {}
+                else -> {
+                }
             }
-        })
+        }
     }
 }

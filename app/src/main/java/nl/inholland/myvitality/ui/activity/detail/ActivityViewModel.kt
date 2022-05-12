@@ -10,22 +10,25 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.responsebody.ActivityProgressResponse
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.stream.Collectors
 
-class ActivityViewModel constructor(
-    private val apiClient: ApiClient,
-    private val sharedPrefs: SharedPreferenceHelper
-) : ViewModel() {
+class ActivityViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
+
     val currentActivity: MutableLiveData<Activity> by lazy {
         MutableLiveData<Activity>()
     }
 
     val activityProgress: MutableLiveData<ActivityProgress> by lazy {
         MutableLiveData<ActivityProgress>()
+    }
+
+    val achievements: MutableLiveData<List<Achievement>> by lazy {
+        MutableLiveData<List<Achievement>>()
     }
 
     val recommendedActivities: MutableLiveData<List<Activity>> by lazy {
@@ -103,17 +106,24 @@ class ActivityViewModel constructor(
     fun updateActivityProgress(progress: ActivityProgress, activityId: String) {
         sharedPrefs.accessToken?.let {
             apiClient.updateActivityProgress("Bearer $it", activityId, progress.id)
-                .enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            activityProgress.value = progress
+                .enqueue(object : Callback<ActivityProgressResponse> {
+                    override fun onResponse(call: Call<ActivityProgressResponse>, response: Response<ActivityProgressResponse>) {
+                        if (response.isSuccessful && response.body() != null) {
+                            response.body()?.let { res ->
+                                activityProgress.value = res.activityProgress
+
+                                res.achievements?.let { receivedAchievements ->
+                                    achievements.value = receivedAchievements
+                                }
+                            }
+
                             apiResponse.value = ApiResponse(ResponseStatus.UPDATED_VALUE)
                         } else if (response.code() == 401) {
                             apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                         }
                     }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                    override fun onFailure(call: Call<ActivityProgressResponse>, t: Throwable) {
                         apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                         Log.e("HomeFragment", "onFailure: ", t)
                     }

@@ -5,6 +5,7 @@ import nl.inholland.myvitality.di.modules.ApplicationModule
 import nl.inholland.myvitality.di.modules.NetworkModule
 import nl.inholland.myvitality.di.modules.ViewModelModule
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.achievement.AchievementActivity
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
@@ -50,5 +51,6 @@ interface ApplicationComponent {
     fun inject(activity: ProfileEditActivity)
     fun inject(activity: ActivityParticipantsActivity)
     fun inject(activity: ActivityOverviewActivity)
+    fun inject(activity: AchievementActivity)
     fun inject(pushService: PushService)
 }

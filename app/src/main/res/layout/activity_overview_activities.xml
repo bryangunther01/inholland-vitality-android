@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/act_overview_user_activities_content"
+            android:id="@+id/user_activities_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -28,7 +28,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/act_overview_user_activities_icon"
+                    android:id="@+id/user_activities_icon"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="@dimen/margin_small"
@@ -39,7 +39,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/act_overview_user_activities_title"
+                    android:id="@+id/user_activities_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small_medium"
@@ -47,43 +47,43 @@
                     android:text="@string/activities_overview_user_activities_text"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@id/act_overview_user_activities_icon"
-                    app:layout_constraintStart_toEndOf="@id/act_overview_user_activities_icon"
-                    app:layout_constraintTop_toTopOf="@id/act_overview_user_activities_icon" />
+                    app:layout_constraintBottom_toBottomOf="@id/user_activities_icon"
+                    app:layout_constraintStart_toEndOf="@id/user_activities_icon"
+                    app:layout_constraintTop_toTopOf="@id/user_activities_icon" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/act_overview_user_activities_barrier"
+                    android:id="@+id/user_activities_barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:barrierMargin="@dimen/margin_small"
-                    app:constraint_referenced_ids="act_overview_user_activities_icon, act_overview_user_activities_title" />
+                    app:constraint_referenced_ids="user_activities_icon, user_activities_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/act_overview_user_activities_recyclerview"
+                    android:id="@+id/user_activities_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_user_activities_barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/user_activities_barrier" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/act_overview_user_activities_empty"
+                    android:id="@+id/user_activities_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="act_overview_user_activities_empty_icon, act_overview_user_activities_empty_text"
+                    app:constraint_referenced_ids="user_activities_empty_icon, user_activities_empty_text"
                     app:layout_constraintBottom_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/act_overview_user_activities_empty_icon"
+                    android:id="@+id/user_activities_empty_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/margin_huge"
                     android:src="@drawable/ic_person"
-                    app:layout_constraintBottom_toTopOf="@id/act_overview_user_activities_empty_text"
+                    app:layout_constraintBottom_toTopOf="@id/user_activities_empty_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -91,7 +91,7 @@
                     app:tint="@color/primary" />
 
                 <TextView
-                    android:id="@+id/act_overview_user_activities_empty_text"
+                    android:id="@+id/user_activities_empty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -100,13 +100,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_user_activities_empty_icon" />
+                    app:layout_constraintTop_toBottomOf="@id/user_activities_empty_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/act_overview_available_activities_content"
+            android:id="@+id/available_activities_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -115,7 +115,7 @@
             app:contentPadding="15dp"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/act_overview_user_activities_content">
+            app:layout_constraintTop_toBottomOf="@+id/user_activities_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/act_overview_available_activities_icon"
+                    android:id="@+id/available_activities_icon"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="@dimen/margin_small"
@@ -133,7 +133,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/act_overview_available_activities_title"
+                    android:id="@+id/available_activities_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small_medium"
@@ -141,43 +141,43 @@
                     android:text="@string/activities_overview_available_activities_text"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@id/act_overview_available_activities_icon"
-                    app:layout_constraintStart_toEndOf="@id/act_overview_available_activities_icon"
-                    app:layout_constraintTop_toTopOf="@id/act_overview_available_activities_icon" />
+                    app:layout_constraintBottom_toBottomOf="@id/available_activities_icon"
+                    app:layout_constraintStart_toEndOf="@id/available_activities_icon"
+                    app:layout_constraintTop_toTopOf="@id/available_activities_icon" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/act_overview_available_activities_barrier"
+                    android:id="@+id/available_activities_barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:barrierMargin="@dimen/margin_small"
-                    app:constraint_referenced_ids="act_overview_available_activities_icon, act_overview_available_activities_title" />
+                    app:constraint_referenced_ids="available_activities_icon, available_activities_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/act_overview_available_activities_recyclerview"
+                    android:id="@+id/available_activities_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_available_activities_barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/available_activities_barrier" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/act_overview_available_activities_empty"
+                    android:id="@+id/available_activities_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="act_overview_available_activities_empty_icon, act_overview_available_activities_empty_text"
+                    app:constraint_referenced_ids="available_activities_empty_icon, available_activities_empty_text"
                     app:layout_constraintBottom_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/act_overview_available_activities_empty_icon"
+                    android:id="@+id/available_activities_empty_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/margin_huge"
                     android:src="@drawable/ic_run"
-                    app:layout_constraintBottom_toTopOf="@id/act_overview_available_activities_empty_text"
+                    app:layout_constraintBottom_toTopOf="@id/available_activities_empty_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -185,7 +185,7 @@
                     app:tint="@color/primary" />
 
                 <TextView
-                    android:id="@+id/act_overview_available_activities_empty_text"
+                    android:id="@+id/available_activities_empty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -194,13 +194,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_available_activities_empty_icon" />
+                    app:layout_constraintTop_toBottomOf="@id/available_activities_empty_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/act_overview_upcoming_activities_content"
+            android:id="@+id/upcoming_activities_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -209,7 +209,7 @@
             app:contentPadding="15dp"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/act_overview_available_activities_content">
+            app:layout_constraintTop_toBottomOf="@+id/available_activities_content">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -217,7 +217,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/act_overview_upcoming_activities_icon"
+                    android:id="@+id/upcoming_activities_icon"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="@dimen/margin_small"
@@ -228,7 +228,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/act_overview_upcoming_activities_title"
+                    android:id="@+id/upcoming_activities_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small_medium"
@@ -236,43 +236,43 @@
                     android:text="@string/activities_overview_upcoming_activities_text"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="@id/act_overview_upcoming_activities_icon"
-                    app:layout_constraintStart_toEndOf="@id/act_overview_upcoming_activities_icon"
-                    app:layout_constraintTop_toTopOf="@id/act_overview_upcoming_activities_icon" />
+                    app:layout_constraintBottom_toBottomOf="@id/upcoming_activities_icon"
+                    app:layout_constraintStart_toEndOf="@id/upcoming_activities_icon"
+                    app:layout_constraintTop_toTopOf="@id/upcoming_activities_icon" />
 
                 <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/act_overview_upcoming_activities_barrier"
+                    android:id="@+id/upcoming_activities_barrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
                     app:barrierMargin="@dimen/margin_small"
-                    app:constraint_referenced_ids="act_overview_upcoming_activities_icon, act_overview_upcoming_activities_title" />
+                    app:constraint_referenced_ids="upcoming_activities_icon, upcoming_activities_title" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/act_overview_upcoming_activities_recyclerview"
+                    android:id="@+id/upcoming_activities_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_upcoming_activities_barrier" />
+                    app:layout_constraintTop_toBottomOf="@id/upcoming_activities_barrier" />
 
                 <androidx.constraintlayout.widget.Group
-                    android:id="@+id/act_overview_upcoming_activities_empty"
+                    android:id="@+id/upcoming_activities_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:constraint_referenced_ids="act_overview_upcoming_activities_empty_icon, act_overview_upcoming_activities_empty_text"
+                    app:constraint_referenced_ids="upcoming_activities_empty_icon, upcoming_activities_empty_text"
                     app:layout_constraintBottom_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/act_overview_upcoming_activities_empty_icon"
+                    android:id="@+id/upcoming_activities_empty_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="@dimen/margin_huge"
                     android:src="@drawable/ic_clock"
-                    app:layout_constraintBottom_toTopOf="@id/act_overview_upcoming_activities_empty_text"
+                    app:layout_constraintBottom_toTopOf="@id/upcoming_activities_empty_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -280,7 +280,7 @@
                     app:tint="@color/primary" />
 
                 <TextView
-                    android:id="@+id/act_overview_upcoming_activities_empty_text"
+                    android:id="@+id/upcoming_activities_empty_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -289,7 +289,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/act_overview_upcoming_activities_empty_icon" />
+                    app:layout_constraintTop_toBottomOf="@id/upcoming_activities_empty_icon" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

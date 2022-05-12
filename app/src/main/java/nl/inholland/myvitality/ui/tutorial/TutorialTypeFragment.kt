@@ -20,7 +20,7 @@ class TutorialTypeFragment(val type: TutorialType) : Fragment() {
         val view = inflater.inflate(R.layout.tutorial_type_fragment, container, false)
 
         val image = view.findViewById<ImageView>(R.id.tutorial_detail_image)
-        val description = view.findViewById<TextView>(R.id.tutorial_description)
+        val description = view.findViewById<TextView>(R.id.achievement_text)
 
         // Set the challenge type
         when (type) {

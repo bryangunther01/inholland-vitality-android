@@ -1,6 +1,7 @@
 package nl.inholland.myvitality.ui.timeline.liked
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,22 +10,19 @@ import butterknife.BindView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
+import nl.inholland.myvitality.databinding.ActivityUserListBinding
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
 
-class TimelineLikedActivity : BaseActivity() {
+class TimelineLikedActivity : BaseActivityAdvanced<ActivityUserListBinding>() {
 
-    @Inject
-    lateinit var apiClient: ApiClient
-
-    @Inject
-    lateinit var sharedPrefs: SharedPreferenceHelper
-
-    @BindView(R.id.user_recyclerview)
-    lateinit var recyclerView: RecyclerView
+    override val bindingInflater: (LayoutInflater) -> ActivityUserListBinding
+            = ActivityUserListBinding::inflate
 
     @Inject
     lateinit var factory: TimelineLikedViewModelFactory
@@ -38,10 +36,6 @@ class TimelineLikedActivity : BaseActivity() {
     private var limit = 10
 
     var timelinePostId: String = ""
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_user_list
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,12 +65,12 @@ class TimelineLikedActivity : BaseActivity() {
         layoutManager = LinearLayoutManager(this)
         adapter = UserListAdapter(this)
 
-        recyclerView.let {
+        binding.recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -101,7 +95,7 @@ class TimelineLikedActivity : BaseActivity() {
     }
 
     private fun initUsersObserver() {
-        viewModel.results.observe(this, {
+        viewModel.results.observe(this) {
             if (page == 0) adapter?.clearItems()
 
             if (it.isNotEmpty()) {
@@ -110,19 +104,20 @@ class TimelineLikedActivity : BaseActivity() {
             }
 
             isCalling = false
-        })
+        }
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                }
             }
-        })
+        }
     }
 }

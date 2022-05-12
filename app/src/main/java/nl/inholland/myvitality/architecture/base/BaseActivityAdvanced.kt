@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
+import butterknife.ButterKnife
 
 
 abstract class BaseActivityAdvanced<VB : ViewBinding> : AppCompatActivity() {
@@ -21,5 +22,6 @@ abstract class BaseActivityAdvanced<VB : ViewBinding> : AppCompatActivity() {
         _binding = bindingInflater.invoke(layoutInflater)
 
         setContentView(requireNotNull(_binding).root)
+        ButterKnife.bind(this)
     }
 }

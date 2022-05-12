@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/create_post_profile_image"
+            android:id="@+id/profile_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/person_placeholder"
@@ -24,43 +24,43 @@
             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
         <TextView
-            android:id="@+id/create_post_user_name"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium"
             android:text="Jasper Koemans"
-            app:layout_constraintBottom_toBottomOf="@id/create_post_profile_image"
-            app:layout_constraintStart_toEndOf="@id/create_post_profile_image"
-            app:layout_constraintTop_toTopOf="@id/create_post_profile_image" />
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
+            app:layout_constraintStart_toEndOf="@id/profile_image"
+            app:layout_constraintTop_toTopOf="@id/profile_image" />
 
         <Button
-            android:id="@+id/create_post_button"
+            android:id="@+id/button"
             style="@style/ButtonPrimaryMini"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:background="@drawable/button_primary"
             android:text="@string/create_post_button"
             android:enabled="false"
-            app:layout_constraintBottom_toBottomOf="@id/create_post_profile_image"
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintTop_toTopOf="@id/create_post_profile_image" />
+            app:layout_constraintTop_toTopOf="@id/profile_image" />
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/create_post_header_barrier"
+            android:id="@+id/header_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_small_medium"
-            app:constraint_referenced_ids="create_post_profile_image, create_post_user_name, create_post_button" />
+            app:constraint_referenced_ids="profile_image, user_name, button" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#c0c0c0"
-            app:layout_constraintTop_toBottomOf="@+id/create_post_header_barrier" />
+            app:layout_constraintTop_toBottomOf="@+id/header_barrier" />
 
         <EditText
-            android:id="@+id/create_post_message"
+            android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:hint="@string/create_post_hint"
@@ -69,13 +69,13 @@
             android:textIsSelectable="true"
             android:inputType="textMultiLine|textCapSentences"
             android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/create_post_header_barrier"
-            app:layout_constraintBottom_toTopOf="@id/create_post_image_preview"
+            app:layout_constraintTop_toBottomOf="@+id/header_barrier"
+            app:layout_constraintBottom_toTopOf="@id/image_preview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageView
-            android:id="@+id/create_post_image_preview"
+            android:id="@+id/image_preview"
             android:layout_width="0dp"
             android:layout_height="250dp"
             android:src="@drawable/activity_placeholder"
@@ -83,36 +83,36 @@
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/create_post_bottom_buttons"/>
+            app:layout_constraintBottom_toTopOf="@+id/bottom_buttons"/>
 
         <ImageView
-            android:id="@+id/create_post_image_preview_remove"
+            android:id="@+id/image_preview_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_cancel"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="@id/create_post_image_preview"
-            app:layout_constraintEnd_toEndOf="@id/create_post_image_preview"
-            app:layout_constraintTop_toTopOf="@id/create_post_image_preview"
-            app:layout_constraintBottom_toBottomOf="@id/create_post_image_preview"/>
+            app:layout_constraintStart_toStartOf="@id/image_preview"
+            app:layout_constraintEnd_toEndOf="@id/image_preview"
+            app:layout_constraintTop_toTopOf="@id/image_preview"
+            app:layout_constraintBottom_toBottomOf="@id/image_preview"/>
         
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/create_post_bottom_buttons"
+            android:id="@+id/bottom_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="create_post_image_upload_button" />
+            app:constraint_referenced_ids="image_upload_button" />
 
 
         <View
-            android:id="@+id/create_post_hr_bottom"
+            android:id="@+id/hr_bottom"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="#c0c0c0"
-            app:layout_constraintBottom_toTopOf="@+id/create_post_bottom_buttons" />
+            app:layout_constraintBottom_toTopOf="@+id/bottom_buttons" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/create_post_image_upload_button"
+            android:id="@+id/image_upload_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

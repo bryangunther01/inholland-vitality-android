@@ -2,32 +2,28 @@ package nl.inholland.myvitality.ui.scoreboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivity
+import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.adapters.ScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModelFactory
 import javax.inject.Inject
 
+class ScoreboardActivity : BaseActivityAdvanced<ActivityScoreboardBinding>() {
 
-class ScoreboardActivity : BaseActivity() {
-
-    @BindView(R.id.scoreboard_recyclerview)
-    lateinit var recyclerView: RecyclerView
-
-    @BindView(R.id.scoreboard_refresh_layout)
-    lateinit var refreshLayout: SwipeRefreshLayout
+    override val bindingInflater: (LayoutInflater) -> ActivityScoreboardBinding
+            = ActivityScoreboardBinding::inflate
 
     @Inject
     lateinit var factory: ScoreboardViewModelFactory
@@ -41,10 +37,6 @@ class ScoreboardActivity : BaseActivity() {
 
     private var page = 0
     private var limit = 10
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_scoreboard
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,19 +68,19 @@ class ScoreboardActivity : BaseActivity() {
         layoutManager = LinearLayoutManager(this)
         adapter = ScoreboardAdapter(this)
 
-        recyclerView.let {
+        binding.recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
         // Setup the refreshListener
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadNotifications(true)
             skeletonScreen?.show()
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -106,7 +98,7 @@ class ScoreboardActivity : BaseActivity() {
     }
 
     private fun setupSkeleton() {
-        skeletonScreen = Skeleton.bind(recyclerView)
+        skeletonScreen = Skeleton.bind(binding.recyclerView)
             .adapter(adapter)
             .frozen(true)
             .duration(2400)
@@ -118,15 +110,15 @@ class ScoreboardActivity : BaseActivity() {
     private fun initScoreboard() {
         tryLoadNotifications()
 
-        viewModel.results.observe(this, {
+        viewModel.results.observe(this) {
             adapter?.addItems(it)
 
             if (page == 0) skeletonScreen?.hide()
             if (it.isNotEmpty()) page += 1
 
             isCalling = false
-            refreshLayout.isRefreshing = false
-        })
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 
     private fun tryLoadNotifications(refresh: Boolean = false) {
@@ -138,18 +130,19 @@ class ScoreboardActivity : BaseActivity() {
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
-                    getString(nl.inholland.myvitality.R.string.api_error),
+                    getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                }
             }
 
             isCalling = false
-            refreshLayout.isRefreshing = false
-        })
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 }
