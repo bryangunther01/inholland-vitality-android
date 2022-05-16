@@ -164,7 +164,7 @@
             app:constraint_referenced_ids="current_activities_title, current_activities_recyclerview" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/personal_scoreboard"
+            android:id="@+id/achievements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="achievement_title, achievement_recycler_view"/>
@@ -181,7 +181,6 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/profile_curr_chl_barrier"/>
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/achievement_recycler_view"
             android:layout_width="0dp"
@@ -191,6 +190,35 @@
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/achievement_title"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_locked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="locked_icon, locked_text"/>
+
+        <ImageView
+            android:id="@+id/locked_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_lock"
+            app:tint="@color/primary"
+            app:layout_constraintTop_toBottomOf="@id/profile_header_barrier"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintBottom_toTopOf="@+id/locked_text"/>
+
+        <TextView
+            android:id="@+id/locked_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_notification"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@+id/locked_icon"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -87,10 +87,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
         initResponseHandler()
         initUser()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            initActivities()
-        }, 1000)
-
         PublicClientApplication.createSingleAccountPublicClientApplication(getApplicationContext(),
             R.raw.auth_config_single_account, object : IPublicClientApplication.ISingleAccountApplicationCreatedListener {
                 override fun onCreated(application: ISingleAccountPublicClientApplication?) {
@@ -208,6 +204,21 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
         viewModel.currentUser.observe(this) { user ->
             currentUser = user
 
+            if(userId != null){
+                if(user.canViewDetails == true){
+                    initActivities()
+                } else {
+                    binding.interests.visibility = View.GONE
+                    binding.currentActivities.visibility = View.GONE
+                    binding.achievements.visibility = View.GONE
+                    binding.profileLocked.visibility = View.VISIBLE
+
+                    binding.lockedText.text = getString(R.string.profile_locked, user.firstName)
+                }
+            } else {
+                initActivities()
+            }
+
             Glide.with(this)
                 .load(user.profilePicture)
                 .skipMemoryCache(true)
@@ -281,7 +292,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
 
         viewModel.achievements.observe(this) { results ->
             val visibility = if(results.isEmpty()) View.GONE else View.VISIBLE
-            binding.personalScoreboard.visibility = visibility
+            binding.achievements.visibility = visibility
 
             achievementAdapter?.addItems(results)
             personalScoreboardSkeletonScreen?.hide()

@@ -13,5 +13,6 @@ data class User (
     @Json(name = "profilePicture") var profilePicture : String?,
     @Json(name = "points") var points : Int? = 0,
     @Json(name = "interests") var interests : List<Interest>?,
-    @Json(name = "following") var isFollowing : Boolean?
+    @Json(name = "following") var isFollowing : Boolean?,
+    @Json(name = "canViewDetails") var canViewDetails : Boolean?
 )
