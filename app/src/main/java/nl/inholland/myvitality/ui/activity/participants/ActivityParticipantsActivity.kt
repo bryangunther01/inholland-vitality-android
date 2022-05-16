@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityUserListBinding
 import javax.inject.Inject
 
-class ActivityParticipantsActivity : BaseActivityAdvanced<ActivityUserListBinding>() {
+class ActivityParticipantsActivity : BaseActivity<ActivityUserListBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityUserListBinding
             = ActivityUserListBinding::inflate

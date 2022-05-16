@@ -6,15 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,25 +20,15 @@ import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
 import nl.inholland.myvitality.data.adapters.TimelinePostAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.FragmentTimelineBinding
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.search.SearchActivity
 import javax.inject.Inject
 
-class TimelineOverviewFragment : BaseFragment() {
-    @BindView(R.id.timeline_searchbar)
-    lateinit var timelineSearchbar: EditText
+class TimelineOverviewFragment : BaseFragment<FragmentTimelineBinding>() {
 
-    @BindView(R.id.timeline_empty_icon)
-    lateinit var timelineEmptyIcon: ImageView
-
-    @BindView(R.id.timeline_empty_text)
-    lateinit var timelineEmptyText: TextView
-
-    @BindView(R.id.timeline_refresh_layout)
-    lateinit var refreshLayout: SwipeRefreshLayout
-
-    @BindView(R.id.timeline_post_recyclerview)
-    lateinit var recyclerView: RecyclerView
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentTimelineBinding
+            = FragmentTimelineBinding::inflate
 
     @Inject
     lateinit var factory: TimelineOverviewViewModelFactory
@@ -56,10 +41,6 @@ class TimelineOverviewFragment : BaseFragment() {
     var isCalling: Boolean = false
     private var page = 0
     private var limit = 10
-
-    override fun layoutResourceId(): Int {
-        return R.layout.fragment_timeline
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,13 +67,12 @@ class TimelineOverviewFragment : BaseFragment() {
         initUser()
     }
 
-
-    @OnClick(R.id.timeline_profile_image)
+    @OnClick(R.id.profile_image)
     fun onClickProfileImage() {
         startActivity(Intent(requireActivity(), ProfileActivity::class.java))
     }
 
-    @OnClick(R.id.timeline_searchbar)
+    @OnClick(R.id.searchbar)
     fun onClickSearchbar() {
         startActivity(Intent(requireActivity(), SearchActivity::class.java))
     }
@@ -104,19 +84,19 @@ class TimelineOverviewFragment : BaseFragment() {
             toggleLike(viewHolder, !timelinePost.iLikedPost, timelinePost.countOfLikes)
         }
 
-        recyclerView.let {
+        binding.recyclerview.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
         // Setup the refreshListener
-        refreshLayout.setOnRefreshListener {
+        binding.refreshLayout.setOnRefreshListener {
             adapter?.clearItems()
             tryLoadTimelinePosts(true)
             skeletonScreen?.show()
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -171,7 +151,7 @@ class TimelineOverviewFragment : BaseFragment() {
     }
 
     private fun setupSkeleton() {
-        skeletonScreen = Skeleton.bind(recyclerView)
+        skeletonScreen = Skeleton.bind(binding.recyclerview)
             .adapter(adapter)
             .frozen(true)
             .duration(2400)
@@ -188,14 +168,12 @@ class TimelineOverviewFragment : BaseFragment() {
             initTimelinePosts()
 
             // Set greeting message
-            val profileImage = view?.findViewById<ImageView>(R.id.timeline_profile_image)
-            profileImage?.let {
-                Glide.with(this)
+            Glide.with(this)
                     .load(user.profilePicture)
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(profileImage)
-            }
+                    .into(binding.profileImage)
+
         }
     }
 
@@ -205,13 +183,11 @@ class TimelineOverviewFragment : BaseFragment() {
         tryLoadTimelinePosts()
         viewModel.posts.observe(viewLifecycleOwner) {
             if (page == 0 && it.isEmpty()) {
-                timelineEmptyIcon.visibility = View.VISIBLE
-                timelineEmptyText.visibility = View.VISIBLE
-                recyclerView.visibility = View.INVISIBLE
+                binding.emptyGroup.visibility = View.VISIBLE
+                binding.recyclerview.visibility = View.INVISIBLE
             } else {
-                timelineEmptyIcon.visibility = View.INVISIBLE
-                timelineEmptyText.visibility = View.INVISIBLE
-                recyclerView.visibility = View.VISIBLE
+                binding.emptyGroup.visibility = View.INVISIBLE
+                binding.recyclerview.visibility = View.VISIBLE
             }
 
             adapter?.addItems(it)
@@ -219,7 +195,7 @@ class TimelineOverviewFragment : BaseFragment() {
             if (page == 0) skeletonScreen?.hide()
             if (it.isNotEmpty()) page++
 
-            refreshLayout.isRefreshing = false
+            binding.refreshLayout.isRefreshing = false
             isCalling = false
         }
     }

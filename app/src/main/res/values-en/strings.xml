@@ -39,6 +39,8 @@
     <string name="tutorial_description_exercise">Nothing is more important than every now and then stretching the legs during long working days, are you doing this enough already?</string>
     <string name="tutorial_description_community">Choose your community and take part in various activities with your colleagues!</string>
     <string name="tutorial_description_timeline">Share your achievements with colleagues on the timeline or challenge each other to train together for upcoming activities.</string>
+    <string name="tutorial_description_achievements">Earn achievements for completing some activities or for every 300 points you earn</string>
+
 
     <string name="tutorial_last_title">Are you as excited as we are?</string>
     <string name="tutorial_last_subtitle">Login now and get access to the benefits below!</string>
@@ -233,6 +235,9 @@
     <string name="achievement_first_activity_text">You have completed your &lt;b>first&lt;/b> activity &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
     <string name="achievement_points_text">You have earned &lt;b>%01d&lt;/b> points &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
     <string name="achievement_activities_text">You have completed &lt;b>%01d&lt;/b> activities &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_first_activity_profile_text">Completed &lt;b>first&lt;/b> activity</string>
+    <string name="achievement_points_profile_text">Earned &lt;b>%01d&lt;/b> points</string>
+    <string name="achievement_activities_profile_text">Completed &lt;b>%01d&lt;/b> activities</string>
     <string name="achievement_button">Continue</string>
 
     <!-- Scoreboard strings -->

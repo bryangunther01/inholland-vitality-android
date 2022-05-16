@@ -8,22 +8,28 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 import butterknife.Unbinder
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+
+    @Suppress("UNCHECKED_CAST")
+    protected val binding: VB
+        get() = _binding as VB
 
     private var unbinder: Unbinder? = null
     var baseActivity: AppCompatActivity? = null
         private set
 
-    @LayoutRes
-    protected abstract fun layoutResourceId(): Int
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(layoutResourceId(), container, false)
-        unbinder = ButterKnife.bind(this, view)
-        return view
+        _binding = bindingInflater.invoke(inflater, container, false)
+        unbinder = ButterKnife.bind(this, requireNotNull(_binding).root)
+
+        return requireNotNull(_binding).root
     }
 
     override fun onAttach(context: Context) {

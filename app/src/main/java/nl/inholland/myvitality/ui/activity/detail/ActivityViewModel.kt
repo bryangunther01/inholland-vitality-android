@@ -2,7 +2,6 @@ package nl.inholland.myvitality.ui.activity.detail
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.dynamiclinks.DynamicLink

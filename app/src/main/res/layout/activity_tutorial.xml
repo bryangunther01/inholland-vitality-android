@@ -6,7 +6,7 @@
     android:background="@color/primary">
 
     <TextView
-        android:id="@+id/tutorial_skip"
+        android:id="@+id/skip_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/tutorial_skip"
@@ -17,17 +17,17 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/tutorial_viewpager"
+        android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_enormous"
-        app:layout_constraintTop_toBottomOf="@id/tutorial_skip"
+        app:layout_constraintTop_toBottomOf="@id/skip_button"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right"
-        app:layout_constraintBottom_toTopOf="@+id/tutorial_continue_button"/>
+        app:layout_constraintBottom_toTopOf="@+id/continue_button"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/tutorial_continue_button"
+        android:id="@+id/continue_button"
         style="@style/ButtonSecondary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -36,13 +36,13 @@
         android:layout_marginBottom="1dp"
         android:background="@drawable/button_secondary"
         android:text="@string/tutorial_continue"
-        app:layout_constraintBottom_toTopOf="@+id/tutorial_bottom_items_barrier"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_items_barrier"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/tutorial_login_button"
+        android:id="@+id/login_button"
         style="@style/ButtonSecondary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -52,21 +52,20 @@
         android:background="@drawable/button_secondary"
         android:text="@string/tutorial_button_signup"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tutorial_bottom_items_barrier"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_items_barrier"
         app:layout_constraintEnd_toEndOf="@id/guideline_right"
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="@id/guideline_left" />
 
-
     <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/tutorial_bottom_items_barrier"
+        android:id="@+id/bottom_items_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="tutorial_page_indicator, tutorial_login" />
+        app:constraint_referenced_ids="page_indicator, login_button" />
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tutorial_page_indicator"
+        android:id="@+id/page_indicator"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/primary"

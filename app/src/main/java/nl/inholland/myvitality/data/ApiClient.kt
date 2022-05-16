@@ -68,10 +68,13 @@ interface ApiClient {
         @Header("Authorization") token: String
     ): Call<Void>
 
-    @POST("user/recover")
-    fun recoverUser(
-        @Query("email") email: String
-    ): Call<Void>
+    @GET("user/achievements")
+    fun getAchievements(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("userId") userId: String? = null,
+    ): Call<List<Achievement>>
 
     /** Activity Calls **/
     @GET("category")
@@ -114,14 +117,6 @@ interface ApiClient {
     ): Call<ActivityProgressResponse>
 
     /** Scoreboard Calls **/
-    @GET("scoreboard/personal")
-    fun getPersonalScoreboard(
-        @Header("Authorization") token: String,
-        @Query("limit") limit: Int = 5,
-        @Query("offset") offset: Int = 0,
-        @Query("userId") userId: String? = null,
-    ): Call<List<PersonalScoreboardResult>>
-
     @GET("scoreboard")
     fun getScoreboard(
         @Header("Authorization") token: String,

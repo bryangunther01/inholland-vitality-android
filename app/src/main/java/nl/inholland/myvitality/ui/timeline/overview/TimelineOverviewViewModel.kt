@@ -1,11 +1,13 @@
 package nl.inholland.myvitality.ui.timeline.overview
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.ApiResponse
+import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.data.entities.TimelinePost
+import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback

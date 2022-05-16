@@ -1,25 +1,19 @@
 package nl.inholland.myvitality.ui.notification
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.NotificationAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityNotificationBinding
@@ -27,7 +21,7 @@ import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import javax.inject.Inject
 
 
-class NotificationActivity : BaseActivityAdvanced<ActivityNotificationBinding>() {
+class NotificationActivity : BaseActivity<ActivityNotificationBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityNotificationBinding
             = ActivityNotificationBinding::inflate
@@ -55,10 +49,7 @@ class NotificationActivity : BaseActivityAdvanced<ActivityNotificationBinding>()
         setupRecyclerViews()
         initResponseHandler()
         initNotifications()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            viewModel.validatePushToken()
-        }, 1000)
+        viewModel.validatePushToken()
     }
 
     override fun onSupportNavigateUp(): Boolean {

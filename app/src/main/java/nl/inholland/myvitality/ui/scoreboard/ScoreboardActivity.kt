@@ -11,7 +11,7 @@ import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.ScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
@@ -20,7 +20,7 @@ import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModelFactory
 import javax.inject.Inject
 
-class ScoreboardActivity : BaseActivityAdvanced<ActivityScoreboardBinding>() {
+class ScoreboardActivity : BaseActivity<ActivityScoreboardBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityScoreboardBinding
             = ActivityScoreboardBinding::inflate

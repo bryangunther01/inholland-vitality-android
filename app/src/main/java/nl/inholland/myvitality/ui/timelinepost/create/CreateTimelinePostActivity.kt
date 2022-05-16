@@ -6,26 +6,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
-import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityCreatePostBinding
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.ImageUploadUtil
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -35,7 +30,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class CreateTimelinePostActivity : BaseActivityAdvanced<ActivityCreatePostBinding>(), Callback<Void> {
+class CreateTimelinePostActivity : BaseActivity<ActivityCreatePostBinding>(), Callback<Void> {
 
     override val bindingInflater: (LayoutInflater) -> ActivityCreatePostBinding
             = ActivityCreatePostBinding::inflate

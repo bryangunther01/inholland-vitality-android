@@ -1,7 +1,6 @@
 package nl.inholland.myvitality.ui.profile.overview
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.inholland.myvitality.data.ApiClient
@@ -25,8 +24,8 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
         MutableLiveData<List<Activity>>()
     }
 
-    val personalScoreboard: MutableLiveData<List<PersonalScoreboardResult>> by lazy {
-        MutableLiveData<List<PersonalScoreboardResult>>()
+    val achievements: MutableLiveData<List<Achievement>> by lazy {
+        MutableLiveData<List<Achievement>>()
     }
 
     val apiResponse: MutableLiveData<ApiResponse> by lazy {
@@ -79,20 +78,20 @@ class ProfileViewModel constructor(private val apiClient: ApiClient, private val
         }
     }
 
-    fun getUserScoreboard(userId: String?){
+    fun getAchievements(userId: String?){
         sharedPrefs.accessToken?.let {
-            apiClient.getPersonalScoreboard("Bearer $it", userId = userId).enqueue(object : Callback<List<PersonalScoreboardResult>> {
-                override fun onResponse(call: Call<List<PersonalScoreboardResult>>, response: Response<List<PersonalScoreboardResult>>) {
+            apiClient.getAchievements("Bearer $it", userId = userId).enqueue(object : Callback<List<Achievement>> {
+                override fun onResponse(call: Call<List<Achievement>>, response: Response<List<Achievement>>) {
                     if(response.isSuccessful && response.body() != null){
                         response.body()?.let { result ->
-                            personalScoreboard.value = result
+                            achievements.value = result
                         }
                     } else if(response.code() == 401){
                         apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
-                override fun onFailure(call: Call<List<PersonalScoreboardResult>>, t: Throwable) {
+                override fun onFailure(call: Call<List<Achievement>>, t: Throwable) {
                     apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("ProfileActivity", "onFailure: ", t)
                 }

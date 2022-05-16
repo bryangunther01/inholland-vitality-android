@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.authentication.register.main.RegisterActivity">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -51,10 +49,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/register_details_1_title"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/register_details_title_2"
+                    android:text="@string/register_details_title_1"
                     android:fontFamily="@font/avenir_lt_pro_heavy"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -64,7 +62,7 @@
                     android:layout_marginTop="-4sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/register_details_subtitle_2"
+                    android:text="@string/register_details_subtitle_1"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textAlignment="center"
@@ -73,7 +71,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/register_details_error"
+                    android:id="@+id/error"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red"
@@ -84,46 +82,65 @@
                     android:visibility="invisible"
                     />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="@dimen/margin_normal">
-                    <ImageButton
-                        android:id="@+id/register_details_pick_image_button"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/circle"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_medium"
-                        android:src="@drawable/ic_photo_camera">
-                    </ImageButton>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/register_details_photo_info"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/avenir_lt_pro_roman"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
                 <EditText
-                    android:id="@+id/register_details_edit_text_description"
+                    android:id="@+id/first_name"
                     style="@style/EditText"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium_big"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:maxLength="130"
+                    android:drawableStart="@drawable/ic_person"
+                    android:hint="@string/hint_firstname"
+                    android:minHeight="48dp"
+                    android:inputType="textPersonName|textCapSentences" />
+
+                <EditText
+                    android:id="@+id/last_name"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium_big"
+                    android:drawableStart="@drawable/ic_person"
+                    android:hint="@string/hint_lastname"
+                    android:inputType="textPersonName|textCapSentences"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/job_title"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium_big"
+                    android:drawableStart="@drawable/ic_suitcase"
+                    android:hint="@string/hint_jobtitle"
+                    android:inputType="textCapWords"
+                    android:minHeight="48dp" />
+
+                <EditText
+                    android:id="@+id/location"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/margin_medium_big"
+                    android:drawableStart="@drawable/ic_location"
+                    android:hint="@string/hint_location"
+                    android:inputType="textCapSentences"
                     android:minHeight="48dp" />
 
                 <Button
-                    android:id="@+id/register_details_2_button"
+                    android:id="@+id/button"
                     style="@style/ButtonPrimary"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
                     android:background="@drawable/button_primary"
                     android:enabled="false"
@@ -133,7 +150,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/register_login"
+            android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_heavy"

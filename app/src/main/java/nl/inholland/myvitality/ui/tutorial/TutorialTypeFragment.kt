@@ -32,6 +32,10 @@ class TutorialTypeFragment(val type: TutorialType) : Fragment() {
                 image.setImageResource(R.drawable.timeline_group)
                 description.text = getString(R.string.tutorial_description_timeline)
             }
+            TutorialType.ACHIEVEMENTS -> {
+                image.setImageResource(R.drawable.ic_medal)
+                description.text = getString(R.string.tutorial_description_achievements)
+            }
         }
 
         return view
