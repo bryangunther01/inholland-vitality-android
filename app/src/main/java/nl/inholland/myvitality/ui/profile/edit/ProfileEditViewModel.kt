@@ -1,11 +1,9 @@
 package nl.inholland.myvitality.ui.profile.edit
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.ApiResponse
 import nl.inholland.myvitality.data.entities.Interest
 import nl.inholland.myvitality.data.entities.ResponseStatus
@@ -17,11 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProfileEditViewModel constructor(
-    private val apiClient: ApiClient,
-    private val tokenApiClient: TokenApiClient,
-    private val sharedPrefs: SharedPreferenceHelper
-) : ViewModel() {
+class ProfileEditViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
     val currentUser: MutableLiveData<User> by lazy {
         MutableLiveData<User>()

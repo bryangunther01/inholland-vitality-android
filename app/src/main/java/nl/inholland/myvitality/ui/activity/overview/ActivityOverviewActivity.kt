@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
 import nl.inholland.myvitality.data.entities.ActivityState
 import nl.inholland.myvitality.data.entities.ResponseStatus
@@ -16,7 +16,7 @@ import nl.inholland.myvitality.databinding.ActivityOverviewActivitiesBinding
 import javax.inject.Inject
 
 
-class ActivityOverviewActivity : BaseActivityAdvanced<ActivityOverviewActivitiesBinding>() {
+class ActivityOverviewActivity : BaseActivity<ActivityOverviewActivitiesBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityOverviewActivitiesBinding
             = ActivityOverviewActivitiesBinding::inflate

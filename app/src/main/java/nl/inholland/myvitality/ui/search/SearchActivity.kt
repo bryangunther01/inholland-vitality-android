@@ -3,27 +3,23 @@ package nl.inholland.myvitality.ui.search
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
 import nl.inholland.myvitality.databinding.ActivitySearchBinding
 import nl.inholland.myvitality.ui.MainActivity
 import javax.inject.Inject
 
-class SearchActivity : BaseActivityAdvanced<ActivitySearchBinding>() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivitySearchBinding
             = ActivitySearchBinding::inflate

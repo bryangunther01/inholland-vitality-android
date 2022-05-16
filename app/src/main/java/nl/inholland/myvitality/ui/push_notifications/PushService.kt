@@ -14,7 +14,6 @@ import com.google.firebase.messaging.RemoteMessage
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity

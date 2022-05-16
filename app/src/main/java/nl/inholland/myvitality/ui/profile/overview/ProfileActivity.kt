@@ -22,11 +22,10 @@ import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.adapters.AchievementAdapter
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
-import nl.inholland.myvitality.data.adapters.PersonalScoreboardAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.databinding.ActivityProfileBinding
@@ -42,7 +41,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 
-class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
+class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityProfileBinding
             = ActivityProfileBinding::inflate
@@ -58,7 +57,7 @@ class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
     var userActivitiesSkeletonScreen: RecyclerViewSkeletonScreen? = null
     var personalScoreboardSkeletonScreen: RecyclerViewSkeletonScreen? = null
     var userActivitiesAdapter: ActivityAdapter? = null
-    var personalScoreboardAdapter: PersonalScoreboardAdapter? = null
+    var achievementAdapter: AchievementAdapter? = null
 
     var userId: String? = null
     var currentUser: User? = null
@@ -158,10 +157,10 @@ class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        personalScoreboardAdapter = PersonalScoreboardAdapter(this)
+        achievementAdapter = AchievementAdapter(this)
 
-        binding.personalScoreboardRecyclerview.let {
-            it.adapter = personalScoreboardAdapter
+        binding.achievementRecyclerView.let {
+            it.adapter = achievementAdapter
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
     }
@@ -194,8 +193,8 @@ class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
             .load(R.layout.activity_skeleton_view_item)
             .show()
 
-        personalScoreboardSkeletonScreen = Skeleton.bind(binding.personalScoreboardRecyclerview)
-            .adapter(personalScoreboardAdapter)
+        personalScoreboardSkeletonScreen = Skeleton.bind(binding.achievementRecyclerView)
+            .adapter(achievementAdapter)
             .frozen(true)
             .duration(2400)
             .count(10)
@@ -236,16 +235,17 @@ class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
                 )
             )
 
+            if(user.interests.isNullOrEmpty()) binding.interests.visibility = View.GONE
 
             if (userId.isNullOrBlank()) {
                 binding.interests.text = getString(R.string.profile_your_interests, user.interests?.joinToString { it.name }).toHtmlSpan()
 
-                binding.personalScoreboardTitle.text = getString(R.string.profile_your_prize_cabinet)
+                binding.achievementTitle.text = getString(R.string.profile_your_prize_cabinet)
                 binding.button.text = getString(R.string.profile_edit)
                 binding.button.visibility = View.VISIBLE
             } else {
                 binding.interests.text = getString(R.string.profile_interests, user.firstName, user.interests?.joinToString { it.name }).toHtmlSpan()
-                binding.personalScoreboardTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
+                binding.achievementTitle.text = getString(R.string.profile_prize_cabinet, user.firstName)
             }
         }
 
@@ -277,13 +277,13 @@ class ProfileActivity : BaseActivityAdvanced<ActivityProfileBinding>() {
     }
 
     private fun initScoreboard(){
-        viewModel.getUserScoreboard(userId)
+        viewModel.getAchievements(userId)
 
-        viewModel.personalScoreboard.observe(this) { results ->
+        viewModel.achievements.observe(this) { results ->
             val visibility = if(results.isEmpty()) View.GONE else View.VISIBLE
             binding.personalScoreboard.visibility = visibility
 
-            personalScoreboardAdapter?.addItems(results)
+            achievementAdapter?.addItems(results)
             personalScoreboardSkeletonScreen?.hide()
         }
     }

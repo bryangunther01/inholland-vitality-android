@@ -6,25 +6,19 @@ import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.button.MaterialButton
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.adapters.CommentAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.TimelinePost
-import nl.inholland.myvitality.databinding.ActivityCreatePostBinding
 import nl.inholland.myvitality.databinding.ActivityPostBinding
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
@@ -34,7 +28,7 @@ import nl.inholland.myvitality.util.DateUtils
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
 
-class TimelinePostActivity : BaseActivityAdvanced<ActivityPostBinding>() {
+class TimelinePostActivity : BaseActivity<ActivityPostBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityPostBinding
             = ActivityPostBinding::inflate

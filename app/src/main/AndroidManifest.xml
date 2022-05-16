@@ -110,11 +110,11 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.authentication.register.details1.RegisterDetailsActivity"
+            android:name=".ui.authentication.register.details.RegisterDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.authentication.register.details2.RegisterAdditionalDetailsActivity"
+            android:name=".ui.authentication.register.additionaldetails.RegisterAdditionalDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 

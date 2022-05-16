@@ -8,13 +8,11 @@ import android.provider.CalendarContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
-import androidx.appcompat.widget.AppCompatButton
-import androidx.constraintlayout.widget.Group
+import android.widget.ImageButton
+import android.widget.MediaController
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
@@ -22,11 +20,13 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_details_activity.*
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
-import nl.inholland.myvitality.data.entities.*
+import nl.inholland.myvitality.data.entities.Activity
+import nl.inholland.myvitality.data.entities.ActivityProgress
+import nl.inholland.myvitality.data.entities.ActivityType
+import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityDetailsActivityBinding
-import nl.inholland.myvitality.databinding.ActivityNotificationBinding
 import nl.inholland.myvitality.ui.achievement.AchievementActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
@@ -37,7 +37,7 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.inject.Inject
 
-class ActivityDetailActivity : BaseActivityAdvanced<ActivityDetailsActivityBinding>() {
+class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityDetailsActivityBinding
             = ActivityDetailsActivityBinding::inflate
@@ -129,8 +129,8 @@ class ActivityDetailActivity : BaseActivityAdvanced<ActivityDetailsActivityBindi
         viewModel.activityProgress.observe(this) { progress ->
             Dialogs.hideCurrentDialog()
 
-            val showWhenInProgress = if(progress.equals(ActivityProgress.IN_PROGRESS) && currentActivity?.hasEnded != true) View.VISIBLE else View.GONE
-            val showWhenNotSubscribed = if(progress.equals(ActivityProgress.NOT_SUBSCRIBED) || progress.equals(ActivityProgress.CANCELLED) && currentActivity?.hasEnded != true) View.VISIBLE else View.GONE
+            val showWhenInProgress = if(progress.equals(ActivityProgress.IN_PROGRESS)) View.VISIBLE else View.GONE
+            val showWhenNotSubscribed = if(progress.equals(ActivityProgress.NOT_SUBSCRIBED) || progress.equals(ActivityProgress.CANCELLED) && currentActivity?.hasEnded == false) View.VISIBLE else View.GONE
 
             binding.startButton.visibility = showWhenNotSubscribed
             binding.participantsCount.visibility = showWhenNotSubscribed
@@ -138,8 +138,12 @@ class ActivityDetailActivity : BaseActivityAdvanced<ActivityDetailsActivityBindi
 
             binding.cancelButton.visibility = showWhenInProgress
             binding.completeButton.visibility = showWhenInProgress
-            binding.openUrlButton.visibility = showWhenInProgress
-            findViewById<ImageButton>(R.id.calendar_button).visibility = showWhenInProgress
+
+            currentActivity?.url?.let {
+                binding.openUrlButton.visibility = showWhenInProgress
+            }
+
+            binding.calendarButton.visibility = showWhenInProgress
 
             when(progress){
                 ActivityProgress.NOT_SUBSCRIBED, ActivityProgress.CANCELLED -> {

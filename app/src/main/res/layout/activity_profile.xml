@@ -167,10 +167,10 @@
             android:id="@+id/personal_scoreboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="personal_scoreboard_title, personal_scoreboard_recyclerview"/>
+            app:constraint_referenced_ids="achievement_title, achievement_recycler_view"/>
 
         <TextView
-            android:id="@+id/personal_scoreboard_title"
+            android:id="@+id/achievement_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_book"
@@ -183,14 +183,14 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/personal_scoreboard_recyclerview"
+            android:id="@+id/achievement_recycler_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/personal_scoreboard_title"/>
+            app:layout_constraintTop_toBottomOf="@id/achievement_title"/>
 
 
         <androidx.constraintlayout.widget.Guideline

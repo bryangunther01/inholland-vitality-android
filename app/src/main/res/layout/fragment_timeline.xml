@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/timeline_refresh_layout"
+    android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/timeline_profile_image"
+            android:id="@+id/profile_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/person_placeholder"
@@ -33,7 +33,7 @@
             app:shapeAppearanceOverlay="@style/CircleImageView" />
 
         <EditText
-            android:id="@+id/timeline_searchbar"
+            android:id="@+id/searchbar"
             style="@style/SmallEditText"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -47,35 +47,40 @@
             app:layout_constraintTop_toTopOf="@id/search_actionbar"
             app:layout_constraintBottom_toBottomOf="@id/search_actionbar"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintStart_toEndOf="@id/timeline_profile_image" />
+            app:layout_constraintStart_toEndOf="@id/profile_image" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="empty_icon, empty_text"/>
 
         <ImageView
-            android:id="@+id/timeline_empty_icon"
+            android:id="@+id/empty_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_timeline"
             app:tint="@color/primary"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintBottom_toTopOf="@+id/timeline_empty_text"/>
+            app:layout_constraintBottom_toTopOf="@+id/empty_text"/>
 
         <TextView
-            android:id="@+id/timeline_empty_text"
+            android:id="@+id/empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_notification"
             android:text="@string/timeline_empty"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/timeline_empty_icon"
+            app:layout_constraintTop_toBottomOf="@+id/empty_icon"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeline_post_recyclerview"
+            android:id="@+id/recyclerview"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_small_medium"

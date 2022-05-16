@@ -25,7 +25,7 @@ import com.microsoft.identity.client.PublicClientApplication
 import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
+import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityProfileEditBinding
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
@@ -38,7 +38,7 @@ import okhttp3.RequestBody
 import javax.inject.Inject
 
 
-class ProfileEditActivity : BaseActivityAdvanced<ActivityProfileEditBinding>() {
+class ProfileEditActivity : BaseActivity<ActivityProfileEditBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityProfileEditBinding
             = ActivityProfileEditBinding::inflate
@@ -138,17 +138,6 @@ class ProfileEditActivity : BaseActivityAdvanced<ActivityProfileEditBinding>() {
             Dialogs.showAccountDeletionDialog(this) {
                 viewModel.deleteAccount()
             }
-
-            // sign out of Azure AD after deleting account
-            mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
-                override fun onSignOut() {
-                    Log.i("ProfileEditActivity" , "Successfully signed out of Azure AD")
-                }
-
-                override fun onError(exception: MsalException) {
-                    Log.i("ProfileEditActivity" , exception.message.toString())
-                }
-            })
         }
 
         // Set the click listener for the save button
@@ -265,6 +254,17 @@ class ProfileEditActivity : BaseActivityAdvanced<ActivityProfileEditBinding>() {
                 ResponseStatus.DELETED -> {
                     finishAffinity()
                     startActivity(Intent(this, LoginActivity::class.java))
+
+                    // sign out of Azure AD after deleting account
+                    mSingleAccountApp!!.signOut(object : ISingleAccountPublicClientApplication.SignOutCallback {
+                        override fun onSignOut() {
+                            Log.i("ProfileEditActivity" , "Successfully signed out of Azure AD")
+                        }
+
+                        override fun onError(exception: MsalException) {
+                            Log.i("ProfileEditActivity" , exception.message.toString())
+                        }
+                    })
                 }
                 else -> {
                 }

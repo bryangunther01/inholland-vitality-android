@@ -15,13 +15,11 @@ import com.microsoft.identity.client.exception.MsalException
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
-import nl.inholland.myvitality.architecture.base.BaseActivityAdvanced
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.databinding.ActivityScoreboardBinding
 import nl.inholland.myvitality.databinding.ActivitySplashScreenBinding
 import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.details.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.tutorial.TutorialActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
@@ -31,7 +29,7 @@ import javax.inject.Inject
  * status bar and navigation/system bar) with user interaction.
  */
 @SuppressLint("CustomSplashScreen")
-class SplashScreenActivity : BaseActivityAdvanced<ActivitySplashScreenBinding>() {
+class SplashScreenActivity : BaseActivity<ActivitySplashScreenBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivitySplashScreenBinding
             = ActivitySplashScreenBinding::inflate
@@ -96,10 +94,7 @@ class SplashScreenActivity : BaseActivityAdvanced<ActivitySplashScreenBinding>()
                 }
             }
 
-            override fun onAccountChanged(
-                priorAccount: IAccount?,
-                currentAccount: IAccount?,
-            ) {
+            override fun onAccountChanged(priorAccount: IAccount?, currentAccount: IAccount?, ) {
                 if (currentAccount == null) {
                     Log.e("LoginActivity" , "Current account = null")
                 }

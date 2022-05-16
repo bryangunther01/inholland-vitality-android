@@ -39,6 +39,7 @@
     <string name="tutorial_description_exercise">Niets is belangrijker dan af en toe de benen strekken tijdens lange werkdagen, doe jij dit al genoeg?</string>
     <string name="tutorial_description_community">Kies jouw community en neem samen met jouw collega’s deel aan de leukste activiteiten!</string>
     <string name="tutorial_description_timeline">Deel jouw prestaties met collega’s op de tijdlijn of daag elkaar uit om samen te trainen voor komende activiteiten.</string>
+    <string name="tutorial_description_achievements">Verdien medailles bij het afronden van een aantal activiteiten of bij elke 300 punten die je verdiend</string>
 
     <string name="tutorial_last_title">Ben jij net zo enthousiast als wij?</string>
     <string name="tutorial_last_subtitle">Log nu in en krijg toegang tot de onderstaande voordelen!</string>
@@ -233,6 +234,9 @@
     <string name="achievement_first_activity_text">Je hebt jouw &lt;b>eerste&lt;/b> activiteit afgerond &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
     <string name="achievement_points_text">Je hebt &lt;b>%01d&lt;/b> punten behaald &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
     <string name="achievement_activities_text">Je hebt &lt;b>%01d&lt;/b> activiteiten afgerond &lt;br /&gt;net zoals &lt;b>%01d%%&lt;/b> van jouw collega\'s</string>
+    <string name="achievement_first_activity_profile_text">Jouw &lt;b>eerste&lt;/b> activiteit</string>
+    <string name="achievement_points_profile_text">&lt;b>%01d&lt;/b> punten behaald</string>
+    <string name="achievement_activities_profile_text">&lt;b>%01d&lt;/b> activiteiten afgerond</string>
     <string name="achievement_button">Ga door</string>
 
     <!-- Scoreboard strings -->
