@@ -15,6 +15,7 @@ import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
+import nl.inholland.myvitality.ui.MainActivity
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
@@ -71,6 +72,9 @@ class PushService : FirebaseMessagingService() {
             "SCREEN_ACTIVITY" -> {
                 intent = Intent(this, ActivityDetailActivity::class.java)
                     .putExtra("ACTIVITY_ID", activityData)
+            }
+            "SCREEN_HOME" -> {
+                intent = Intent(this, MainActivity::class.java)
             }
         }
 
