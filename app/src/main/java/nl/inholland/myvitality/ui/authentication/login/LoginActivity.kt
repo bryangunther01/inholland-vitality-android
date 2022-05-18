@@ -147,9 +147,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
                     if(sharedPrefs.recentlyRegistered) {
                         intent = Intent(this, RegisterDetailsActivity::class.java)
-                        viewModel.registerPushToken()
                     }
 
+                    viewModel.registerPushToken()
+                    
                     startActivity(intent)
                     finish()
                 }
