@@ -195,6 +195,7 @@
     <string name="profile_curr_challenges">Huidige activiteiten</string>
     <string name="profile_prize_cabinet">%1$s\'s Prijzenkast</string>
     <string name="profile_your_prize_cabinet">Jouw Prijzenkast</string>
+    <string name="profile_locked">Alleen zichtbaar wanneer %1$s\ jou volgt</string>
     <string name="profile_dialog_title">%1$s ontvolgen?</string>
     <string name="profile_dialog_title_2">Gebruiker ontvolgen?</string>
     <string name="profile_dialog_body">Je kan nog steeds zijn of haar berichten zien en zijn of haar profiel bekijken.</string>
@@ -216,7 +217,6 @@
     <string name="hint_interests">Interesses (optioneel)</string>
     <string name="profile_edit_interest_title">Kies jouw interesses</string>
     <string name="profile_edit_interest_button">Klaar</string>
-
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> vind je bericht leuk</string>
