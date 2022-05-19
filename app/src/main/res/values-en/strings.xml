@@ -132,7 +132,7 @@
     <string name="activities_overview_no_upcoming_activities">There are currently no activities planned</string>
 
     <!-- Challenge Strings -->
-    <string name="activity_button_start_text">Start activity</string>
+    <string name="activity_button_start_text">Sign up</string>
     <string name="activity_button_complete_text">Complete activity</string>
     <string name="activity_button_cancel_text">Stop activity</string>
     <string name="activity_points_message_1">Earn</string>

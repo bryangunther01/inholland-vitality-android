@@ -150,7 +150,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                     }
 
                     viewModel.registerPushToken()
-                    
+
                     startActivity(intent)
                     finish()
                 }

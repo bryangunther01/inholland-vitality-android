@@ -132,7 +132,7 @@
     <string name="activities_overview_no_upcoming_activities">Er zijn op dit moment geen activiteiten gepland</string>
 
     <!-- Activity Strings -->
-    <string name="activity_button_start_text">Start activiteit</string>
+    <string name="activity_button_start_text">Meld je aan</string>
     <string name="activity_button_complete_text">Voltooi activiteit</string>
     <string name="activity_button_cancel_text">Stop activiteit</string>
     <string name="activity_points_message_1">Verdien</string>
