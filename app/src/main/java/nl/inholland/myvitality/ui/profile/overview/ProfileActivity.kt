@@ -208,7 +208,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
                 if(user.canViewDetails == true){
                     initActivities()
                 } else {
-                    binding.interests.visibility = View.GONE
                     binding.currentActivities.visibility = View.GONE
                     binding.achievements.visibility = View.GONE
                     binding.profileLocked.visibility = View.VISIBLE
