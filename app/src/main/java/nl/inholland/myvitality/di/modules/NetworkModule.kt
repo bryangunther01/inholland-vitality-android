@@ -9,8 +9,8 @@ import io.reactivex.schedulers.Schedulers
 import nl.inholland.myvitality.BuildConfig
 import nl.inholland.myvitality.architecture.enumadapter.EnumJsonAdapterFactory
 import nl.inholland.myvitality.data.ApiClient
-import nl.inholland.myvitality.data.TokenInterceptor
 import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -21,8 +21,6 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule(val context: Context) {
-    private val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
-
     @Provides
     @Singleton
     fun provideApiService(): ApiClient{
@@ -75,5 +73,9 @@ class NetworkModule(val context: Context) {
                 .add(KotlinJsonAdapterFactory())
                 .add(EnumJsonAdapterFactory)
                 .build())
+    }
+
+    companion object {
+        private const val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
     }
 }

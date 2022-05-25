@@ -8,4 +8,9 @@ object RequestUtils {
     fun createPartFromString(value: String): RequestBody {
         return RequestBody.create(MultipartBody.FORM, value)
     }
+
+    fun createPartFromOptionalString(value: String?): RequestBody? {
+        if(value.isNullOrBlank()) return null
+        return RequestBody.create(MultipartBody.FORM, value)
+    }
 }

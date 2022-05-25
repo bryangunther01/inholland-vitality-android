@@ -1,9 +1,10 @@
 package nl.inholland.myvitality.data
 
 import nl.inholland.myvitality.data.entities.*
-import nl.inholland.myvitality.data.entities.requestbody.AuthRequest
+import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.data.entities.requestbody.RegisterRequest
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
+import nl.inholland.myvitality.data.entities.responsebody.ActivityProgressResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -18,7 +19,6 @@ interface ApiClient {
     ): Call<Void>
 
     /** User calls **/
-
     @GET("user")
     fun getUser(
         @Header("Authorization") token: String,
@@ -47,6 +47,7 @@ interface ApiClient {
         @Part("jobTitle") jobTitle: RequestBody? = null,
         @Part("location") location: RequestBody? = null,
         @Part("description") description: RequestBody? = null,
+        @Part("interests") interest: RequestBody? = null,
         @Part file: MultipartBody.Part? = null
     ): Call<Void>
 
@@ -67,10 +68,13 @@ interface ApiClient {
         @Header("Authorization") token: String
     ): Call<Void>
 
-    @POST("user/recover")
-    fun recoverUser(
-        @Query("email") email: String
-    ): Call<Void>
+    @GET("user/achievements")
+    fun getAchievements(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("userId") userId: String? = null,
+    ): Call<List<Achievement>>
 
     /** Activity Calls **/
     @GET("category")
@@ -110,23 +114,23 @@ interface ApiClient {
         @Header("Authorization") token: String,
         @Path("activityId") activityId: String,
         @Query("activityProgress") progress: Int
-    ): Call<Void>
+    ): Call<ActivityProgressResponse>
 
     /** Scoreboard Calls **/
-    @GET("scoreboard/personal")
-    fun getPersonalScoreboard(
-        @Header("Authorization") token: String,
-        @Query("limit") limit: Int = 5,
-        @Query("offset") offset: Int = 0,
-        @Query("userId") userId: String? = null,
-    ): Call<List<PersonalScoreboardResult>>
-
     @GET("scoreboard")
     fun getScoreboard(
         @Header("Authorization") token: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Call<List<ScoreboardUser>>
+
+    /** Interest calls **/
+    @GET("interest")
+    fun getInterests(
+        @Header("Authorization") token: String,
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+    ): Call<List<Interest>>
 
     /** Timeline calls **/
     @GET("timelinepost")
@@ -198,4 +202,24 @@ interface ApiClient {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Call<List<Notification>>
+
+    /** Push token calls **/
+
+    @POST("notification/pushtoken")
+    fun createPushToken(
+        @Header("Authorization") token: String,
+        @Body body: PushToken
+    ): Call<Void>
+
+    @DELETE("notification/pushtoken")
+    fun deletePushToken(
+        @Header("Authorization") token: String,
+        @Query("pushToken") pushToken: String
+    ): Call<Void>
+
+    @HEAD("notification/pushtoken/validate/{pushToken}")
+    fun validateToken(
+        @Header("Authorization") token: String,
+        @Path("pushToken") pushToken: String
+    ): Call<Void>
 }

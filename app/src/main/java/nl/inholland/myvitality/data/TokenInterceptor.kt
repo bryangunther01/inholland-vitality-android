@@ -3,9 +3,9 @@ package nl.inholland.myvitality.data
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.entities.AuthSettings
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 import retrofit2.Call

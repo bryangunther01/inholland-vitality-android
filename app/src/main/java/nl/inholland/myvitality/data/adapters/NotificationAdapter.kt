@@ -2,7 +2,6 @@ package nl.inholland.myvitality.data.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,7 @@ class NotificationAdapter(context: Context) :
                 clickListener = View.OnClickListener { view ->
                     view.context.startActivity(
                         Intent(view.context, ActivityDetailActivity::class.java)
-                            .putExtra("CHALLENGE_ID", currentItem.challengeId)
+                            .putExtra("ACTIVITY_ID", currentItem.challengeId)
                     )
                 }
             }
@@ -103,7 +102,7 @@ class NotificationAdapter(context: Context) :
             if (currentItem.type == NotificationType.GLOBAL) {
                 view.context.startActivity(
                     Intent(view.context, ActivityDetailActivity::class.java)
-                        .putExtra("CHALLENGE_ID", currentItem.challengeId)
+                        .putExtra("ACTIVITY_ID", currentItem.challengeId)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 )
             } else {

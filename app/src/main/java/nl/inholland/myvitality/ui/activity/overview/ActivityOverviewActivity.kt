@@ -1,32 +1,25 @@
 package nl.inholland.myvitality.ui.activity.overview
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.ActivityAdapter
 import nl.inholland.myvitality.data.entities.ActivityState
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivityOverviewActivitiesBinding
 import javax.inject.Inject
 
 
-class ActivityOverviewActivity : BaseActivity() {
+class ActivityOverviewActivity : BaseActivity<ActivityOverviewActivitiesBinding>() {
 
-    @BindView(R.id.act_overview_user_activities_recyclerview)
-    lateinit var userActivitiesRecyclerView: RecyclerView
-
-    @BindView(R.id.act_overview_available_activities_recyclerview)
-    lateinit var availableActivitiesRecyclerView: RecyclerView
-
-    @BindView(R.id.act_overview_upcoming_activities_recyclerview)
-    lateinit var upcomingActivitiesRecyclerView: RecyclerView
+    override val bindingInflater: (LayoutInflater) -> ActivityOverviewActivitiesBinding
+            = ActivityOverviewActivitiesBinding::inflate
 
     @Inject
     lateinit var factory: ActivityOverviewModelFactory
@@ -37,10 +30,6 @@ class ActivityOverviewActivity : BaseActivity() {
     private var upcomingActivitiesAdapter: ActivityAdapter? = null
 
     private var categoryId: String? = null
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_overview_activities
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,19 +55,19 @@ class ActivityOverviewActivity : BaseActivity() {
 
     private fun setupRecyclerViews() {
         userActivitiesAdapter = ActivityAdapter(this)
-        userActivitiesRecyclerView.let {
+        binding.userActivitiesRecyclerview.let {
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             it.adapter = userActivitiesAdapter
         }
 
         availableActivitiesAdapter = ActivityAdapter(this)
-        availableActivitiesRecyclerView.let {
+        binding.availableActivitiesRecyclerview.let {
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             it.adapter = availableActivitiesAdapter
         }
 
         upcomingActivitiesAdapter = ActivityAdapter(this)
-        upcomingActivitiesRecyclerView.let {
+        binding.upcomingActivitiesRecyclerview.let {
             it.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             it.adapter = upcomingActivitiesAdapter
         }
@@ -92,8 +81,8 @@ class ActivityOverviewActivity : BaseActivity() {
                 userActivitiesAdapter?.addItems(it)
                 viewModel.getActivities(categoryId, ActivityState.AVAILABLE)
 
-                userActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-                findViewById<Group>(R.id.act_overview_user_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                binding.userActivitiesRecyclerview.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                binding.userActivitiesEmpty.visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
 0
             }
 
@@ -101,15 +90,15 @@ class ActivityOverviewActivity : BaseActivity() {
                 availableActivitiesAdapter?.addItems(it)
                 viewModel.getActivities(categoryId, ActivityState.UPCOMING)
 
-                availableActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-                findViewById<Group>(R.id.act_overview_available_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                binding.availableActivitiesRecyclerview.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                binding.availableActivitiesEmpty.visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
             }
 
             viewModel.upcomingActivities.observe(this) {
                 upcomingActivitiesAdapter?.addItems(it)
 
-                upcomingActivitiesRecyclerView.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
-                findViewById<Group>(R.id.act_overview_upcoming_activities_empty).visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
+                binding.upcomingActivitiesRecyclerview.visibility = if(it.isEmpty()) View.INVISIBLE else View.VISIBLE
+                binding.upcomingActivitiesEmpty.visibility = if(it.isEmpty()) View.VISIBLE else View.INVISIBLE
             }
         }
     }

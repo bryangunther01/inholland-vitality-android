@@ -5,14 +5,13 @@ import nl.inholland.myvitality.di.modules.ApplicationModule
 import nl.inholland.myvitality.di.modules.NetworkModule
 import nl.inholland.myvitality.di.modules.ViewModelModule
 import nl.inholland.myvitality.ui.MainActivity
-import nl.inholland.myvitality.ui.authentication.login.LoginActivity
-import nl.inholland.myvitality.ui.authentication.recover.AccountRecoverActivity
-import nl.inholland.myvitality.ui.authentication.register.details1.RegisterDetailsActivity
-import nl.inholland.myvitality.ui.authentication.register.details2.RegisterAdditionalDetailsActivity
-import nl.inholland.myvitality.ui.authentication.register.main.RegisterActivity
+import nl.inholland.myvitality.ui.achievement.AchievementActivity
 import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
+import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.ui.authentication.register.additionaldetails.RegisterAdditionalDetailsActivity
+import nl.inholland.myvitality.ui.authentication.register.details.RegisterDetailsActivity
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity
 import nl.inholland.myvitality.ui.profile.edit.ProfileEditActivity
@@ -33,7 +32,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(activity: SplashScreenActivity)
     fun inject(activity: LoginActivity)
-    fun inject(activity: RegisterActivity)
     fun inject(activity: RegisterDetailsActivity)
     fun inject(activity: RegisterAdditionalDetailsActivity)
     fun inject(activity: MainActivity)
@@ -50,7 +48,7 @@ interface ApplicationComponent {
     fun inject(activity: TutorialActivity)
     fun inject(activity: ProfileEditActivity)
     fun inject(activity: ActivityParticipantsActivity)
-    fun inject(activity: AccountRecoverActivity)
     fun inject(activity: ActivityOverviewActivity)
+    fun inject(activity: AchievementActivity)
     fun inject(pushService: PushService)
 }

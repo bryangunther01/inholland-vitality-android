@@ -5,20 +5,19 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.CalendarContract
-import android.text.Html
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
-import androidx.appcompat.widget.AppCompatButton
-import androidx.constraintlayout.widget.Group
+import android.widget.ImageButton
+import android.widget.MediaController
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_details_activity.*
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
@@ -27,7 +26,8 @@ import nl.inholland.myvitality.data.entities.Activity
 import nl.inholland.myvitality.data.entities.ActivityProgress
 import nl.inholland.myvitality.data.entities.ActivityType
 import nl.inholland.myvitality.data.entities.ResponseStatus
-import nl.inholland.myvitality.ui.activity.overview.ActivityOverviewActivity
+import nl.inholland.myvitality.databinding.ActivityDetailsActivityBinding
+import nl.inholland.myvitality.ui.achievement.AchievementActivity
 import nl.inholland.myvitality.ui.activity.participants.ActivityParticipantsActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
@@ -35,43 +35,12 @@ import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 import nl.inholland.myvitality.util.TextViewUtils
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 import javax.inject.Inject
 
-class ActivityDetailActivity : BaseActivity() {
+class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
 
-    @BindView(R.id.activity_image)
-    lateinit var image: ImageView
-    @BindView(R.id.activity_type)
-    lateinit var type: TextView
-    @BindView(R.id.activity_subtitle)
-    lateinit var date: TextView
-    @BindView(R.id.activity_title)
-    lateinit var title: TextView
-    @BindView(R.id.activity_points)
-    lateinit var points: TextView
-    @BindView(R.id.activity_description)
-    lateinit var description: TextView
-    @BindView(R.id.activity_location)
-    lateinit var location: TextView
-    @BindView(R.id.activity_video_container)
-    lateinit var videoContainer: FrameLayout
-    @BindView(R.id.activity_video)
-    lateinit var videoView: VideoView
-    @BindView(R.id.activity_participants)
-    lateinit var participantsCount: TextView
-    @BindView(R.id.activity_recommended_activities_recyclerview)
-    lateinit var exploreActivitiesRecyclerView: RecyclerView
-    @BindView(R.id.activity_start_button)
-    lateinit var startActivityButton: Button
-    @BindView(R.id.activity_cancel_button)
-    lateinit var cancelActivityButton: AppCompatButton
-    @BindView(R.id.activity_open_url_button)
-    lateinit var urlButton: AppCompatButton
-    @BindView(R.id.activity_complete_button)
-    lateinit var completeActivityButton: Button
-    @BindView(R.id.activity_recommended_activities)
-    lateinit var recommendedActivities: Group
+    override val bindingInflater: (LayoutInflater) -> ActivityDetailsActivityBinding
+            = ActivityDetailsActivityBinding::inflate
 
     @Inject
     lateinit var factory: ActivityViewModelFactory
@@ -79,13 +48,9 @@ class ActivityDetailActivity : BaseActivity() {
 
     private var layoutManager: LinearLayoutManager? = null
     var adapter: ActivityAdapter? = null
-    var currentActivity: Activity? = null
-    var currentActivityId: String = ""
-    var requestedShareUrl = false
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_challenge
-    }
+    private var currentActivity: Activity? = null
+    private var currentActivityId: String = ""
+    private var requestedShareUrl = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,38 +130,44 @@ class ActivityDetailActivity : BaseActivity() {
             Dialogs.hideCurrentDialog()
 
             val showWhenInProgress = if(progress.equals(ActivityProgress.IN_PROGRESS)) View.VISIBLE else View.GONE
-            val showWhenNotSubscribed = if(progress.equals(ActivityProgress.NOT_SUBSCRIBED) || progress.equals(ActivityProgress.CANCELLED)) View.VISIBLE else View.GONE
+            val showWhenNotSubscribed = if(progress.equals(ActivityProgress.NOT_SUBSCRIBED) || progress.equals(ActivityProgress.CANCELLED) && currentActivity?.hasEnded == false) View.VISIBLE else View.GONE
 
-            startActivityButton.visibility = showWhenNotSubscribed
-            participantsCount.visibility = showWhenNotSubscribed
-            recommendedActivities.visibility = showWhenNotSubscribed
+            binding.startButton.visibility = showWhenNotSubscribed
+            binding.participantsCount.visibility = showWhenNotSubscribed
+            binding.recommendedActivities.visibility = showWhenNotSubscribed
 
-            cancelActivityButton.visibility = showWhenInProgress
-            completeActivityButton.visibility = showWhenInProgress
-            urlButton.visibility = showWhenInProgress
-            findViewById<ImageButton>(R.id.calendar_button).visibility = showWhenInProgress
+            binding.cancelButton.visibility = showWhenInProgress
+            binding.completeButton.visibility = showWhenInProgress
+
+            currentActivity?.url?.let {
+                binding.openUrlButton.visibility = showWhenInProgress
+            }
+
+            binding.calendarButton.visibility = showWhenInProgress
 
             when(progress){
                 ActivityProgress.NOT_SUBSCRIBED, ActivityProgress.CANCELLED -> {
                     // Load recommended activities
                     initRecommendedActivities()
 
-                    startActivityButton.setOnClickListener {
+                    binding.startButton.setOnClickListener {
                         updateActivityProgress(ActivityProgress.IN_PROGRESS)
                     }
                 }
                 ActivityProgress.IN_PROGRESS -> {
-                    cancelActivityButton.setOnClickListener {
+                    binding.cancelButton.setOnClickListener {
                         Dialogs.showCancelChallengeDialog(this) {
                             updateActivityProgress(ActivityProgress.CANCELLED)
                         }
                     }
 
-                    completeActivityButton.setOnClickListener {
+                    binding.completeButton.setOnClickListener {
                         updateActivityProgress(ActivityProgress.DONE)
                     }
                 }
-                else -> {}
+                ActivityProgress.DONE -> {
+                    finish()
+                }
             }
         }
     }
@@ -208,13 +179,13 @@ class ActivityDetailActivity : BaseActivity() {
 
             if(activity.activityProgress == ActivityProgress.NOT_SUBSCRIBED
                 || activity.activityProgress == ActivityProgress.CANCELLED){
-                if (!activity.signUpOpen) startActivityButton.isEnabled = false
+                if (!activity.signUpOpen) binding.startButton.isEnabled = false
             }
 
-            completeActivityButton.isEnabled = activity.hasStarted
+            binding.completeButton.isEnabled = activity.hasStarted
 
             activity.url?.let { url ->
-                urlButton.setOnClickListener {
+                binding.openUrlButton.setOnClickListener {
                     val uri: Uri = Uri.parse(url)
 
                     val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -239,19 +210,19 @@ class ActivityDetailActivity : BaseActivity() {
             // Set the date
             when {
                 DateUtils.isInPast(activity.endDate) -> {
-                    date.text = getString(
+                    binding.subtitle.text = getString(
                         R.string.activity_ended_text,
                         DateUtils.formatDate(activity.endDate, "dd MMMM yyyy")
                     )
                 }
                 DateUtils.isInPast(activity.startDate) -> {
-                    date.text = getString(
+                    binding.subtitle.text = getString(
                         R.string.activity_end_date_text,
                         DateUtils.formatDate(activity.endDate, "dd MMMM yyyy HH:mm")
                     )
                 }
                 else -> {
-                    date.text = getString(
+                    binding.subtitle.text = getString(
                         R.string.activity_start_date_text,
                         DateUtils.formatDate(activity.startDate, "dd MMMM yyyy HH:mm")
                     )
@@ -259,12 +230,12 @@ class ActivityDetailActivity : BaseActivity() {
             }
 
             // Set the title of the activity
-            title.text = activity.title
+            binding.title.text = activity.title
 
             activity.videoLink?.let {
-                videoContainer.visibility = View.VISIBLE
-                videoView.setVideoPath(it)
-                videoView.start()
+                binding.videoContainer.visibility = View.VISIBLE
+                binding.video.setVideoPath(it)
+                binding.video.start()
             }
 
             if(points.text.isEmpty()) {
@@ -319,7 +290,7 @@ class ActivityDetailActivity : BaseActivity() {
         viewModel.getRecommendedActivities()
         viewModel.recommendedActivities.observe(this) {
             val visibility = if (it.isEmpty()) View.INVISIBLE else View.VISIBLE
-            findViewById<Group>(R.id.activity_recommended_activities).visibility = visibility
+            binding.recommendedActivities.visibility = visibility
 
             adapter?.addItems(it)
         }
@@ -327,13 +298,19 @@ class ActivityDetailActivity : BaseActivity() {
 
     private fun updateActivityProgress(activityProgress: ActivityProgress) {
         viewModel.updateActivityProgress(activityProgress, currentActivity!!.activityId)
+
+        viewModel.achievements.observe(this) {
+            startActivity(
+                Intent(this, AchievementActivity::class.java)
+                    .putParcelableArrayListExtra("ACHIEVEMENT_LIST", ArrayList(it)))
+        }
     }
 
     private fun setupRecyclerView() {
         layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         adapter = ActivityAdapter(this)
 
-        exploreActivitiesRecyclerView.let {
+        binding.recommendedActivitiesRecyclerview.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
@@ -341,8 +318,8 @@ class ActivityDetailActivity : BaseActivity() {
 
     private fun setupVideoView() {
         val mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
-        videoView.setMediaController(mediaController)
+        mediaController.setAnchorView(binding.video)
+        binding.video.setMediaController(mediaController)
     }
 
     @OnClick(R.id.calendar_button)

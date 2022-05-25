@@ -1,6 +1,5 @@
 package nl.inholland.myvitality.ui.push_notifications
 
-import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -14,10 +13,13 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.data.TokenApiClient
+import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.requestbody.PushToken
 import nl.inholland.myvitality.ui.MainActivity
+import nl.inholland.myvitality.ui.activity.detail.ActivityDetailActivity
 import nl.inholland.myvitality.ui.notification.NotificationActivity
+import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
+import nl.inholland.myvitality.ui.timelinepost.view.TimelinePostActivity
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,7 +32,7 @@ class PushService : FirebaseMessagingService() {
     lateinit var sharedPrefs: SharedPreferenceHelper
 
     @Inject
-    lateinit var apiClient: TokenApiClient
+    lateinit var apiClient: ApiClient
 
     private val CHANNEL_ID = "vitality_channel"
 
@@ -43,7 +45,7 @@ class PushService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val intent = Intent(this, NotificationActivity::class.java)
+        var intent = Intent(this, NotificationActivity::class.java)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = Random.nextInt()
 
@@ -54,7 +56,29 @@ class PushService : FirebaseMessagingService() {
         Log.d("TAG", message.data.toString())
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+
+        val activity = message.data["screen"]
+        val activityData = message.data["screenData"]
+
+        when(activity){
+            "SCREEN_PROFILE" -> {
+                intent = Intent(this, ProfileActivity::class.java)
+                    .putExtra("USER_ID", activityData)
+            }
+            "SCREEN_TIMELINEPOST" -> {
+                intent = Intent(this, TimelinePostActivity::class.java)
+                    .putExtra("POST_ID", activityData)
+            }
+            "SCREEN_ACTIVITY" -> {
+                intent = Intent(this, ActivityDetailActivity::class.java)
+                    .putExtra("ACTIVITY_ID", activityData)
+            }
+            "SCREEN_HOME" -> {
+                intent = Intent(this, MainActivity::class.java)
+            }
+        }
+
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(message.data["title"])
             .setContentText(message.data["text"])

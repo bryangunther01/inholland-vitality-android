@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
 
@@ -16,7 +17,10 @@ object Dialogs  {
     private var currentDialog: Dialog? = null
 
     fun hideCurrentDialog(){
-        currentDialog?.dismiss()
+        if (currentDialog != null && currentDialog?.isShowing == true) {
+            currentDialog?.dismiss();
+        }
+
         currentDialog = null
     }
 
@@ -29,47 +33,19 @@ object Dialogs  {
     }
 
     fun showAccountDeletionDialog(activity: Activity, onClickListener: View.OnClickListener) {
-        val dialog = setupSimpleDialog(activity)
+        val dialog = setupSimpleDialog(activity, true)
 
         val title = dialog.findViewById<TextView>(R.id.dialog_title)
         val body = dialog.findViewById<TextView>(R.id.dialog_body)
         val button = dialog.findViewById<TextView>(R.id.dialog_button)
         val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
 
-        buttonCancel.visibility = View.VISIBLE
-        buttonCancel.setBackgroundResource(R.drawable.button_primary)
-
         title.text = activity.getString(R.string.profile_delete_dialog_title)
         body.text = activity.getString(R.string.profile_delete_dialog_body)
         button.text = activity.getString(R.string.profile_delete_dialog_confirm)
-        buttonCancel.text = activity.getString(R.string.profile_delete_dialog_cancel)
 
         button.setBackgroundResource(R.drawable.button_delete)
-
         button.setOnClickListener(onClickListener)
-
-        buttonCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    fun showAccountRecoveryDialog(activity: Activity) {
-        val dialog = setupSimpleDialog(activity)
-
-        val title = dialog.findViewById<TextView>(R.id.dialog_title)
-        val body = dialog.findViewById<TextView>(R.id.dialog_body)
-        val button = dialog.findViewById<TextView>(R.id.dialog_button)
-
-        title.text = activity.getString(R.string.recovery_confirm_title)
-        body.text = activity.getString(R.string.recovery_confirm_description)
-        button.text = activity.getString(R.string.recovery_confirm_button)
-
-        button.setOnClickListener {
-            dialog.dismiss()
-            activity.finish()
-        }
 
         dialog.show()
     }
@@ -163,6 +139,19 @@ object Dialogs  {
         buttonContinue.setOnClickListener(onClickListener)
 
         dialog.show()
+    }
+
+    fun createNotificationSettingsDialog(activity: Activity, isEnabled: Boolean): Dialog {
+        val dialog = Dialog(activity)
+        dialog.setContentView(R.layout.notification_settings_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val switch = dialog.findViewById<SwitchCompat>(R.id.notifications_general_switch)
+
+        switch.isChecked = isEnabled
+        currentDialog = dialog
+
+        return dialog
     }
 
     private fun setupSimpleDialog(activity: Activity, withCancelButton: Boolean? = false): Dialog{

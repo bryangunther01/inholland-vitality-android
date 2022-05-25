@@ -1,18 +1,27 @@
 package nl.inholland.myvitality.architecture.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentActivity
+import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 
 
-abstract class BaseFragmentActivity : FragmentActivity() {
+abstract class BaseFragmentActivity<VB : ViewBinding> : FragmentActivity() {
 
-    @LayoutRes
-    protected abstract fun layoutResourceId(): Int
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater) -> VB
+
+    @Suppress("UNCHECKED_CAST")
+    protected val binding: VB
+        get() = _binding as VB
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutResourceId())
+        _binding = bindingInflater.invoke(layoutInflater)
+
+        setContentView(requireNotNull(_binding).root)
         ButterKnife.bind(this)
     }
 }

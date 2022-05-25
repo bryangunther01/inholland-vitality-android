@@ -6,34 +6,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
 import com.ethanhua.skeleton.Skeleton
-import com.google.android.material.imageview.ShapeableImageView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseFragment
 import nl.inholland.myvitality.data.adapters.ActivityCategoryAdapter
 import nl.inholland.myvitality.data.entities.ActivityCategory
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.FragmentHomeBinding
 import nl.inholland.myvitality.ui.scoreboard.ScoreboardActivity
 import nl.inholland.myvitality.util.TextViewUtils
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment() {
-    @BindView(R.id.activity_recyclerview)
-    lateinit var recyclerView: RecyclerView
-    @BindView(R.id.home_header_profile_image)
-    lateinit var profileImage: ShapeableImageView
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
+            = FragmentHomeBinding::inflate
 
     @Inject
     lateinit var factory: HomeViewModelFactory
@@ -43,16 +38,11 @@ class HomeFragment : BaseFragment() {
     private var adapter: ActivityCategoryAdapter? = null
     private var skeletonScreen: RecyclerViewSkeletonScreen? = null
 
-    override fun layoutResourceId(): Int {
-        return R.layout.fragment_home
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         // Set greeting message
-        val greetingTextView = view.findViewById<TextView>(R.id.home_header_greeting)
-        greetingTextView.append(TextViewUtils.getGreetingMessage(requireActivity()))
+        binding.greeting.append(TextViewUtils.getGreetingMessage(requireActivity()))
 
         viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
         return view
@@ -74,13 +64,13 @@ class HomeFragment : BaseFragment() {
         initUser()
     }
 
-    @OnClick(value = [R.id.home_header_points, R.id.home_header_scoreboard])
+    @OnClick(value = [R.id.points, R.id.scoreboard])
     fun onClickViewScoreboard(){
         startActivity(Intent(requireContext(), ScoreboardActivity::class.java))
     }
 
     private fun setupSkeleton() {
-        skeletonScreen = Skeleton.bind(recyclerView)
+        skeletonScreen = Skeleton.bind(binding.recyclerview)
             .adapter(adapter)
             .frozen(true)
             .duration(2400)
@@ -96,7 +86,7 @@ class HomeFragment : BaseFragment() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         adapter = ActivityCategoryAdapter(requireActivity())
 
-        recyclerView.let {
+        binding.recyclerview.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
@@ -109,20 +99,18 @@ class HomeFragment : BaseFragment() {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             initCategories()
 
-            val nameTextView = view?.findViewById<TextView>(R.id.home_header_name)
-            nameTextView?.text = ""
-            nameTextView?.append("${user.firstName} ${user.lastName}")
+            binding.name.text = ""
+            binding.name.append("${user.firstName} ${user.lastName}")
 
             Glide.with(this)
                 .load(user.profilePicture)
                 .placeholder(R.drawable.person_placeholder)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(profileImage)
+                .into(binding.profileImage)
 
             // Set greeting message
-            val points = view?.findViewById<TextView>(R.id.home_header_points)
-            points?.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
+            binding.points.text = getString(R.string.home_points_text, (user.points ?: 0).toString())
 
         }
     }
@@ -138,7 +126,7 @@ class HomeFragment : BaseFragment() {
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             adapter?.addItems(categories)
 
-            recyclerView.visibility = View.VISIBLE
+            binding.recyclerview.visibility = View.VISIBLE
             skeletonScreen?.hide()
         }
 

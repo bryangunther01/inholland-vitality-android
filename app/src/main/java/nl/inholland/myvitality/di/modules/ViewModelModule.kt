@@ -2,9 +2,10 @@ package nl.inholland.myvitality.di.modules
 
 import dagger.Module
 import dagger.Provides
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
+import nl.inholland.myvitality.data.TokenApiClient
 import nl.inholland.myvitality.ui.activity.detail.ActivityViewModel
+import nl.inholland.myvitality.ui.authentication.login.LoginViewModel
 import nl.inholland.myvitality.ui.home.HomeViewModelFactory
 import nl.inholland.myvitality.ui.notification.NotificationViewModel
 import nl.inholland.myvitality.ui.notification.ScoreboardViewModel
@@ -12,6 +13,7 @@ import nl.inholland.myvitality.ui.profile.overview.ProfileViewModel
 import nl.inholland.myvitality.ui.search.SearchViewModel
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedViewModel
 import nl.inholland.myvitality.ui.timeline.overview.TimelineOverviewViewModel
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 
 @Module
 class ViewModelModule {
@@ -54,5 +56,10 @@ class ViewModelModule {
     @Provides
     fun providesScoreboardViewModelModelFactory(apiClient: ApiClient, sharedPres: SharedPreferenceHelper): ScoreboardViewModel {
         return ScoreboardViewModel(apiClient, sharedPres)
+    }
+
+    @Provides
+    fun providesLoginViewModelModelFactory(apiClient: ApiClient, tokenApiClient: TokenApiClient, sharedPres: SharedPreferenceHelper): LoginViewModel {
+        return LoginViewModel(apiClient, tokenApiClient, sharedPres)
     }
 }

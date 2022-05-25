@@ -2,12 +2,11 @@ package nl.inholland.myvitality.ui.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.inholland.myvitality.R
@@ -16,16 +15,14 @@ import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
+import nl.inholland.myvitality.databinding.ActivitySearchBinding
 import nl.inholland.myvitality.ui.MainActivity
 import javax.inject.Inject
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
-    @BindView(R.id.search_recyclerview)
-    lateinit var recyclerView: RecyclerView
-
-    @BindView(R.id.search_bar)
-    lateinit var searchbar: EditText
+    override val bindingInflater: (LayoutInflater) -> ActivitySearchBinding
+            = ActivitySearchBinding::inflate
 
     @Inject
     lateinit var factory: SearchViewModelFactory
@@ -38,10 +35,6 @@ class SearchActivity : BaseActivity() {
     private var page = 0
     private var limit = 10
 
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_search
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as VitalityApplication).appComponent.inject(this)
@@ -52,7 +45,7 @@ class SearchActivity : BaseActivity() {
         initResponseHandler()
         initUsersObserver()
 
-        searchbar.requestFocus()
+        binding.searchBar.requestFocus()
     }
 
     @OnClick(R.id.back_button)
@@ -67,12 +60,12 @@ class SearchActivity : BaseActivity() {
         layoutManager = LinearLayoutManager(this)
         adapter = UserListAdapter(this)
 
-        recyclerView.let {
+        binding.recyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -93,11 +86,11 @@ class SearchActivity : BaseActivity() {
         if (isCalling) return
 
         isCalling = true
-        viewModel.search(searchbar.text.toString(), limit, page * limit)
+        viewModel.search(binding.searchBar.text.toString(), limit, page * limit)
     }
 
     private fun initUsersObserver() {
-        viewModel.results.observe(this, {
+        viewModel.results.observe(this) {
             if (page == 0) {
                 adapter?.clearItems()
             }
@@ -111,12 +104,12 @@ class SearchActivity : BaseActivity() {
             }
 
             isCalling = false
-        })
+        }
     }
 
     @OnTextChanged(R.id.search_bar)
     fun onSearchChanged() {
-        if (searchbar.text.length >= 3) {
+        if (binding.searchBar.text.length >= 3) {
             tryLoadUsers()
         } else {
             adapter?.clearItems()
@@ -124,15 +117,16 @@ class SearchActivity : BaseActivity() {
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
                     getString(R.string.api_error),
                     Toast.LENGTH_LONG
                 ).show()
-                else -> {}
+                else -> {
+                }
             }
-        })
+        }
     }
 }

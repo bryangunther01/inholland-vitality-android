@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/home_header_greeting"
+            android:id="@+id/greeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_heavy"
@@ -30,30 +30,30 @@
             android:textSize="20sp"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="@id/home_header_profile_image"
-            app:layout_constraintBottom_toTopOf="@id/home_header_name"/>
+            app:layout_constraintTop_toTopOf="@id/profile_image"
+            app:layout_constraintBottom_toTopOf="@id/name"/>
 
         <TextView
-            android:id="@+id/home_header_name"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_medium"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@id/home_header_profile_image"
+            app:layout_constraintBottom_toBottomOf="@id/profile_image"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/home_header_greeting" />
+            app:layout_constraintTop_toBottomOf="@id/greeting" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/header_content_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="home_header_profile_image, home_header_scoreboard"
+            app:constraint_referenced_ids="profile_image, scoreboard"
             tools:layout_editor_absoluteX="287dp" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/home_header_profile_image"
+            android:id="@+id/profile_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
@@ -62,30 +62,29 @@
             app:layout_constraintStart_toStartOf="@id/header_content_barrier"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/home_header_scoreboard"/>
+            app:layout_constraintBottom_toTopOf="@id/scoreboard"/>
 
         <TextView
-            android:id="@+id/home_header_points"
+            android:id="@+id/points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_roman"
-            android:text="184 punten"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/home_header_profile_image"
-            app:layout_constraintBottom_toTopOf="@id/home_header_scoreboard"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
+            app:layout_constraintBottom_toTopOf="@id/scoreboard"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/header_content_barrier"/>
 
         <TextView
-            android:id="@+id/home_header_scoreboard"
+            android:id="@+id/scoreboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_lt_pro_black"
             android:text="@string/home_header_scoreboard_text"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/home_header_profile_image"
+            app:layout_constraintTop_toBottomOf="@id/profile_image"
             app:layout_constraintBottom_toBottomOf="@id/header_container"
             app:layout_constraintStart_toStartOf="@id/header_content_barrier"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"/>
@@ -96,11 +95,11 @@
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/margin_small_medium"
-            app:constraint_referenced_ids="home_header_profile_image, home_header_points, home_header_scoreboard"
+            app:constraint_referenced_ids="profile_image, points, scoreboard"
             tools:layout_editor_absoluteY="152dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_recyclerview"
+            android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/header_container"

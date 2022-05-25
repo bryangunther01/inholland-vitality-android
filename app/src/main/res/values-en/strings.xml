@@ -39,6 +39,8 @@
     <string name="tutorial_description_exercise">Nothing is more important than every now and then stretching the legs during long working days, are you doing this enough already?</string>
     <string name="tutorial_description_community">Choose your community and take part in various activities with your colleagues!</string>
     <string name="tutorial_description_timeline">Share your achievements with colleagues on the timeline or challenge each other to train together for upcoming activities.</string>
+    <string name="tutorial_description_achievements">Earn achievements for completing some activities or for every 300 points you earn</string>
+
 
     <string name="tutorial_last_title">Are you as excited as we are?</string>
     <string name="tutorial_last_subtitle">Login now and get access to the benefits below!</string>
@@ -130,7 +132,7 @@
     <string name="activities_overview_no_upcoming_activities">There are currently no activities planned</string>
 
     <!-- Challenge Strings -->
-    <string name="activity_button_start_text">Start activity</string>
+    <string name="activity_button_start_text">Sign up</string>
     <string name="activity_button_complete_text">Complete activity</string>
     <string name="activity_button_cancel_text">Stop activity</string>
     <string name="activity_points_message_1">Earn</string>
@@ -190,9 +192,12 @@
     <string name="profile_unfollow">Unfollow</string>
     <string name="profile_edit">Edit profile</string>
     <string name="profile_points">points</string>
+    <string name="profile_your_interests"><![CDATA[<b>Your interests:</b>]]> %1$s</string>
+    <string name="profile_interests"><![CDATA[<b>%1$s\'s interests:</b>]]> %2$s</string>
     <string name="profile_curr_challenges">Current activities</string>
     <string name="profile_prize_cabinet">%1$s\'s Trophies</string>
     <string name="profile_your_prize_cabinet">Your Trophies</string>
+    <string name="profile_locked">Only visible when %1$s\ follows you</string>
     <string name="profile_dialog_title">unfollow %1$s?</string>
     <string name="profile_dialog_title_2">unfollow user?</string>
     <string name="profile_dialog_body">You can still see their posts and view their profile.</string>
@@ -211,6 +216,9 @@
     <string name="profile_delete_dialog_body">You are about to delete your account permanently. We delete all your data, this cannot be reversed.</string>
     <string name="profile_delete_dialog_confirm">Delete account</string>
     <string name="profile_delete_dialog_cancel">Cancel</string>
+    <string name="hint_interests">Interests (optional)</string>
+    <string name="profile_edit_interest_title">Choose interests</string>
+    <string name="profile_edit_interest_button">Done</string>
 
     <!-- Notification strings -->
     <string name="notification_liked">&lt;b>%1$s&lt;/b> liked your post</string>
@@ -219,6 +227,19 @@
     <string name="notification_new_activity_title">A new activity is available</string>
     <string name="notification_new_activity_subtitle">Click to view</string>
     <string name="notifications_empty">No notifications</string>
+    <string name="dialog_notification_settings_title">With push notifications you are always up-to-date with the vitality program!</string>
+    <string name="dialog_notification_settings_setting1">General notifications</string>
+    <string name="dialog_notification_settings_save">Save</string>
+
+    <!-- Achievement string -->
+    <string name="achievement_title">New achievement</string>
+    <string name="achievement_first_activity_text">You have completed your &lt;b>first&lt;/b> activity &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_points_text">You have earned &lt;b>%01d&lt;/b> points &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_activities_text">You have completed &lt;b>%01d&lt;/b> activities &lt;br /&gt;just like &lt;b>%01d%%&lt;/b> of your colleagues</string>
+    <string name="achievement_first_activity_profile_text">Completed &lt;b>first&lt;/b> activity</string>
+    <string name="achievement_points_profile_text">Earned &lt;b>%01d&lt;/b> points</string>
+    <string name="achievement_activities_profile_text">Completed &lt;b>%01d&lt;/b> activities</string>
+    <string name="achievement_button">Continue</string>
 
     <!-- Scoreboard strings -->
     <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>

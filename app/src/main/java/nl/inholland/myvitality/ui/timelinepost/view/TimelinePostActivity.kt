@@ -4,74 +4,37 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.material.button.MaterialButton
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.CommentAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.TimelinePost
+import nl.inholland.myvitality.databinding.ActivityPostBinding
 import nl.inholland.myvitality.ui.profile.overview.ProfileActivity
 import nl.inholland.myvitality.ui.timeline.liked.TimelineLikedActivity
 import nl.inholland.myvitality.ui.timelinepost.create.CreateTimelinePostActivity
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.DateUtils
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import javax.inject.Inject
 
-class TimelinePostActivity : BaseActivity() {
+class TimelinePostActivity : BaseActivity<ActivityPostBinding>() {
+
+    override val bindingInflater: (LayoutInflater) -> ActivityPostBinding
+            = ActivityPostBinding::inflate
+
     @Inject
     lateinit var sharedPrefs: SharedPreferenceHelper
-
-    @BindView(R.id.post_profile_image)
-    lateinit var profileImage: ImageView
-
-    @BindView(R.id.post_delete)
-    lateinit var deleteIcon: ImageView
-
-    @BindView(R.id.post_user_name)
-    lateinit var userName: TextView
-
-    @BindView(R.id.post_date)
-    lateinit var date: TextView
-
-    @BindView(R.id.post_content)
-    lateinit var content: TextView
-
-    @BindView(R.id.post_image)
-    lateinit var image: ImageView
-
-    @BindView(R.id.post_like_count_icon)
-    lateinit var likedCountIcon: ImageView
-
-    @BindView(R.id.post_like_count)
-    lateinit var likedCount: TextView
-
-    @BindView(R.id.post_comment_count)
-    lateinit var commentCount: TextView
-
-    @BindView(R.id.comments_empty_text)
-    lateinit var commentsEmptyText: TextView
-
-    @BindView(R.id.comment_recyclerview)
-    lateinit var recyclerView: RecyclerView
-
-    @BindView(R.id.post_like_button)
-    lateinit var likeButton: MaterialButton
-
-    @BindView(R.id.post_comment_button)
-    lateinit var commentButton: MaterialButton
 
     @Inject
     lateinit var factory: TimelinePostViewModelFactory
@@ -87,10 +50,6 @@ class TimelinePostActivity : BaseActivity() {
     private var page = 0
     private var limit = 10
     private var likeCount = 0
-
-    override fun layoutResourceId(): Int {
-        return R.layout.activity_post
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,7 +85,7 @@ class TimelinePostActivity : BaseActivity() {
         return true
     }
 
-    @OnClick(R.id.post_like_count)
+    @OnClick(value = [R.id.like_count, R.id.like_count_icon])
     fun onClickLikeCount() {
         startActivity(
             Intent(this, TimelineLikedActivity::class.java)
@@ -138,12 +97,12 @@ class TimelinePostActivity : BaseActivity() {
         layoutManager = LinearLayoutManager(this)
         adapter = CommentAdapter(this)
 
-        recyclerView.let {
+        binding.commentRecyclerView.let {
             it.adapter = adapter
             it.layoutManager = layoutManager
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.commentRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -160,7 +119,7 @@ class TimelinePostActivity : BaseActivity() {
         })
     }
 
-    @OnClick(value = [R.id.post_profile_image, R.id.post_user_name])
+    @OnClick(value = [R.id.profile_image, R.id.user_name])
     fun onClickUser() {
         startActivity(
             Intent(this, ProfileActivity::class.java)
@@ -168,12 +127,12 @@ class TimelinePostActivity : BaseActivity() {
         )
     }
 
-    @OnClick(R.id.post_like_button)
+    @OnClick(R.id.like_button)
     fun onClickLike() {
         viewModel.updateLike(currentPostId)
     }
 
-    @OnClick(R.id.post_comment_button)
+    @OnClick(R.id.comment_button)
     fun onClickComment() {
         val intent = Intent(this, CreateTimelinePostActivity::class.java)
         intent.putExtra("POST_ID", currentPostId)
@@ -188,32 +147,29 @@ class TimelinePostActivity : BaseActivity() {
             val otherCount = likeCount - 1
 
             val visibility = View.VISIBLE
-
-            likedCountIcon.visibility = visibility
-            likedCount.visibility = visibility
+            binding.likeCountGroup.visibility = visibility
 
             if (otherCount == 0) {
-                likedCount.text = getString(R.string.post_like_count_you)
+                binding.likeCount.text = getString(R.string.post_like_count_you)
             } else {
-                likedCount.text = getString(R.string.post_like_count, otherCount.toString())
+                binding.likeCount.text = getString(R.string.post_like_count, otherCount.toString())
             }
             currentPost?.iLikedPost = true
         } else {
             val visibility = if (likeCount > 0) View.VISIBLE else View.INVISIBLE
 
-            likedCountIcon.visibility = visibility
-            likedCount.visibility = visibility
-            likedCount.text = likeCount.toString()
+            binding.likeCountGroup.visibility = visibility
+            binding.likeCount.text = likeCount.toString()
         }
     }
 
     fun toggleLike(isLiked: Boolean) {
         if (isLiked) {
-            likeButton.setIconResource(R.drawable.ic_thumbsup_fill)
-            likeButton.setIconTintResource(R.color.primary)
+            binding.likeButton.setIconResource(R.drawable.ic_thumbsup_fill)
+            binding.likeButton.setIconTintResource(R.color.primary)
         } else {
-            likeButton.setIconResource(R.drawable.ic_thumbsup)
-            likeButton.setIconTintResource(R.color.black)
+            binding.likeButton.setIconResource(R.drawable.ic_thumbsup)
+            binding.likeButton.setIconTintResource(R.color.black)
         }
     }
 
@@ -224,8 +180,8 @@ class TimelinePostActivity : BaseActivity() {
 
             sharedPrefs.currentUserId?.let {
                 if (it == timelinePost.userId) {
-                    deleteIcon.visibility = View.VISIBLE
-                    deleteIcon.setOnClickListener {
+                    binding.deleteButton.visibility = View.VISIBLE
+                    binding.deleteButton.setOnClickListener {
                         Dialogs.showDeletePostDialog(this) {
                             viewModel.deletePost(currentPostId)
                         }
@@ -237,33 +193,32 @@ class TimelinePostActivity : BaseActivity() {
                 .load(timelinePost.profilePicture)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(profileImage)
+                .into(binding.profileImage)
 
-            userName.text = timelinePost.fullName
-            date.append(DateUtils.formatDateToTimeAgo(timelinePost.publishDate))
-            content.text = timelinePost.text
+            binding.userName.text = timelinePost.fullName
+            binding.date.append(DateUtils.formatDateToTimeAgo(timelinePost.publishDate))
+            binding.content.text = timelinePost.text
 
             timelinePost.imageUrl?.let {
-                image.visibility = View.VISIBLE
+                binding.image.visibility = View.VISIBLE
                 Glide.with(this)
                     .load(it)
-                    .into(image)
+                    .into(binding.image)
             }
 
             if (timelinePost.countOfLikes > 0) {
-                likedCount.visibility = View.VISIBLE
-                findViewById<ImageView>(R.id.post_like_count_icon).visibility = View.VISIBLE
-                likedCount.text = timelinePost.countOfLikes.toString()
+                binding.likeCountGroup.visibility = View.VISIBLE
+                binding.likeCount.text = timelinePost.countOfLikes.toString()
             }
 
             likeCount = timelinePost.countOfLikes
             toggleLike(timelinePost.iLikedPost)
 
             if (timelinePost.countOfComments > 0) {
-                commentCount.visibility = View.VISIBLE
-                commentCount.text = null
-                commentCount.append(timelinePost.countOfComments.toString() + " ")
-                commentCount.append(getString(R.string.post_text_comments))
+                binding.commentCount.visibility = View.VISIBLE
+                binding.commentCount.text = null
+                binding.commentCount.append(timelinePost.countOfComments.toString() + " ")
+                binding.commentCount.append(getString(R.string.post_text_comments))
             }
 
         }
@@ -275,11 +230,11 @@ class TimelinePostActivity : BaseActivity() {
     private fun initComments() {
         viewModel.comments.observe(this) {
             if (page == 0 && it.isEmpty()) {
-                commentsEmptyText.visibility = View.VISIBLE
-                recyclerView.visibility = View.INVISIBLE
+                binding.commentsEmptyText.visibility = View.VISIBLE
+                binding.commentRecyclerView.visibility = View.INVISIBLE
             } else {
-                commentsEmptyText.visibility = View.INVISIBLE
-                recyclerView.visibility = View.VISIBLE
+                binding.commentsEmptyText.visibility = View.INVISIBLE
+                binding.commentRecyclerView.visibility = View.VISIBLE
             }
 
             if (it.isNotEmpty()) {
@@ -300,7 +255,7 @@ class TimelinePostActivity : BaseActivity() {
     }
 
     private fun initResponseHandler() {
-        viewModel.apiResponse.observe(this, { response ->
+        viewModel.apiResponse.observe(this) { response ->
             when (response.status) {
                 ResponseStatus.API_ERROR -> Toast.makeText(
                     this,
@@ -318,6 +273,6 @@ class TimelinePostActivity : BaseActivity() {
             }
 
             isCalling = false
-        })
+        }
     }
 }

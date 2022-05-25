@@ -1,16 +1,15 @@
 package nl.inholland.myvitality.ui.timelinepost.create
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.data.ApiClient
 import nl.inholland.myvitality.data.entities.ApiResponse
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.data.entities.User
 import nl.inholland.myvitality.data.entities.requestbody.TimelinePostRequest
 import nl.inholland.myvitality.util.RequestUtils
+import nl.inholland.myvitality.util.SharedPreferenceHelper
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,14 +17,13 @@ import retrofit2.Response
 
 class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<User>()
-    private val _response = MutableLiveData<ApiResponse>()
+    val currentUser: MutableLiveData<User> by lazy {
+        MutableLiveData<User>()
+    }
 
-    val currentUser: LiveData<User>
-        get() = _currentUser
-
-    val apiResponse: LiveData<ApiResponse>
-        get() = _response
+    val apiResponse: MutableLiveData<ApiResponse> by lazy {
+        MutableLiveData<ApiResponse>()
+    }
 
     fun getLoggedInUser() {
         sharedPrefs.accessToken?.let {
@@ -33,15 +31,15 @@ class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, 
                 override fun onResponse(call: Call<User>, response: Response<User>) {
                     if (response.isSuccessful && response.body() != null) {
                         response.body()?.let { user ->
-                            _currentUser.value = user
+                            currentUser.value = user
                         }
                     } else if (response.code() == 401) {
-                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     }
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("CreateTimelinePostActivity", "onFailure: ", t)
                 }
             })
@@ -55,16 +53,16 @@ class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, 
             apiClient.createPost("Bearer $it", messageBody, filePart).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        _response.value = ApiResponse(ResponseStatus.CREATED)
+                        apiResponse.value = ApiResponse(ResponseStatus.CREATED)
                     } else if (response.code() == 401) {
-                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     } else {
-                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                        apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("CreateTimelinePostActivity", "onFailure: ", t)
                 }
             })
@@ -76,16 +74,16 @@ class CreateTimelinePostViewModel constructor(private val apiClient: ApiClient, 
             apiClient.createComment("Bearer $it", timelinePostId,  TimelinePostRequest(text)).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
-                        _response.value = ApiResponse(ResponseStatus.CREATED)
+                        apiResponse.value = ApiResponse(ResponseStatus.CREATED)
                     } else if (response.code() == 401) {
-                        _response.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
                     } else {
-                        _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                        apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    _response.value = ApiResponse(ResponseStatus.API_ERROR)
+                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
                     Log.e("CreateTimelinePostActivity", "onFailure: ", t)
                 }
             })

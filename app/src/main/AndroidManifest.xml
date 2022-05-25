@@ -51,6 +51,9 @@
             android:exported="true" />
 
         <activity
+            android:name=".ui.achievement.AchievementActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.scoreboard.ScoreboardActivity"
             android:exported="true"
             android:theme="@style/AppTheme" />
@@ -103,19 +106,15 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.authentication.recover.AccountRecoverActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".ui.authentication.register.main.RegisterActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.authentication.register.details1.RegisterDetailsActivity"
+            android:name=".ui.authentication.register.details.RegisterDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.authentication.register.details2.RegisterAdditionalDetailsActivity"
+            android:name=".ui.authentication.register.additionaldetails.RegisterAdditionalDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
 
