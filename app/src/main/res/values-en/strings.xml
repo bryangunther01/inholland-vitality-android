@@ -215,7 +215,6 @@
     <string name="profile_delete_dialog_title">Watch out</string>
     <string name="profile_delete_dialog_body">You are about to delete your account permanently. We delete all your data, this cannot be reversed.</string>
     <string name="profile_delete_dialog_confirm">Delete account</string>
-    <string name="profile_delete_dialog_cancel">Cancel</string>
     <string name="hint_interests">Interests (optional)</string>
     <string name="profile_edit_interest_title">Choose interests</string>
     <string name="profile_edit_interest_button">Done</string>
@@ -245,5 +244,8 @@
     <string name="scoreboard_text">Can you score more points than your colleagues? Who is your next activity?</string>
     <string name="scoreboard_personal_points">%01d points</string>
 
-
+    <!-- Privacy Policy strings -->
+    <string name="privacy_policy_dialog_title">Privacy Policy</string>
+    <string name="privacy_policy_dialog_body">By clicking continue, you agree to our <![CDATA[ <a href="https://www.inholland.nl/media/21344/privacyverklaring-hogeschool-inholland-2020-2021.pdf">privacy policy</a>]]>.</string>
+    <string name="privacy_policy_dialog_confirm">Continue</string>
 </resources>

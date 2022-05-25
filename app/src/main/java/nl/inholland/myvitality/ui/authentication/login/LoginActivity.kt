@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
@@ -83,7 +84,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                             viewModel.login(email, azureToken)
                         } else if (response.code() == 404) {
                             Log.e("LoginActivity" , "User does not exist, user is being registered")
-                            viewModel.register(email, azureToken, name[1], name[0])
+
+                            Dialogs.showPrivacyPolicyDialog(this@LoginActivity) {
+                                viewModel.register(email, azureToken, name[1], name[0])
+                            }
                         }
                     }
 

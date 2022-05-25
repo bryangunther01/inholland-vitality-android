@@ -5,12 +5,15 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.ui.authentication.login.LoginActivity
+import nl.inholland.myvitality.util.StringUtils.toHtmlSpan
 
 object Dialogs  {
 
@@ -121,6 +124,27 @@ object Dialogs  {
         buttonContinue.text = activity.getString(R.string.profile_dialog_button_confirm_text)
 
         buttonContinue.setOnClickListener(onClickListener)
+
+        dialog.show()
+    }
+
+    fun showPrivacyPolicyDialog(activity: Activity, onClickListener: View.OnClickListener) {
+        val dialog = setupSimpleDialog(activity, true)
+
+        val title = dialog.findViewById<TextView>(R.id.dialog_title)
+        val body = dialog.findViewById<TextView>(R.id.dialog_body)
+        val button = dialog.findViewById<TextView>(R.id.dialog_button)
+        val buttonCancel = dialog.findViewById<TextView>(R.id.dialog_button_2)
+
+        title.text = activity.getString(R.string.privacy_policy_dialog_title)
+        body.movementMethod = LinkMovementMethod.getInstance()
+        body.text = activity.getString(R.string.privacy_policy_dialog_body).toHtmlSpan()
+        button.text = activity.getString(R.string.privacy_policy_dialog_confirm)
+
+        button.setOnClickListener(onClickListener)
+        buttonCancel.setOnClickListener {
+            activity.finishAffinity()
+        }
 
         dialog.show()
     }
