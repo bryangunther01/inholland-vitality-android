@@ -1,5 +1,5 @@
 # Welcome the the MyVitality Android App
-This application is part of a vitality program of Inholland Alkmaar.
+This application is part of a vitality program of Inholland Alkmaar. The application is written in kotlin.
 ## Project setup
 Clone this repository and import into **Android Studio**, hit **Run**.
 ## Understanding the Application Structure
