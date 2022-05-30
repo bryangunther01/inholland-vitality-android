@@ -73,6 +73,6 @@ class NetworkModule(val context: Context) {
     }
 
     companion object {
-        private const val BASE_URL: String = "https://vitalityfunctionsv2-tst.azurewebsites.net/api/"
+        private const val BASE_URL: String = "https://vitalityfunctionsv2-prd.azurewebsites.net/api/"
     }
 }
