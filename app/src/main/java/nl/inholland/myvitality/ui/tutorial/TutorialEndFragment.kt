@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.data.adapters.AdvantageAdapter
 
+/**
+ * End fragment of the tutorial
+ */
 class TutorialEndFragment : Fragment() {
 
     override fun onCreateView(

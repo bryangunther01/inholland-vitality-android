@@ -13,10 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ActivityOverviewViewModel constructor(
-    private val apiClient: ApiClient,
-    private val sharedPrefs: SharedPreferenceHelper
-) : ViewModel() {
+class ActivityOverviewViewModel constructor(private val apiClient: ApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
     val userActivities: MutableLiveData<List<Activity>> by lazy {
         MutableLiveData<List<Activity>>()
     }

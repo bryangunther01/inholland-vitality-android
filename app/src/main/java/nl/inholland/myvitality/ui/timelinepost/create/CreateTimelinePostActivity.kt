@@ -13,7 +13,7 @@ import butterknife.OnTextChanged
 import com.bumptech.glide.Glide
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.ChosenFragment
+import nl.inholland.myvitality.ui.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.entities.ResponseStatus
 import nl.inholland.myvitality.databinding.ActivityCreatePostBinding
@@ -38,9 +38,6 @@ class CreateTimelinePostActivity : BaseActivity<ActivityCreatePostBinding>(), Ca
     @Inject
     lateinit var factory: CreateTimelinePostViewModelFactory
     lateinit var viewModel: CreateTimelinePostViewModel
-
-    private val PICK_IMAGE = 1000
-    private val REQUEST_PERMISSION = 2000
 
     private var selectedImage: Uri? = null
     private var filePath: String? = null
@@ -197,5 +194,9 @@ class CreateTimelinePostActivity : BaseActivity<ActivityCreatePostBinding>(), Ca
                 }
             }
         }
+    }
+
+    companion object {
+        private const val PICK_IMAGE = 1000
     }
 }

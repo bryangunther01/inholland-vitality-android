@@ -119,11 +119,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     @OnClick(R.id.login_button)
     fun onClickAzureLogin() {
+        if (mSingleAccountApp == null) return
+
+        // Make sure older accounts are really logged out
         azureLogout()
 
-        if (mSingleAccountApp == null) {
-            return
-        }
 
         mSingleAccountApp!!.signIn(this, null, SCOPES, getAuthInteractiveCallback())
     }
@@ -138,6 +138,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         Toast.LENGTH_LONG
                     ).show()
 
+                    // Logout the user from azure
                     azureLogout()
                 }
                 ResponseStatus.SUCCESSFUL -> {

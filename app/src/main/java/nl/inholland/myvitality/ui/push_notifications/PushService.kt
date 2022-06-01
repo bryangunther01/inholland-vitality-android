@@ -28,13 +28,9 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 class PushService : FirebaseMessagingService() {
-    @Inject
-    lateinit var sharedPrefs: SharedPreferenceHelper
 
-    @Inject
-    lateinit var apiClient: ApiClient
-
-    private val CHANNEL_ID = "vitality_channel"
+    @Inject lateinit var sharedPrefs: SharedPreferenceHelper
+    @Inject lateinit var apiClient: ApiClient
 
     override fun onCreate() {
         super.onCreate()
@@ -42,6 +38,9 @@ class PushService : FirebaseMessagingService() {
         (application as VitalityApplication).appComponent.inject(this)
     }
 
+    /**
+     * Called when a new notification (message) is received on the device
+     */
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
@@ -53,13 +52,12 @@ class PushService : FirebaseMessagingService() {
             createNotificationChannel(notificationManager)
         }
 
-        Log.d("TAG", message.data.toString())
-
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
         val activity = message.data["screen"]
         val activityData = message.data["screenData"]
 
+        // Used to check if there is metadata sent with the notification to open a specific screen
         when(activity){
             "SCREEN_PROFILE" -> {
                 intent = Intent(this, ProfileActivity::class.java)
@@ -99,22 +97,29 @@ class PushService : FirebaseMessagingService() {
         notificationManager.createNotificationChannel(channel)
     }
 
+    /**
+     * Triggered when there is a new push token for the current device
+     */
     override fun onNewToken(token: String) {
         super.onNewToken(token)
 
         sharedPrefs.pushToken = token
+
+        // Check if the user is logged in, if true register the pushtoken
         if(sharedPrefs.isLoggedIn()) {
             apiClient.createPushToken("Bearer ${sharedPrefs.accessToken}", PushToken(token)).enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    Log.i("LoginActivity", "New pushtoken sent to API")
+                    Log.i("PushService", "New pushtoken sent to API")
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.e("LoginActivity", "onFailure: ", t)
+                    Log.e("PushService", "onFailure: ", t)
                 }
             })
         }
+    }
 
-        Log.d("token", "New Token: ${sharedPrefs.pushToken}")
+    companion object {
+        private const val CHANNEL_ID = "vitality_channel"
     }
 }

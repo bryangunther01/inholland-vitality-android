@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * The base recycler adapter for handling the base functionalities of a adapter
+ * The base recycler adapter for handling the base functionalities of an adapter
  */
 abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder> @JvmOverloads internal constructor(val context: Context, private val mItems: MutableList<T> = ArrayList()) : RecyclerView.Adapter<VH>() {
 

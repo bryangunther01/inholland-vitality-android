@@ -11,7 +11,7 @@ import butterknife.OnClick
 import butterknife.OnTextChanged
 import nl.inholland.myvitality.R
 import nl.inholland.myvitality.VitalityApplication
-import nl.inholland.myvitality.architecture.ChosenFragment
+import nl.inholland.myvitality.ui.ChosenFragment
 import nl.inholland.myvitality.architecture.base.BaseActivity
 import nl.inholland.myvitality.data.adapters.UserListAdapter
 import nl.inholland.myvitality.data.entities.ResponseStatus

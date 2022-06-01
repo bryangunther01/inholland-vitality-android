@@ -12,6 +12,9 @@ class VitalityApplication : Application() {
         initComponent()
     }
 
+    /**
+     * Initialize the Application Component so dagger knows what to register
+     */
     private fun initComponent(): ApplicationComponent {
         return DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
