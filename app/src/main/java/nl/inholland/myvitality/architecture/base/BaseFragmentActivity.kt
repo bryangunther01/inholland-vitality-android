@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 
-
+/**
+ * The base fragment activity for handling the base functionalities of a fragment activity
+ */
 abstract class BaseFragmentActivity<VB : ViewBinding> : FragmentActivity() {
 
     private var _binding: ViewBinding? = null

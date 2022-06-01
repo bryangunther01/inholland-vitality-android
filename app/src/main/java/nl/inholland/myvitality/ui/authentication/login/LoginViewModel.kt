@@ -16,11 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginViewModel constructor(
-    private val apiClient: ApiClient,
-    private val tokenApiClient: TokenApiClient,
-    private val sharedPrefs: SharedPreferenceHelper
-) : ViewModel() {
+class LoginViewModel constructor(private val apiClient: ApiClient, private val tokenApiClient: TokenApiClient, private val sharedPrefs: SharedPreferenceHelper) : ViewModel() {
 
     val apiResponse: MutableLiveData<ApiResponse> by lazy {
         MutableLiveData<ApiResponse>()
@@ -56,17 +52,19 @@ class LoginViewModel constructor(
     fun register(email: String, azureToken: String, firstName: String, lastName: String) {
         apiClient.register(RegisterRequest(email, azureToken, firstName, lastName)).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    sharedPrefs.recentlyRegistered = true
-                    sharedPrefs.userFirstname = firstName
-                    sharedPrefs.userLastname = lastName
+                when {
+                    response.isSuccessful -> {
+                        sharedPrefs.recentlyRegistered = true
 
-                    // Call the login endpoint
-                    login(email, azureToken)
-                } else if (response.code() == 401) {
-                    apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
-                } else if (response.code() == 400) {
-                    apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                        // Call the login endpoint
+                        login(email, azureToken)
+                    }
+                    response.code() == 401 -> {
+                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
+                    }
+                    response.code() == 400 -> {
+                        apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
+                    }
                 }
             }
 
@@ -92,9 +90,5 @@ class LoginViewModel constructor(
                     }
                 })
         }
-    }
-
-    companion object {
-        val SCOPES = arrayOf("api://35596f07-345f-4247-8d77-927e771c35c3/Access")
     }
 }

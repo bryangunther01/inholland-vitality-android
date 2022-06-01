@@ -5,11 +5,11 @@ import android.text.format.DateUtils
 import java.util.*
 
 object DateUtils {
-    const val SECOND_MILLIS = 1000
-    const val MINUTE_MILLIS = 60 * SECOND_MILLIS
-    const val HOUR_MILLIS = 60 * MINUTE_MILLIS
-    const val DAY_MILLIS = 24 * HOUR_MILLIS
-    const val WEEK_MILLIS = 7 * DAY_MILLIS
+    private const val SECOND_MILLIS = 1000
+    private const val MINUTE_MILLIS = 60 * SECOND_MILLIS
+    private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
+    private const val DAY_MILLIS = 24 * HOUR_MILLIS
+    private const val WEEK_MILLIS = 7 * DAY_MILLIS
 
     private fun now(): Date {
         return Calendar.getInstance().time
@@ -25,16 +25,6 @@ object DateUtils {
         date.time = date.time.minus(WEEK_MILLIS)
 
         return date.before(now())
-    }
-
-    private fun isSameDate(date: Date): Boolean {
-        val c1 = Calendar.getInstance()
-        val c2 = Calendar.getInstance()
-        c2.time = date
-
-        return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
-                c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH) &&
-                c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH));
     }
 
     private fun stringToDate(dateString: String): Date{

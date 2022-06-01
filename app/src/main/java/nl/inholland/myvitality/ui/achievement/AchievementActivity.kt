@@ -13,7 +13,6 @@ import nl.inholland.myvitality.data.entities.Achievement
 import nl.inholland.myvitality.databinding.ActivityAchievementBinding
 import nl.inholland.myvitality.ui.MainActivity
 
-
 class AchievementActivity : BaseFragmentActivity<ActivityAchievementBinding>() {
 
     override val bindingInflater: (LayoutInflater) -> ActivityAchievementBinding

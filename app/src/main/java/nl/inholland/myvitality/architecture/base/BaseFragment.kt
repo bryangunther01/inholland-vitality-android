@@ -12,6 +12,9 @@ import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 import butterknife.Unbinder
 
+/**
+ * The base fragment for handling the base functionalities of a fragment
+ */
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     private var _binding: ViewBinding? = null

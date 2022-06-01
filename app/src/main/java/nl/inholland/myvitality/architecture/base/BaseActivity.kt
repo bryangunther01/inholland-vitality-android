@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import butterknife.ButterKnife
 
-
+/**
+ * The base activity for handling the base functionalities of an activity
+ */
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var _binding: ViewBinding? = null

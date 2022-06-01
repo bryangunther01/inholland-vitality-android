@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import nl.inholland.myvitality.R
 
+/**
+ * Start fragment of the tutorial
+ */
 class TutorialStartFragment : Fragment() {
 
     override fun onCreateView(
