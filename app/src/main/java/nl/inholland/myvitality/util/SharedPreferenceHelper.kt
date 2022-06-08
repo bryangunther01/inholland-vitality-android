@@ -65,7 +65,7 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         editor.remove(CURRENT_USER_ID)
         editor.remove(USER_FIRSTNAME)
         editor.remove(USER_LASTNAME)
-        
+
         editor.apply()
     }
 

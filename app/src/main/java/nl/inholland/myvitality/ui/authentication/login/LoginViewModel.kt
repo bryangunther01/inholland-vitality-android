@@ -55,6 +55,8 @@ class LoginViewModel constructor(private val apiClient: ApiClient, private val t
                 when {
                     response.isSuccessful -> {
                         sharedPrefs.recentlyRegistered = true
+                        sharedPrefs.userFirstname = firstName
+                        sharedPrefs.userLastname = lastName
 
                         // Call the login endpoint
                         login(email, azureToken)
