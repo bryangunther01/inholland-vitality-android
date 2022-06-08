@@ -43,6 +43,15 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         get() = preferences.getString(PUSH_TOKEN, null)
         set(value) = preferences.edit().putString(PUSH_TOKEN, value).apply()
 
+    var userFirstname: String?
+        get() = preferences.getString(USER_FIRSTNAME, null)
+        set(value) = preferences.edit().putString(USER_FIRSTNAME, value).apply()
+
+    var userLastname: String?
+        get() = preferences.getString(USER_LASTNAME, null)
+        set(value) = preferences.edit().putString(USER_LASTNAME, value).apply()
+
+
     fun isLoggedIn(): Boolean {
         return accessToken != null
     }
@@ -54,7 +63,9 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         editor.remove(REFRESH_TOKEN)
         editor.remove(TOKEN_EXPIRE_TIME)
         editor.remove(CURRENT_USER_ID)
-
+        editor.remove(USER_FIRSTNAME)
+        editor.remove(USER_LASTNAME)
+        
         editor.apply()
     }
 
@@ -67,5 +78,7 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         private const val RECENTLY_REGISTERED = "recentlyRegistered"
         private const val CURRENT_USER_ID = "currentUserId"
         private const val PUSH_TOKEN = "pushToken"
+        private const val USER_FIRSTNAME = "userFirstname"
+        private const val USER_LASTNAME = "userLastname"
     }
 }
