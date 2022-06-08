@@ -46,6 +46,15 @@ class TokenInterceptor constructor(val context: Context, private val tokenApiCli
                     }
                 })
             }
+        } else {
+            val response = chain.proceed(request)
+
+            if(response.code() == 403) {
+                context.startActivity(Intent(context, LoginActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
         }
 
 
