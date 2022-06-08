@@ -55,6 +55,8 @@ class TokenInterceptor constructor(val context: Context, private val tokenApiCli
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
+
+            return response
         }
 
 
