@@ -22,8 +22,8 @@ class LoginViewModel constructor(private val apiClient: ApiClient, private val t
         MutableLiveData<ApiResponse>()
     }
 
-    fun login(email: String, azureToken: String) {
-        tokenApiClient.login(AuthRequest(email, azureToken))
+    fun login(email: String, azureId: String, accessToken: String, firstName: String, lastName: String) {
+        tokenApiClient.login(AuthRequest(email, azureId, accessToken))
             .enqueue(object : Callback<AuthSettings> {
                 override fun onResponse(
                     call: Call<AuthSettings>,
@@ -34,6 +34,12 @@ class LoginViewModel constructor(private val apiClient: ApiClient, private val t
                             sharedPrefs.accessToken = it.accessToken
                             sharedPrefs.refreshToken = it.refreshToken
                             sharedPrefs.tokenExpireTime = it.expiresIn
+
+                            if(it.registered) {
+                                sharedPrefs.recentlyRegistered = true
+                                sharedPrefs.userFirstname = firstName
+                                sharedPrefs.userLastname = lastName
+                            }
 
                             apiResponse.value = ApiResponse(ResponseStatus.SUCCESSFUL)
                         }
@@ -47,34 +53,6 @@ class LoginViewModel constructor(private val apiClient: ApiClient, private val t
                     Log.e("LoginActivity", "onFailure: ", t)
                 }
             })
-    }
-
-    fun register(email: String, azureToken: String, firstName: String, lastName: String) {
-        apiClient.register(RegisterRequest(email, azureToken, firstName, lastName)).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                when {
-                    response.isSuccessful -> {
-                        sharedPrefs.recentlyRegistered = true
-                        sharedPrefs.userFirstname = firstName
-                        sharedPrefs.userLastname = lastName
-
-                        // Call the login endpoint
-                        login(email, azureToken)
-                    }
-                    response.code() == 401 -> {
-                        apiResponse.value = ApiResponse(ResponseStatus.UNAUTHORIZED)
-                    }
-                    response.code() == 400 -> {
-                        apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                apiResponse.value = ApiResponse(ResponseStatus.API_ERROR)
-                Log.e("LoginActivity", "onFailure: ", t)
-            }
-        })
     }
 
     fun registerPushToken() {
