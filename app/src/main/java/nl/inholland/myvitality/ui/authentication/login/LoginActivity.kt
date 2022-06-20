@@ -71,7 +71,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 val email = authenticationResult.account.username
                 val azureToken = authenticationResult.account.id
                 val accessToken = authenticationResult.accessToken
-                Log.d("TOKEN", accessToken)
                 val name = authenticationResult.account.claims!!["name"].toString().split(", ")
 
                 Dialogs.showGeneralLoadingDialog(this@LoginActivity)
