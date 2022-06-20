@@ -12,12 +12,6 @@ import retrofit2.http.*
 
 interface ApiClient {
 
-    /** Authentication calls **/
-    @POST("user")
-    fun register(
-        @Body body: RegisterRequest
-    ): Call<Void>
-
     /** User calls **/
     @GET("user")
     fun getUser(
@@ -32,11 +26,6 @@ interface ApiClient {
         @Query("limit") limit: Int,
         @Query("offset") offset: Int,
     ): Call<List<SimpleUser>>
-
-    @GET("user/{azureToken}")
-    fun userExistsByAzureToken(
-        @Path("azureToken") azureToken: String
-    ): Call<Void>
 
     @Multipart
     @PUT("user")

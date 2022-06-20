@@ -7,5 +7,6 @@ data class AuthSettings (
     @Json(name = "refreshToken") val refreshToken: String,
     @Json(name = "tokenType") val tokenType: String,
     @Json(name = "expiresIn") val expiresIn: Long,
-    @Json(name = "userType") val userType: String
+    @Json(name = "userType") val userType: String,
+    @Json(name = "registered") val registered: Boolean
 )

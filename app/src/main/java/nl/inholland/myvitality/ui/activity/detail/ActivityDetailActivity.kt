@@ -68,7 +68,7 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
     }
 
     /**
-     * Method which checks if there is a danymic links
+     * Method which checks if there is a dynamic links
      * true = Read the activityId from the link
      * false = Read the activityId from the intent extra
      */

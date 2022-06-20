@@ -22,9 +22,6 @@ import nl.inholland.myvitality.ui.authentication.register.details.RegisterDetail
 import nl.inholland.myvitality.ui.widgets.dialog.Dialogs
 import nl.inholland.myvitality.util.SharedPreferenceHelper
 import nl.inholland.myvitality.util.TextViewUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
@@ -73,24 +70,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
                 val email = authenticationResult.account.username
                 val azureToken = authenticationResult.account.id
+                val accessToken = authenticationResult.accessToken
+                Log.d("TOKEN", accessToken)
                 val name = authenticationResult.account.claims!!["name"].toString().split(", ")
 
                 Dialogs.showGeneralLoadingDialog(this@LoginActivity)
-                apiClient.userExistsByAzureToken(authenticationResult.account.id).enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>){
-                        if (response.isSuccessful) {
-                            Log.e("LoginActivity" , "User exists")
-                            viewModel.login(email, azureToken)
-                        } else if (response.code() == 404) {
-                            Log.e("LoginActivity" , "User does not exist, user is being registered")
-                            viewModel.register(email, azureToken, name[1], name[0])
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable){
-                        Log.e("LoginActivity" , t.message.toString())
-                    }
-                })
+                viewModel.login(email, azureToken, accessToken, name[1], name[0])
             }
 
             override fun onError(exception: MsalException) {
@@ -123,7 +108,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
         // Make sure older accounts are really logged out
         azureLogout()
-
 
         mSingleAccountApp!!.signIn(this, null, SCOPES, getAuthInteractiveCallback())
     }
