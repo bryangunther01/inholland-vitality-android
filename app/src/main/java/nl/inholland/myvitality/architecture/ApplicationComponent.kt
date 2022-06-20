@@ -36,7 +36,7 @@ interface ApplicationComponent {
     fun inject(activity: RegisterAdditionalDetailsActivity)
     fun inject(activity: MainActivity)
     fun inject(fragment: HomeFragment)
-    fun inject(overviewFragment: TimelineOverviewFragment)
+    fun inject(fragment: TimelineOverviewFragment)
     fun inject(activity: ActivityDetailActivity)
     fun inject(activity: TimelinePostActivity)
     fun inject(activity: CreateTimelinePostActivity)

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
 import nl.inholland.myvitality.R
-import nl.inholland.myvitality.architecture.ChosenFragment
 import nl.inholland.myvitality.databinding.ActivityMainBinding
 import nl.inholland.myvitality.ui.home.HomeFragment
 import nl.inholland.myvitality.ui.notification.NotificationActivity

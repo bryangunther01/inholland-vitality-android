@@ -24,14 +24,13 @@ class AchievementFragment(private val achievement: Achievement) : Fragment() {
         val image = view.findViewById<ImageView>(R.id.achievement_medal)
         val description = view.findViewById<TextView>(R.id.achievement_text)
 
-        // Set the challenge type
+        // Determine which type the achievement has to show related information
         when (achievement.achievementType) {
             AchievementType.POINTS -> {
                 image.setImageResource(R.drawable.ic_medal_points)
                 description.text = getString(R.string.achievement_points_text, achievement.count, achievement.userPercentage).toHtmlSpan()
             }
             AchievementType.ACTIVITY -> {
-
                 if(achievement.count == 1) {
                     image.setImageResource(R.drawable.ic_medal)
                     description.text = getString(R.string.achievement_first_activity_text, achievement.userPercentage).toHtmlSpan()

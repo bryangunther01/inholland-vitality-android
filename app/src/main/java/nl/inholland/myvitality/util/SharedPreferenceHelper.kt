@@ -6,18 +6,6 @@ import javax.inject.Inject
 
 class SharedPreferenceHelper @Inject constructor(val context: Context){
 
-    private val SHARED_PREF_KEY = "nl.inholland.myvitality"
-    private val ACCESS_TOKEN = "accessToken"
-    private val REFRESH_TOKEN = "refreshToken"
-    private val TOKEN_EXPIRE_TIME = "tokenExpireTime"
-    private val IS_FIRST_APP_USE = "isFirstAppUse"
-    private val RECENTLY_REGISTERED = "recentlyRegistered"
-    private val CURRENT_USER_ID = "currentUserId"
-    private val PUSH_TOKEN = "pushToken"
-    private val AZURE_TOKEN = "azureToken"
-    private val USER_FIRSTNAME = "userFirstname"
-    private val USER_LASTNAME = "userLastname"
-
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREF_KEY, Context.MODE_PRIVATE)
 
     // The access token to use through the app
@@ -55,10 +43,6 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         get() = preferences.getString(PUSH_TOKEN, null)
         set(value) = preferences.edit().putString(PUSH_TOKEN, value).apply()
 
-    var azureToken: String?
-        get() = preferences.getString(AZURE_TOKEN, null)
-        set(value) = preferences.edit().putString(AZURE_TOKEN, value).apply()
-
     var userFirstname: String?
         get() = preferences.getString(USER_FIRSTNAME, null)
         set(value) = preferences.edit().putString(USER_FIRSTNAME, value).apply()
@@ -67,12 +51,9 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         get() = preferences.getString(USER_LASTNAME, null)
         set(value) = preferences.edit().putString(USER_LASTNAME, value).apply()
 
+
     fun isLoggedIn(): Boolean {
         return accessToken != null
-    }
-
-    fun azureAuthenticated(): Boolean {
-        return azureToken != null
     }
 
     fun logoutUser(){
@@ -82,10 +63,22 @@ class SharedPreferenceHelper @Inject constructor(val context: Context){
         editor.remove(REFRESH_TOKEN)
         editor.remove(TOKEN_EXPIRE_TIME)
         editor.remove(CURRENT_USER_ID)
-        editor.remove(AZURE_TOKEN)
         editor.remove(USER_FIRSTNAME)
         editor.remove(USER_LASTNAME)
 
         editor.apply()
+    }
+
+    companion object {
+        private const val SHARED_PREF_KEY = "nl.inholland.myvitality"
+        private const val ACCESS_TOKEN = "accessToken"
+        private const val REFRESH_TOKEN = "refreshToken"
+        private const val TOKEN_EXPIRE_TIME = "tokenExpireTime"
+        private const val IS_FIRST_APP_USE = "isFirstAppUse"
+        private const val RECENTLY_REGISTERED = "recentlyRegistered"
+        private const val CURRENT_USER_ID = "currentUserId"
+        private const val PUSH_TOKEN = "pushToken"
+        private const val USER_FIRSTNAME = "userFirstname"
+        private const val USER_LASTNAME = "userLastname"
     }
 }

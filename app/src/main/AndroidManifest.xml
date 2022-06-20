@@ -23,6 +23,99 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".ui.achievement.AchievementActivity"
+            android:exported="true" />
+
+        <!-- Activity related screens -->
+        <activity
+            android:name=".ui.activity.detail.ActivityDetailActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:host="example.com"
+                    android:scheme="https"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.overview.ActivityOverviewActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.activity.participants.ActivityParticipantsActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <!-- Authentication related screens -->
+        <activity
+            android:name=".ui.authentication.login.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.authentication.register.additionaldetails.RegisterAdditionalDetailsActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.authentication.register.details.RegisterDetailsActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Notification related screens -->
+        <activity
+            android:name=".ui.notification.NotificationActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <!-- Profile related screens -->
+        <activity
+            android:name=".ui.profile.edit.ProfileEditActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.profile.overview.ProfileActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <!-- Scoreboard related screens -->
+        <activity
+            android:name=".ui.scoreboard.ScoreboardActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+
+        <!-- Search related screens -->
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="true" />
+
+        <!-- Timeline post related screens -->
+        <activity
+            android:name=".ui.timeline.liked.TimelineLikedActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.timelinepost.view.TimelinePostActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.timelinepost.create.CreateTimelinePostActivity"
+            android:theme="@style/AppTheme" />
+
+        <!-- Tutorial post related screens -->
+        <activity
+            android:name=".ui.tutorial.TutorialActivity"
+            android:exported="true" />
+
+
         <!--Intent filter to capture System Browser or Authenticator calling back to our app after sign-in-->
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
@@ -38,85 +131,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.notification.NotificationActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.activity.participants.ActivityParticipantsActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.tutorial.TutorialActivity"
-            android:exported="true" />
-
-        <activity
-            android:name=".ui.achievement.AchievementActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.scoreboard.ScoreboardActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.profile.overview.ProfileActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.profile.edit.ProfileEditActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.search.SearchActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
-        </activity>
-
-        <activity
-            android:name=".ui.activity.overview.ActivityOverviewActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.activity.detail.ActivityDetailActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                    android:host="example.com"
-                    android:scheme="https"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.timelinepost.view.TimelinePostActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.timeline.liked.TimelineLikedActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.timelinepost.create.CreateTimelinePostActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.authentication.login.LoginActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.authentication.register.main.RegisterActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.authentication.register.details.RegisterDetailsActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.authentication.register.additionaldetails.RegisterAdditionalDetailsActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".ui.push_notifications.PushService"

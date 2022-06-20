@@ -47,7 +47,7 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
     lateinit var viewModel: ActivityViewModel
 
     private var layoutManager: LinearLayoutManager? = null
-    var adapter: ActivityAdapter? = null
+    private var adapter: ActivityAdapter? = null
     private var currentActivity: Activity? = null
     private var currentActivityId: String = ""
     private var requestedShareUrl = false
@@ -67,12 +67,15 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
         handleProgressChanges()
     }
 
+    /**
+     * Method which checks if there is a dynamic links
+     * true = Read the activityId from the link
+     * false = Read the activityId from the intent extra
+     */
     private fun handleDynamicLink() {
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener(this) { pendingDynamicLinkData ->
-                Log.i("ActivityDetailsActivity", "We have a dynamic link")
-
                 var deepLink: Uri? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
@@ -95,7 +98,6 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
             }
     }
 
-
     @OnClick(R.id.back_button)
     override fun onBackPressed() {
         super.onBackPressed()
@@ -111,6 +113,7 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
         viewModel.shareableLink.observe(this) {
             requestedShareUrl = false
 
+            // Open the share intent with the shareable link
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(
@@ -125,6 +128,9 @@ class ActivityDetailActivity : BaseActivity<ActivityDetailsActivityBinding>() {
         }
     }
 
+    /**
+     * Method which observes changes of the progress to show the right buttons and information at specific progress states
+     */
     private fun handleProgressChanges(){
         viewModel.activityProgress.observe(this) { progress ->
             Dialogs.hideCurrentDialog()
